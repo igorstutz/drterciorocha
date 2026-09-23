@@ -1,0 +1,599 @@
+@import "tailwindcss";
+
+/* Ângulo animável — sem @property o conic-gradient não interpola e o reflexo
+   giraria aos saltos em vez de correr pela borda. */
+@property --ang {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@theme {
+  /* ---- Paleta -------------------------------------------------------- */
+  --color-ink-900: #06080b;
+  --color-ink-800: #090d12;
+  --color-ink-700: #10151c;
+  --color-ink-600: #171e27;
+  --color-ink-500: #232d39;
+
+  --color-bone-50: #fdfbf7;
+  --color-bone-100: #faf7f1;
+  --color-bone-200: #f1ebe0;
+  --color-bone-300: #e3d9c7;
+
+  /* Dourado da marca (LOGO-DR.-TERCIO-DOURADO). Substitui o #1AFF00 antigo. */
+  --color-gold-200: #f2e4c4;
+  --color-gold-300: #e8d3a0;
+  --color-gold-400: #d9bd78;
+  --color-gold-500: #c4a056;
+  --color-gold-600: #a5843e;
+  --color-gold-700: #7d6329;
+
+  --color-jade-400: #4d9a86;
+  --color-jade-500: #2f7c68;
+  --color-jade-600: #1d5a4b;
+  --color-jade-900: #0b2620;
+
+  --color-text-strong: #10151b;
+  --color-text-body: #39434f;
+  --color-text-muted: #5c6673;
+
+  /* ---- Tipografia ---------------------------------------------------- */
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-accent: var(--font-instrument), Georgia, serif;
+
+  /* Grotesca moderna em corpo grande pede tracking negativo forte.
+     O teto de 4.5rem é o que mantém o hero de três linhas dentro de uma tela
+     de 900px de altura com o header reservado. */
+  --text-hero: clamp(2.5rem, 1.1rem + 4.2vw, 4.5rem);
+  --text-hero--line-height: 1.02;
+  --text-hero--letter-spacing: -0.04em;
+
+  --text-display: clamp(1.95rem, 1.2rem + 2.9vw, 3.4rem);
+  --text-display--line-height: 1.06;
+  --text-display--letter-spacing: -0.035em;
+
+  --text-title: clamp(1.5rem, 1.15rem + 1.5vw, 2.2rem);
+  --text-title--line-height: 1.14;
+  --text-title--letter-spacing: -0.028em;
+
+  --text-lead: clamp(1.02rem, 0.97rem + 0.34vw, 1.2rem);
+  --text-lead--line-height: 1.6;
+
+  --text-eyebrow: 0.7rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.2em;
+
+  /* ---- Forma: cantos quase retos ------------------------------------ */
+  --radius-card: 0.375rem;
+  --radius-btn: 0.3125rem;
+  --radius-chip: 0.25rem;
+
+  --shadow-lift: 0 1px 2px rgb(6 8 11 / 0.04), 0 8px 24px -14px rgb(6 8 11 / 0.14);
+  --shadow-lift-hover: 0 1px 2px rgb(6 8 11 / 0.05), 0 16px 40px -24px rgb(6 8 11 / 0.2);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bone-100);
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-text-strong);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-gold-300);
+    color: var(--color-ink-900);
+  }
+
+  [id] { scroll-margin-top: 5.5rem; }
+}
+
+@layer components {
+  .u-container {
+    width: 100%;
+    max-width: 88rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .u-container { padding-inline: 2.25rem; }
+  }
+
+  @media (min-width: 1280px) {
+    .u-container { padding-inline: 3rem; }
+  }
+
+  .u-eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--text-eyebrow);
+    letter-spacing: var(--text-eyebrow--letter-spacing);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* Serifa itálica no meio da grotesca: o contraste editorial que dá o tom
+     premium sem abrir mão da tipografia moderna. */
+  .u-accent {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .u-rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--color-gold-500) 18%,
+      var(--color-gold-500) 82%,
+      transparent
+    );
+    opacity: 0.45;
+  }
+}
+
+/* ====================================================================== */
+/*  TEXTURA                                                               */
+/* ====================================================================== */
+
+/* Grão gerado por filtro SVG: nenhuma requisição de rede, nenhum arquivo. */
+.u-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+}
+
+/* Malha técnica, para seções escuras. */
+.u-grid-lines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 78%);
+}
+
+/* Pontos concentrados nas bordas: no miolo, onde mora o texto, a máscara
+   apaga a textura para não competir com a leitura. */
+.u-dots::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgb(6 8 11 / 0.055) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, transparent 42%, #000 100%);
+}
+
+/* ====================================================================== */
+/*  REFLEXOS QUE ORBITAM BOTÕES E CARDS                                   */
+/* ====================================================================== */
+
+/* Dois brilhos opostos no gradiente cônico: enquanto um corre o canto
+   superior direito, o outro corre o inferior esquerdo. Girar --ang faz o par
+   orbitar a borda. A máscara recorta o miolo e sobra só o fio de 1px. */
+.u-ring {
+  position: relative;
+  isolation: isolate;
+}
+
+.u-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--ang),
+    transparent 0deg,
+    var(--ring-glow, var(--color-gold-400)) 18deg,
+    transparent 52deg,
+    transparent 180deg,
+    var(--ring-glow-2, var(--color-gold-200)) 198deg,
+    transparent 232deg,
+    transparent 360deg
+  );
+  /* Duas camadas idênticas, uma limitada ao content-box: subtraindo uma da
+     outra sobra exatamente o anel de 1px do padding. A ordem importa —
+     declarar o shorthand `mask` depois de `mask-composite` reseta o composite
+     para `add` e o gradiente inteiro vaza por cima do conteúdo. */
+  mask-image:
+    linear-gradient(#000 0 0),
+    linear-gradient(#000 0 0);
+  mask-clip: content-box, border-box;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-out-soft);
+  z-index: 2;
+}
+
+.u-ring:hover::before,
+.u-ring:focus-within::before {
+  opacity: 1;
+}
+
+/* O anel do hero orbita sozinho, sem esperar o mouse. */
+.u-ring-always::before { opacity: 0.85; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .u-ring::before {
+    animation: orbita 5.5s linear infinite;
+    animation-play-state: paused;
+  }
+  .u-ring:hover::before,
+  .u-ring:focus-within::before {
+    animation-play-state: running;
+  }
+
+  /* O anel de destaque orbita enquanto está na tela, pelo mesmo mecanismo dos
+     badges: `em-vista` entra e sai pelo observador. Deixá-lo girando para
+     sempre, mesmo fora de vista, é o que fazia o Speed Index oscilar entre
+     1,2 s e 4,3 s entre medições. */
+  .u-ring-always.em-vista::before {
+    animation-play-state: running;
+  }
+}
+
+@keyframes orbita {
+  to { --ang: 360deg; }
+}
+
+/* Halos difusos ancorados nos dois cantos, respondendo ao hover.
+
+   O `overflow: hidden` é o que segura o efeito: com `inset` negativo e uma
+   rotação, como estava antes, o gradiente escapava do card e aparecia como
+   manchas retangulares de bordas duras por cima dos cards vizinhos. Agora o
+   halo vive dentro do próprio retângulo e só a opacidade muda. */
+.u-halo {
+  overflow: hidden;
+}
+
+.u-halo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(58% 52% at 96% -4%, rgb(196 160 86 / 0.16), transparent 72%),
+    radial-gradient(52% 48% at 2% 104%, rgb(47 124 104 / 0.1), transparent 72%);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-soft);
+}
+
+.u-halo:hover::after {
+  opacity: 1;
+}
+
+/* Lustro que atravessa a peça — o metalizado em movimento. */
+.u-sheen { position: relative; overflow: hidden; }
+
+.u-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgb(255 255 255 / 0.42) 48%,
+    rgb(255 255 255 / 0.08) 54%,
+    transparent 62%
+  );
+  translate: -130% 0;
+  transition: translate 0.85s var(--ease-out-soft);
+}
+
+.u-sheen:hover::after { translate: 130% 0; }
+
+/* ====================================================================== */
+/*  BADGE METALIZADO                                                      */
+/* ====================================================================== */
+
+.u-badge-metal {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgb(196 160 86 / 0.45);
+  background-image: linear-gradient(
+    100deg,
+    #6d5522 0%,
+    #c4a056 14%,
+    #f4e6c4 26%,
+    #d9bd78 38%,
+    #8a6d2f 52%,
+    #e8d3a0 68%,
+    #b6913f 84%,
+    #6d5522 100%
+  );
+  background-size: 320% 100%;
+  color: #1a1206;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.35);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    inset 0 -1px 0 rgb(0 0 0 / 0.28),
+    0 2px 10px -4px rgb(196 160 86 / 0.5);
+}
+
+/* Variante aço, para uso sobre fundo claro. */
+.u-badge-steel {
+  border: 1px solid rgb(6 8 11 / 0.2);
+  background-image: linear-gradient(
+    100deg,
+    #1b222c 0%,
+    #3c4854 18%,
+    #7e8b98 30%,
+    #4a5765 44%,
+    #1b222c 58%,
+    #5b6876 74%,
+    #2a333f 88%,
+    #1b222c 100%
+  );
+  background-size: 320% 100%;
+  color: #f4f1ea;
+  text-shadow: none;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.22),
+    inset 0 -1px 0 rgb(0 0 0 / 0.4);
+}
+
+/* O gradiente metálico é estático; só o lustro se move. */
+/* O laço roda enquanto o badge está na tela — a classe `em-vista` é posta e
+   tirada pelo observador em AnimacaoEmVista.tsx. Fora de vista, nada anima.
+
+   O brilho é um pseudo-elemento que atravessa com `translate`, e não o
+   `background-position` do gradiente: translate é composto na GPU, enquanto
+   mover o fundo obriga o navegador a repintar o badge a cada quadro. */
+@media (prefers-reduced-motion: no-preference) {
+  .u-badge-metal.em-vista::after,
+  .u-badge-steel.em-vista::after,
+  .u-badge-metal:hover::after,
+  .u-badge-steel:hover::after,
+  .group:hover .u-badge-metal::after,
+  .group:hover .u-badge-steel::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background: linear-gradient(
+      100deg,
+      transparent 34%,
+      rgb(255 255 255 / 0.55) 50%,
+      transparent 66%
+    );
+    translate: -120% 0;
+    animation: badge-brilho 4.5s ease-in-out infinite;
+    /* Sem `will-change`: são dez badges, e promover cada um a camada
+       permanente custa mais do que a animação economiza. */
+  }
+}
+
+@keyframes badge-brilho {
+  0%, 62% { translate: -120% 0; }
+  100%    { translate: 120% 0; }
+}
+
+/* ====================================================================== */
+/*  CARROSSEL                                                             */
+/* ====================================================================== */
+
+.u-trilho {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  padding-block: 0.25rem;
+  grid-auto-columns: minmax(16.5rem, 19rem);
+}
+
+.u-trilho::-webkit-scrollbar { display: none; }
+
+.u-trilho > * { scroll-snap-align: start; }
+
+@media (min-width: 768px) {
+  .u-trilho { grid-auto-columns: minmax(19rem, 22rem); }
+}
+
+/* ====================================================================== */
+/*  ARTIGOS                                                               */
+/* ====================================================================== */
+
+.prose-artigo {
+  font-size: 1.06rem;
+  line-height: 1.76;
+  color: var(--color-text-body);
+}
+
+.prose-artigo > * + * { margin-top: 1.5em; }
+
+.prose-artigo h2,
+.prose-artigo h3 {
+  margin-top: 2.4em;
+  margin-bottom: -0.45em;
+  line-height: 1.16;
+  letter-spacing: -0.025em;
+}
+
+.prose-artigo h2 { font-size: 1.7rem; }
+.prose-artigo h3 { font-size: 1.32rem; }
+
+/* Primeiro parágrafo em corpo maior: entrada de leitura, como em revista. */
+.prose-artigo > p:first-child {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--color-text-strong);
+}
+
+.prose-artigo em { font-style: italic; }
+
+.prose-artigo strong {
+  font-weight: 600;
+  color: var(--color-text-strong);
+}
+
+.prose-artigo a {
+  color: var(--color-gold-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.25s;
+}
+
+.prose-artigo a:hover { color: var(--color-gold-600); }
+
+.prose-artigo blockquote {
+  margin-inline: 0;
+  border-left: 2px solid var(--color-gold-500);
+  padding-left: 1.5rem;
+  font-family: var(--font-accent);
+  font-size: 1.3rem;
+  font-style: italic;
+  line-height: 1.48;
+  color: var(--color-text-strong);
+}
+
+.prose-artigo ul { list-style: none; padding-left: 0; }
+.prose-artigo ol { list-style: decimal; padding-left: 1.3rem; }
+
+.prose-artigo ul > li {
+  position: relative;
+  padding-left: 1.4rem;
+}
+
+.prose-artigo ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.75em;
+  width: 5px;
+  height: 5px;
+  background: var(--color-gold-500);
+}
+
+.prose-artigo li + li { margin-top: 0.5em; }
+.prose-artigo li::marker { color: var(--color-gold-600); }
+
+.prose-artigo img {
+  border-radius: var(--radius-card);
+  margin-block: 2.5em;
+  width: 100%;
+  height: auto;
+}
+
+.prose-artigo hr {
+  border: 0;
+  height: 1px;
+  background: linear-gradient(to right, var(--color-gold-500), transparent);
+  margin-block: 3em;
+  opacity: 0.5;
+}
+
+/* ====================================================================== */
+/*  REVELAÇÃO NO SCROLL                                                   */
+/* ====================================================================== */
+
+/* O teto de altura não é decoração: com animation-timeline, um elemento que
+   ainda não entrou no range fica em opacity 0. Numa viewport muito alta — que
+   é como o Googlebot e as ferramentas de captura renderizam — a página inteira
+   cabe na tela de uma vez, nada "entra" por scroll e os cards ficariam
+   invisíveis para o rastreador. */
+@media (prefers-reduced-motion: no-preference) and (max-height: 1600px) {
+  @supports (animation-timeline: view()) {
+    .u-reveal {
+      animation: reveal-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 92%;
+    }
+  }
+}
+
+@keyframes reveal-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ====================================================================== */
+/*  MOVIMENTO REDUZIDO                                                    */
+/* ====================================================================== */
+
+/* No Windows, desligar "efeitos de animação" faz o navegador reportar
+   prefers-reduced-motion: reduce. O reflexo comum é zerar toda animação E toda
+   transição com !important, e aí o site inteiro fica morto: nem a cor de um
+   botão muda no hover.
+
+   O que incomoda quem pede menos movimento é deslocamento, giro e escala —
+   não mudança de cor. Então aqui: nada se move, mas cor, opacidade, sombra e
+   borda continuam respondendo. O anel dourado ainda acende no hover, só não
+   orbita; os badges seguem metalizados, só não são varridos. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transform: none !important;
+    translate: none !important;
+    rotate: none !important;
+    scale: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* A lista é explícita porque `transition-property: all` traria transform
+     de volta e o elemento voltaria a se deslocar. */
+  *, *::before, *::after {
+    transition-property: opacity, color, background-color, border-color,
+      box-shadow, fill, stroke, outline-color, text-decoration-color !important;
+    transition-duration: 200ms !important;
+  }
+
+  /* O lustro depende de atravessar a peça; parado, viraria uma faixa branca
+     fixa em cima do botão. */
+  .u-sheen::after { display: none !important; }
+
+  /* Sem scroll-timeline o conteúdo precisa nascer visível. */
+  .u-reveal { opacity: 1 !important; }
+
+  /* O anel deixa de girar, então fica aceso de vez onde era permanente. */
+  .u-ring-always::before { opacity: 0.85 !important; }
+}
