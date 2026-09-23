@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { site, indications } from "@/content/site";
 import { getArtigos } from "@/lib/artigos";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const agora = new Date();
 

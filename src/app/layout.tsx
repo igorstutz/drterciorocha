@@ -93,8 +93,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [{ url: "/img/icone-dna.png", type: "image/png" }],
-    apple: [{ url: "/img/icone-dna.png" }],
+    /* NEXT_PUBLIC_BASE_PATH só existe na prévia do GitHub Pages. */
+    icon: [{ url: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/img/icone-dna.png`, type: "image/png" }],
+    apple: [{ url: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/img/icone-dna.png` }],
   },
   formatDetection: { telephone: false },
 };

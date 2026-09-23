@@ -82,4 +82,23 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+/**
+ * Prévia no GitHub Pages (`GITHUB_PAGES=true`, ver .github/workflows/pages.yml).
+ * O Pages só serve arquivos estáticos numa subpasta: sem redirects, headers,
+ * otimização de imagem nem a rota /api/lead. Produção não passa por aqui.
+ */
+const basePath = process.env.PAGES_BASE_PATH ?? "";
+
+const configPages: NextConfig = {
+  output: "export",
+  basePath,
+  trailingSlash: true,
+  env: { NEXT_PUBLIC_BASE_PATH: basePath },
+  images: {
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader-pages.ts",
+  },
+  poweredByHeader: false,
+};
+
+export default process.env.GITHUB_PAGES === "true" ? configPages : nextConfig;
