@@ -49,7 +49,7 @@ export function Footer() {
             />
             <p className="mt-6 max-w-sm text-[0.95rem] leading-relaxed">
               Medicina regenerativa e protocolos de longevidade desde {doctor.since}.
-              Clínica Longevitar.
+              Clínica Tércio Rocha.
             </p>
 
             <a

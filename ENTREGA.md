@@ -36,8 +36,8 @@ ali era perdido. A página foi refeita em `/ebook-longevidade`.
 **Quatro números de WhatsApp diferentes** espalhados pelo site. Na página de consulta
 médica, o botão levava ao número do Congresso Regenera com a mensagem pré-preenchida
 *"gostaria de tirar algumas dúvidas sobre o Congresso Regenera"* — mensagem errada para
-quem quer marcar consulta. O site novo usa um número único, o rotulado "Consultas"
-(`(17) 99259-6350`), com mensagem contextual em cada página.
+quem quer marcar consulta. O site novo usa um número único,
+`(11) 93619-5825`, confirmado pelo Dr. Tércio em 23/09/2026, com mensagem contextual em cada página.
 
 **Rodapé da página de consulta** dizia "Copyright © 2024 II CONGRESSO LATINO AMERICANO
 DE MEDICINA REGENERATIVA" — resíduo de outra landing page.
@@ -77,7 +77,7 @@ profissional de saúde. Agora o site declara, num único `@graph` com nós inter
 | Tipo | Onde | Para quê |
 |---|---|---|
 | `Physician` + `MedicalBusiness` | todas | identifica o médico como entidade de saúde |
-| `MedicalClinic` | todas | a Clínica Longevitar como organização |
+| `MedicalClinic` | todas | a Clínica Tércio Rocha como organização |
 | `Person` | todas | credenciais, CRMs, afiliações, `sameAs` das redes |
 | `MedicalProcedure` | tratamentos | os seis grupos de indicação |
 | `MedicalWebPage` | tratamentos, artigos | conteúdo médico revisado por profissional |
@@ -169,7 +169,7 @@ leads.
 ## O que ainda falta para ir ao ar
 
 - [ ] Configurar `CRM_WEBHOOK_URL` apontando para o CRM
-- [ ] Definir se o WhatsApp de consultas é mesmo o `(17) 99259-6350`
+- [x] WhatsApp de consultas: `(11) 93619-5825` (confirmado em 23/09/2026)
 - [ ] Entrega automática do PDF do e-book (hoje o lead entra no CRM; o envio do arquivo
       precisa do serviço de e-mail)
 - [ ] Revisão do texto médico (ponto 1 acima)

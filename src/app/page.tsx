@@ -275,7 +275,7 @@ export default function Home() {
               <div className="relative aspect-4/5 overflow-hidden rounded-card">
                 <Image
                   src="/img/tercio-foto2.jpg"
-                  alt="Dr. Tércio Rocha em atendimento na Clínica Longevitar"
+                  alt="Dr. Tércio Rocha em atendimento na Clínica Tércio Rocha"
                   fill
                   sizes="(min-width: 1024px) 42vw, 90vw"
                   className="object-cover"

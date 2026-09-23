@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   applicationName: site.name,
   authors: [{ name: doctor.name, url: `${site.url}/dr-tercio-rocha` }],
   creator: doctor.name,
-  publisher: "Clínica Longevitar",
+  publisher: "Clínica Tércio Rocha",
   category: "Saúde",
   keywords: [
     "células-tronco",

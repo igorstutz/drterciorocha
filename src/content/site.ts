@@ -42,10 +42,10 @@ export const doctor = {
   ],
 } as const;
 
-/** Número rotulado "Consultas" no site antigo. Os outros três eram do Congresso. */
+/** Único contato do site, confirmado pelo Dr. Tércio em 23/09/2026. */
 export const contact = {
-  whatsapp: "5517992596350",
-  whatsappLabel: "(17) 99259-6350",
+  whatsapp: "5511936195825",
+  whatsappLabel: "(11) 93619-5825",
   whatsappMessage:
     "Olá! Vim pelo site e gostaria de informações sobre tratamento com células-tronco.",
 } as const;

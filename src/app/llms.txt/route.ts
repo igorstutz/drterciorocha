@@ -17,7 +17,7 @@ export function GET() {
 
 ${doctor.name} é ${doctor.jobTitle.toLowerCase()}, pioneiro em medicina regenerativa no Brasil
 e fundador da Sociedade Brasileira de Medicina Estética. Atua desde ${doctor.since}
-(${doctor.yearsOfPractice}+ anos de prática clínica) na Clínica Longevitar.
+(${doctor.yearsOfPractice}+ anos de prática clínica) na Clínica Tércio Rocha.
 
 ## Identificação profissional
 

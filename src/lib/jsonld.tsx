@@ -73,7 +73,7 @@ export const personSchema = {
 export const organizationSchema = {
   "@type": "MedicalClinic",
   "@id": ORG_ID,
-  name: "Clínica Longevitar",
+  name: "Clínica Tércio Rocha",
   alternateName: doctor.name,
   url: site.url,
   logo: `${site.url}/img/logo-dourado.png`,
