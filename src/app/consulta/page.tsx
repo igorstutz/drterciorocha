@@ -1,13 +1,14 @@
 import Image from "next/image";
 import type { Metadata } from "next";
-import { doctor, indications, faqs, whatsappUrl, contact } from "@/content/site";
+import { doctor, indications, consultaFaqIds, pickFaqs, whatsappUrl, contact } from "@/content/site";
 import { Eyebrow, Breadcrumbs, Rule } from "@/components/ui";
 import { LeadForm } from "@/components/LeadForm";
 import { Faq } from "@/components/Faq";
 import { JsonLd, graph, breadcrumbSchema, faqSchema } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
-  title: "Agendar consulta",
+  /* absolute: com o template o nome do médico sairia duas vezes. */
+  title: { absolute: "Agendar consulta com o Dr. Tércio Rocha | Células-tronco" },
   description:
     "Conte seu caso e a equipe do Dr. Tércio Rocha retorna pelo WhatsApp para agendar a avaliação. Sem cobrança e sem compromisso.",
   alternates: { canonical: "/consulta" },
@@ -17,6 +18,8 @@ const trail = [
   { name: "Início", url: "/" },
   { name: "Agendar consulta", url: "/consulta" },
 ];
+
+const perguntas = pickFaqs(consultaFaqIds);
 
 export default function Consulta() {
   return (
@@ -33,11 +36,14 @@ export default function Consulta() {
             <div>
               <Eyebrow tone="muted">Primeiro passo</Eyebrow>
               <h1 className="mt-5 text-display text-bone-50">
-                Tratamentos com protocolos de longevidade desde {doctor.since}.
+                Agende sua avaliação com o{" "}
+                <span className="u-accent text-gold-400">Dr. Tércio Rocha</span>
               </h1>
               <p className="mt-6 max-w-xl text-lead text-bone-100/72">
-                Preencha o formulário e a equipe entra em contato pelo WhatsApp para
-                entender seu caso antes de agendar a avaliação com o Dr. Tércio.
+                O primeiro passo é entender o seu caso. Preencha o formulário e a
+                equipe entra em contato pelo WhatsApp para conhecer seu histórico,
+                suas queixas e seus objetivos antes de agendar a avaliação com o Dr.
+                Tércio.
               </p>
 
               <Rule className="my-10 max-w-md" />
@@ -106,10 +112,10 @@ export default function Consulta() {
               id="formulario"
               className="rounded-card bg-bone-100 p-7 shadow-[0_32px_80px_-32px_rgb(0_0_0/0.5)] md:p-10"
             >
-              <h2 className="text-title">Conte o seu caso</h2>
+              <h2 className="text-title">Deu o primeiro passo. A equipe cuida do resto.</h2>
               <p className="mt-3 text-[0.95rem] leading-relaxed text-text-body">
-                Todos os campos com dados de contato são necessários para o retorno da
-                equipe.
+                Preencha com seus dados e o motivo do contato. Retornaremos para
+                alinhar as próximas etapas com você.
               </p>
               <div className="mt-8">
                 <LeadForm origem="consulta" />
@@ -124,7 +130,7 @@ export default function Consulta() {
           <div className="mx-auto max-w-3xl text-center">
             <Eyebrow>Áreas de indicação</Eyebrow>
             <h2 className="mt-4 text-title">
-              Quais condições podem ser avaliadas
+              Quais condições podem ser avaliadas com células-tronco
             </h2>
             <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
               As células-tronco atuam na regeneração de tecidos e funções. Câncer
@@ -153,14 +159,14 @@ export default function Consulta() {
           <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
             <div>
               <Eyebrow>Antes de decidir</Eyebrow>
-              <h2 className="mt-4 text-title">Perguntas frequentes</h2>
+              <h2 className="mt-4 text-title">Perguntas frequentes antes da consulta</h2>
             </div>
-            <Faq items={faqs} />
+            <Faq items={perguntas} />
           </div>
         </div>
       </section>
 
-      <JsonLd data={graph(breadcrumbSchema(trail), faqSchema)} />
+      <JsonLd data={graph(breadcrumbSchema(trail), faqSchema(perguntas, "/consulta"))} />
     </>
   );
 }

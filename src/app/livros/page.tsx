@@ -5,9 +5,10 @@ import { Button, Eyebrow, Breadcrumbs } from "@/components/ui";
 import { JsonLd, graph, breadcrumbSchema } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
-  title: "Livros do Dr. Tércio Rocha",
+  /* absolute: com o template o nome do médico sairia duas vezes. */
+  title: { absolute: "Livros do Dr. Tércio Rocha | Células-tronco e Longevidade" },
   description:
-    "Longevi Science, Partículas Divinas e Vida na Veia — os livros do Dr. Tércio Rocha sobre células-tronco, medicina regenerativa e longevidade.",
+    "Longevi Science, Partículas Divinas e Vida na Veia: os livros do Dr. Tércio Rocha sobre células-tronco, medicina regenerativa e longevidade.",
   alternates: { canonical: "/livros" },
 };
 
@@ -34,11 +35,13 @@ export default function Livros() {
         <div className="u-container">
           <Breadcrumbs trail={trail} dark />
           <h1 className="mt-6 max-w-3xl text-display text-bone-50">
-            Livros e publicações
+            Livros do Dr. Tércio Rocha sobre{" "}
+            <span className="u-accent text-gold-400">células-tronco</span> e
+            longevidade
           </h1>
           <p className="mt-6 max-w-2xl text-lead text-bone-100/70">
-            Décadas de prática clínica com células-tronco transformadas em três livros
-            e um e-book gratuito.
+            Ciência e experiência também nas páginas: décadas de prática clínica com
+            células-tronco transformadas em três livros e um e-book gratuito.
           </p>
         </div>
       </section>
@@ -82,7 +85,10 @@ export default function Livros() {
                 <p className="u-accent mt-5 text-[1.2rem] leading-snug text-gold-700">
                   {b.tagline}
                 </p>
-                <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
+                <p className="mt-5 text-[1.05rem] font-medium leading-relaxed text-text-strong">
+                  {b.summary}
+                </p>
+                <p className="mt-4 text-[1rem] leading-relaxed text-text-body">
                   {b.description}
                 </p>
                 <Button href={b.buyUrl} variant="primary" external className="mt-8">

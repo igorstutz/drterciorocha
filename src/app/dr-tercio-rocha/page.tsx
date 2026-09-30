@@ -1,13 +1,15 @@
 import Image from "next/image";
 import type { Metadata } from "next";
-import { doctor, books, social, sisterSites } from "@/content/site";
+import { doctor, books, social, sisterSites, regenera, faqById } from "@/content/site";
 import { Button, Badge, Breadcrumbs, Rule } from "@/components/ui";
-import { JsonLd, graph, breadcrumbSchema, personSchema } from "@/lib/jsonld";
+import { Faq } from "@/components/Faq";
+import { JsonLd, graph, breadcrumbSchema, personSchema, faqSchema } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
-  title: "Dr. Tércio Rocha — o médico",
+  /* absolute: com o template o nome do médico sairia duas vezes. */
+  title: { absolute: "Dr. Tércio Rocha, endocrinologista | Medicina Regenerativa" },
   description:
-    "Médico endocrinologista, pioneiro em medicina regenerativa no Brasil e fundador da Sociedade Brasileira de Medicina Estética. Mais de 34 anos de prática clínica.",
+    "Conheça o Dr. Tércio Rocha: endocrinologista dedicado à medicina regenerativa desde 1990, autor de três livros e criador do congresso Regenera Brasil.",
   alternates: { canonical: "/dr-tercio-rocha" },
 };
 
@@ -15,6 +17,8 @@ const trail = [
   { name: "Início", url: "/" },
   { name: "O médico", url: "/dr-tercio-rocha" },
 ];
+
+const perguntas = [faqById.quem];
 
 export default function SobreMedico() {
   return (
@@ -40,15 +44,16 @@ export default function SobreMedico() {
             <div>
               <Badge variant="gold">Desde {doctor.since}</Badge>
 
-              <h1 className="mt-6 text-hero text-bone-50">
-                Dr. Tércio
-                <br />
-                <span className="u-accent text-gold-400">Rocha</span>
+              <h1 className="mt-6 text-display text-bone-50">
+                Dr. Tércio Rocha:{" "}
+                <span className="u-accent text-gold-400">médico endocrinologista</span>{" "}
+                dedicado à medicina regenerativa
               </h1>
 
               <p className="mt-6 max-w-xl text-lead text-bone-100/72">
-                {doctor.jobTitle}. Pioneiro em medicina regenerativa no Brasil e
-                fundador da Sociedade Brasileira de Medicina Estética.
+                Mais de {doctor.yearsOfPractice} anos de prática clínica e pesquisa.
+                Fundador da Sociedade Brasileira de Medicina Estética e criador do
+                Regenera Brasil, congresso de medicina regenerativa.
               </p>
 
               <ul className="mt-7 flex flex-wrap gap-2">
@@ -89,7 +94,7 @@ export default function SobreMedico() {
         <div className="u-container">
           <div className="grid gap-14 lg:grid-cols-[1.2fr_0.8fr] lg:gap-20">
             <div className="max-w-2xl">
-              <h2 id="trajetoria" className="text-title">A trajetória</h2>
+              <h2 id="trajetoria" className="text-title">A trajetória do Dr. Tércio Rocha</h2>
               <div className="mt-7 space-y-6 text-[1.05rem] leading-relaxed text-text-body">
                 {doctor.bio.map((p) => (
                   <p key={p.slice(0, 40)}>{p}</p>
@@ -128,8 +133,8 @@ export default function SobreMedico() {
                     />
                     <div>
                       <h3 className="text-[1.15rem] leading-tight">{b.title}</h3>
-                      <p className="mt-2 line-clamp-3 text-[0.92rem] leading-relaxed text-text-body">
-                        {b.description}
+                      <p className="mt-2 text-[0.92rem] leading-relaxed text-text-body">
+                        {b.summary}
                       </p>
                       <a
                         href={b.buyUrl}
@@ -142,6 +147,28 @@ export default function SobreMedico() {
                     </div>
                   </article>
                 ))}
+              </div>
+
+              <Rule className="my-12" />
+
+              <h2 className="text-title">Regenera Brasil</h2>
+              <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
+                {regenera.text}
+              </p>
+              <a
+                href={regenera.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-block text-[0.9rem] font-semibold text-gold-700 underline underline-offset-4 hover:text-gold-600"
+              >
+                Conhecer o Regenera Brasil
+              </a>
+
+              <Rule className="my-12" />
+
+              <h2 className="text-title">Pergunta frequente</h2>
+              <div className="mt-4">
+                <Faq items={perguntas} />
               </div>
             </div>
 
@@ -223,7 +250,9 @@ export default function SobreMedico() {
         </div>
       </section>
 
-      <JsonLd data={graph(personSchema, breadcrumbSchema(trail))} />
+      <JsonLd
+        data={graph(personSchema, breadcrumbSchema(trail), faqSchema(perguntas, "/dr-tercio-rocha"))}
+      />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { site, doctor, contact, social, faqs, indications } from "@/content/site";
+import { site, doctor, contact, social, indications, type Faq } from "@/content/site";
 
 /**
  * Camada GEO/AEO. O site antigo só declarava Article/WebPage/Person — os tipos
@@ -106,15 +106,18 @@ export const websiteSchema = {
   },
 };
 
-export const faqSchema = {
-  "@type": "FAQPage",
-  "@id": `${site.url}/#faq`,
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-};
+/** FAQPage com as perguntas que aparecem na própria página — nem mais, nem menos. */
+export function faqSchema(items: readonly Faq[], path = "/") {
+  return {
+    "@type": "FAQPage",
+    "@id": `${site.url}${path}#faq`,
+    mainEntity: items.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+}
 
 export function breadcrumbSchema(trail: { name: string; url: string }[]) {
   return {
@@ -159,8 +162,8 @@ export function procedureSchema(i: (typeof indications)[number]) {
   return {
     "@type": "MedicalWebPage",
     "@id": `${site.url}/tratamentos/${i.slug}#page`,
-    name: i.title,
-    description: i.description,
+    name: i.h1,
+    description: i.metaDescription,
     url: `${site.url}/tratamentos/${i.slug}`,
     inLanguage: site.locale,
     reviewedBy: { "@id": `${site.url}/#pessoa` },

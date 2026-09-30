@@ -7,7 +7,7 @@ import { JsonLd, graph, breadcrumbSchema } from "@/lib/jsonld";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "Artigos e casos clínicos",
+  title: "Artigos e casos sobre células-tronco",
   description:
     "Casos reais e reflexões sobre medicina regenerativa, células-tronco e longevidade, escritos pelo Dr. Tércio Rocha.",
   alternates: { canonical: "/artigos" },
@@ -46,12 +46,15 @@ export default function Artigos() {
         <div className="u-container">
           <Breadcrumbs trail={trail} dark />
           <h1 className="mt-6 max-w-4xl text-display text-bone-50">
-            Histórias do consultório
+            Artigos e casos clínicos sobre{" "}
+            <span className="u-accent text-gold-400">células-tronco</span> e
+            longevidade
           </h1>
           <p className="mt-6 max-w-2xl text-lead text-bone-100/70">
-            {artigos.length} textos escritos pelo Dr. Tércio Rocha sobre casos reais,
-            células-tronco e o que a medicina regenerativa já consegue fazer. Nomes de
-            pacientes foram trocados para preservar a privacidade.
+            Conhecimento para entender melhor sua saúde. São {artigos.length} textos
+            do Dr. Tércio Rocha sobre casos reais, células-tronco e longevidade, com
+            base científica e escritos para quem quer entender, não apenas seguir. Os
+            nomes dos pacientes foram trocados para preservar a privacidade.
           </p>
 
           <ul className="mt-9 flex flex-wrap gap-2">

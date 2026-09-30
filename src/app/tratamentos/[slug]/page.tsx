@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { indications, faqs, doctor, whatsappUrl } from "@/content/site";
+import { indications, pickFaqs, doctor, whatsappUrl } from "@/content/site";
 import { getArtigos } from "@/lib/artigos";
 import { Button, Eyebrow, Breadcrumbs, Rule } from "@/components/ui";
 import { LeadForm } from "@/components/LeadForm";
@@ -28,12 +28,12 @@ export async function generateMetadata({
   const i = indications.find((x) => x.slug === slug);
   if (!i) return {};
   return {
-    title: `${i.title} e células-tronco`,
-    description: i.description,
+    title: i.seoTitle,
+    description: i.metaDescription,
     alternates: { canonical: `/tratamentos/${i.slug}` },
     openGraph: {
-      title: `${i.title} e células-tronco | Dr. Tércio Rocha`,
-      description: i.description,
+      title: `${i.seoTitle} | Dr. Tércio Rocha`,
+      description: i.metaDescription,
       url: `/tratamentos/${i.slug}`,
     },
   };
@@ -56,6 +56,10 @@ export default async function Tratamento({
 
   const outras = indications.filter((x) => x.slug !== slug);
 
+  /* Perguntas da própria área primeiro; as gerais completam. Respostas
+     clínicas ainda não validadas pelo Dr. Tércio ficam fora. */
+  const perguntas = pickFaqs([...indicacao.faqIds, "cirurgico", "primeira", "custo"]);
+
   /* Artigos cujo título ou descrição citam alguma condição deste grupo. */
   const termos = [indicacao.title, ...indicacao.conditions].map((t) =>
     t.toLowerCase(),
@@ -76,10 +80,10 @@ export default async function Tratamento({
             <span className="mt-6 block">Área de indicação</span>
           </Eyebrow>
           <h1 className="mt-4 max-w-4xl text-display text-bone-50">
-            {indicacao.title} e células-tronco
+            {indicacao.h1}
           </h1>
           <p className="mt-6 max-w-2xl text-lead text-bone-100/70">
-            {indicacao.description}
+            {indicacao.intro}
           </p>
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Button href="#formulario" variant="gold">
@@ -87,7 +91,7 @@ export default async function Tratamento({
             </Button>
             <Button
               href={whatsappUrl(
-                `Olá! Gostaria de informações sobre células-tronco para ${indicacao.title.toLowerCase()}.`,
+                `Olá! Gostaria de informações sobre células-tronco para ${indicacao.name}.`,
               )}
               variant="ghostDark"
               external
@@ -102,11 +106,10 @@ export default async function Tratamento({
         <div className="u-container">
           <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
             <div>
-              <h2 className="text-title">Condições deste grupo</h2>
+              <h2 className="text-title">{indicacao.conditionsHeading}</h2>
               <p className="mt-4 text-[1rem] leading-relaxed text-text-body">
-                A presença de uma condição nesta lista não significa indicação
-                automática. Cada caso passa por avaliação médica antes de qualquer
-                conduta.
+                Estar nesta lista não significa indicação automática. Cada caso passa
+                por avaliação médica antes de qualquer conduta.
               </p>
 
               <ul className="mt-9 space-y-px overflow-hidden rounded-card border border-ink-900/10">
@@ -124,9 +127,19 @@ export default async function Tratamento({
                 ))}
               </ul>
 
+              {indicacao.howText && (
+                <>
+                  <Rule className="my-12" />
+                  <h2 className="text-title">{indicacao.howHeading}</h2>
+                  <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
+                    {indicacao.howText}
+                  </p>
+                </>
+              )}
+
               <Rule className="my-12" />
 
-              <h2 className="text-title">Como funciona o acompanhamento</h2>
+              <h2 className="text-title">Como funciona o tratamento com células-tronco</h2>
               <ol className="mt-8 space-y-7">
                 {[
                   [
@@ -143,7 +156,7 @@ export default async function Tratamento({
                   ],
                   [
                     "Acompanhamento",
-                    "Reavaliação ao longo do tempo para medir resposta e ajustar o que for necessário.",
+                    "Reavaliação ao longo do tempo para medir a resposta e ajustar o que for necessário.",
                   ],
                 ].map(([t, d], idx) => (
                   <li key={t} className="flex gap-5">
@@ -265,14 +278,31 @@ export default async function Tratamento({
         <div className="u-container">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
             <div>
-              <Eyebrow>Perguntas frequentes</Eyebrow>
-              <h2 className="mt-4 text-title">Dúvidas antes de decidir</h2>
-              <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
-                Se a sua pergunta não estiver aqui, a equipe responde pelo WhatsApp
-                sem compromisso.
+              <Eyebrow>Dúvidas antes de decidir</Eyebrow>
+              <h2 className="mt-4 text-title">
+                Perguntas frequentes sobre {indicacao.name} e células-tronco
+              </h2>
+              <h3 className="mt-8 text-[1.15rem] font-medium tracking-tight">
+                Tem dúvidas sobre {indicacao.name}?
+              </h3>
+              <p className="mt-2 text-[1rem] leading-relaxed text-text-body">
+                Converse com a equipe para obter informações sobre o atendimento e
+                entender se o seu caso tem indicação para uma avaliação com o Dr.
+                Tércio.
               </p>
+              <div className="mt-6">
+                <Button
+                  href={whatsappUrl(
+                    `Olá! Tenho dúvidas sobre células-tronco para ${indicacao.name}.`,
+                  )}
+                  variant="ghost"
+                  external
+                >
+                  Falar com a equipe
+                </Button>
+              </div>
             </div>
-            <Faq items={faqs.slice(0, 6)} />
+            <Faq items={perguntas} />
           </div>
         </div>
       </section>
@@ -319,7 +349,7 @@ export default async function Tratamento({
         data={graph(
           procedureSchema(indicacao),
           breadcrumbSchema(trail),
-          faqSchema,
+          faqSchema(perguntas, `/tratamentos/${indicacao.slug}`),
         )}
       />
     </>

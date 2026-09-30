@@ -15,14 +15,15 @@ export function GET() {
 
 > ${site.description}
 
-${doctor.name} é ${doctor.jobTitle.toLowerCase()}, pioneiro em medicina regenerativa no Brasil
+${doctor.name} é ${doctor.jobTitle.toLowerCase()} dedicado à medicina regenerativa
 e fundador da Sociedade Brasileira de Medicina Estética. Atua desde ${doctor.since}
 (${doctor.yearsOfPractice}+ anos de prática clínica) na Clínica Tércio Rocha.
 
 ## Identificação profissional
 
 - Registro: ${doctor.crm.join(" | ")}
-- Especialidade: ${doctor.specialty}
+- Especialidade: Endocrinologia
+- Atuação: ${doctor.specialty}
 - Áreas: ${doctor.areas.join(", ")}
 - Afiliações: ${doctor.affiliations.join("; ")}
 - Atende em: São Paulo (SP), Rio de Janeiro (RJ) e Santa Catarina (SC)

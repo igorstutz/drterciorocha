@@ -8,7 +8,7 @@ import { JsonLd, graph, breadcrumbSchema } from "@/lib/jsonld";
 export const metadata: Metadata = {
   title: "Tratamentos com células-tronco",
   description:
-    "Áreas de indicação da medicina regenerativa no consultório do Dr. Tércio Rocha: doenças autoimunes, degenerativas, lesões ortopédicas, cardiovasculares, hematológicas e saúde sexual masculina.",
+    "Doenças tratadas com células-tronco pelo Dr. Tércio Rocha: autoimunes, degenerativas, ortopédicas, cardiovasculares, hematológicas e disfunção erétil.",
   alternates: { canonical: "/tratamentos" },
 };
 
@@ -35,12 +35,15 @@ export default function Tratamentos() {
             <div>
               <Badge variant="gold">Seis áreas de indicação</Badge>
               <h1 className="mt-5 text-display text-bone-50">
-                Áreas de indicação da{" "}
-                <span className="u-accent text-gold-400">medicina regenerativa</span>
+                Tratamentos com{" "}
+                <span className="u-accent text-gold-400">células-tronco</span>: as
+                áreas de indicação
               </h1>
               <p className="mt-5 max-w-2xl text-lead text-bone-100/70">
-                As células-tronco atuam na regeneração de tecidos e funções. Abaixo
-                estão os grupos de condições mais frequentes no consultório.
+                O Dr. Tércio Rocha atua em áreas onde a medicina regenerativa tem
+                demonstrado resultados promissores. As células-tronco atuam na
+                regeneração de tecidos e funções, e cada caso passa por avaliação
+                médica individual antes de qualquer indicação.
               </p>
             </div>
 
@@ -142,7 +145,7 @@ export default function Tratamentos() {
               Condições avaliadas no consultório
             </h2>
             <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
-              Cada item exige avaliação médica individual. A presença nesta lista não
+              Cada item exige avaliação médica individual. Estar nesta lista não
               significa indicação automática de tratamento.
             </p>
             <ul className="mt-10 flex flex-wrap justify-center gap-2.5">
@@ -157,7 +160,14 @@ export default function Tratamentos() {
                   </li>
                 ))}
             </ul>
-            <div className="mt-12 flex flex-col justify-center gap-3 sm:flex-row">
+            <h2 className="mt-16 text-title">
+              Tem dúvidas sobre uma dessas condições?
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-[1rem] leading-relaxed text-text-body">
+              Converse com a equipe para obter informações sobre o atendimento e
+              entender se o seu caso tem indicação para uma avaliação com o Dr. Tércio.
+            </p>
+            <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Button href="/consulta" variant="primary">
                 Quero ser paciente
               </Button>

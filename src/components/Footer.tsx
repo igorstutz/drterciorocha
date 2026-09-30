@@ -125,7 +125,8 @@ export function Footer() {
 
           <div className="mt-6 flex flex-col gap-1.5 text-[0.78rem] text-bone-100/62 sm:flex-row sm:items-center sm:justify-between">
             <p>
-              Responsável técnico: {doctor.name} — {doctor.crm.join(" | ")}
+              Responsável técnico: {doctor.name}, médico endocrinologista —{" "}
+              {doctor.crm.join(" | ")}
             </p>
             <p>© {ano} {doctor.name}. Todos os direitos reservados.</p>
           </div>

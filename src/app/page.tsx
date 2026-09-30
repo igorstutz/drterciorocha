@@ -6,9 +6,11 @@ import {
   indications,
   books,
   ebook,
-  faqs,
   contact,
   whatsappUrl,
+  homeFaqIds,
+  pickFaqs,
+  regenera,
 } from "@/content/site";
 import { getArtigos, formatarData } from "@/lib/artigos";
 import {
@@ -26,15 +28,16 @@ import { Faq } from "@/components/Faq";
 import { JsonLd, graph, faqSchema } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
-  title: "Dr. Tércio Rocha — Medicina Regenerativa e Células-tronco",
+  title: "Dr. Tércio Rocha | Medicina Regenerativa e Células-tronco",
   description:
-    "Endocrinologista com mais de 34 anos de prática e protocolos de longevidade desde 1990. Tratamento com células-tronco para doenças autoimunes, degenerativas, ortopédicas e cardiovasculares.",
+    "Tratamento com células-tronco e medicina regenerativa com o Dr. Tércio Rocha, endocrinologista com mais de 34 anos de prática. Agende sua avaliação.",
   alternates: { canonical: "/" },
 };
 
 export default function Home() {
   const artigos = getArtigos();
   const destaque = books.find((b) => b.featured) ?? books[0];
+  const perguntas = pickFaqs(homeFaqIds);
 
   return (
     <>
@@ -57,26 +60,27 @@ export default function Home() {
           <div className="grid items-center gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16 xl:gap-24">
             <div>
               <Badge variant="gold">
-                Medicina regenerativa desde {doctor.since}
+                Medicina regenerativa e células-tronco · desde {doctor.since}
               </Badge>
 
-              <h1 className="mt-6 text-hero text-bone-50">
-                A medicina que
-                <br />
-                <span className="u-accent text-gold-400">regenera</span>, não
-                <br />
-                apenas trata.
+              {/* O H1 carrega o termo principal da página. A segunda parte vem
+                  da copy do marketing ("devolver ao organismo a capacidade de
+                  se reconstruir"). */}
+              <h1 className="mt-6 text-display text-bone-50">
+                <span className="u-accent text-gold-400">Medicina regenerativa</span>:
+                devolver ao corpo a capacidade de se reconstruir
               </h1>
 
               <p className="mt-6 max-w-xl text-lead text-bone-100/72">
-                Dr. Tércio Rocha é pioneiro em medicina regenerativa no Brasil.
-                Mais de {doctor.yearsOfPractice} anos de prática clínica dedicados a
-                devolver função, vitalidade e tempo de vida com qualidade.
+                Médico endocrinologista com mais de {doctor.yearsOfPractice} anos de
+                prática clínica e pesquisa, o Dr. Tércio Rocha usa a medicina
+                regenerativa com células-tronco no tratamento de doenças autoimunes,
+                degenerativas, ortopédicas e cardiovasculares.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button href="/consulta" variant="gold">
-                  Quero ser paciente
+                  Solicitar avaliação
                 </Button>
                 <Button href="/tratamentos" variant="ghostDark">
                   Ver tratamentos
@@ -168,6 +172,64 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ================= COMO FUNCIONA ================= */}
+      <section className="py-20 md:py-24">
+        <div className="u-container">
+          <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
+            <div>
+              <SectionHeading
+                eyebrow="Como funciona"
+                title={
+                  <>
+                    Como funciona a consulta: o primeiro passo é{" "}
+                    <span className="u-accent text-gold-700">entender o seu caso</span>
+                  </>
+                }
+                lead="Cada organismo é único. Por isso, o atendimento começa com uma escuta cuidadosa do histórico, das queixas e dos objetivos do paciente, antes de qualquer indicação clínica."
+              />
+              <p className="mt-6 max-w-xl text-[0.86rem] leading-relaxed text-text-muted">
+                A indicação de qualquer protocolo depende de avaliação médica. O
+                conteúdo deste site tem caráter informativo e não substitui a
+                consulta.
+              </p>
+            </div>
+
+            <div className="lg:pt-10">
+              <ol className="space-y-7">
+                {[
+                  [
+                    "Você envia seus dados",
+                    "Pelo formulário ou pelo WhatsApp, em menos de um minuto.",
+                  ],
+                  ["A equipe faz a triagem", "Entende seu histórico e o que você busca."],
+                  [
+                    "Avaliação com o Dr. Tércio",
+                    "A conduta é definida caso a caso, sem protocolo pronto.",
+                  ],
+                ].map(([t, d], i) => (
+                  <li key={t} className="flex gap-5">
+                    <span className="u-badge-steel grid h-10 w-10 shrink-0 place-items-center rounded-chip text-[0.9rem] font-semibold">
+                      {i + 1}
+                    </span>
+                    <div>
+                      <h3 className="text-[1.15rem] font-medium tracking-tight">{t}</h3>
+                      <p className="mt-1 text-[0.95rem] leading-relaxed text-text-body">
+                        {d}
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+              <div className="mt-9">
+                <Button href={whatsappUrl()} variant="ghost" external>
+                  Falar com a equipe
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ================= INDICAÇÕES ================= */}
       <section id="tratamentos" className="u-dots relative overflow-hidden py-20 md:py-24">
         <div className="u-container relative z-10">
@@ -176,12 +238,12 @@ export default function Home() {
               eyebrow="Áreas de indicação"
               title={
                 <>
-                  Quais condições podem ser
+                  Quais doenças podem ser
                   <br className="hidden md:block" /> tratadas com{" "}
                   <span className="u-accent text-gold-700">células-tronco</span>?
                 </>
               }
-              lead="Cada caso é avaliado individualmente. Não existe protocolo único — a conduta é definida depois de analisar histórico, exames e objetivos do paciente."
+              lead="O Dr. Tércio Rocha atua em áreas onde a medicina regenerativa com células-tronco tem demonstrado resultados promissores. A indicação depende sempre de avaliação médica individual."
             />
             <Button href="/tratamentos" variant="ghost" className="shrink-0">
               Ver todas as áreas
@@ -252,18 +314,30 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="mt-9 text-center text-[0.86rem] text-text-muted">
-            Não encontrou sua condição?{" "}
-            <a
-              href={whatsappUrl("Olá! Gostaria de saber se meu caso pode ser avaliado.")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-gold-700 underline underline-offset-4 transition-colors hover:text-gold-600"
-            >
-              Fale com a equipe
-            </a>{" "}
-            e descubra se o seu caso pode ser avaliado.
+          <p className="mt-5 text-[0.82rem] text-text-muted">
+            Câncer sólido não é tratado.
           </p>
+
+          <div className="mt-12 flex flex-col items-start justify-between gap-6 rounded-card border border-ink-900/10 bg-bone-50 p-7 md:flex-row md:items-center md:p-9">
+            <div className="max-w-2xl">
+              <h3 className="text-[1.3rem] font-medium tracking-tight">
+                Tem dúvidas sobre uma dessas condições?
+              </h3>
+              <p className="mt-2 text-[0.95rem] leading-relaxed text-text-body">
+                Converse com a equipe para obter informações sobre o atendimento e
+                entender se o seu caso tem indicação para uma avaliação com o Dr.
+                Tércio.
+              </p>
+            </div>
+            <Button
+              href={whatsappUrl("Olá! Gostaria de saber se meu caso pode ser avaliado.")}
+              variant="primary"
+              external
+              className="shrink-0"
+            >
+              Falar com a equipe
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -298,17 +372,15 @@ export default function Home() {
                 eyebrow="Quem conduz o tratamento"
                 title={
                   <>
-                    Uma trajetória que começou
-                    <br className="hidden md:block" /> pela{" "}
-                    <span className="u-accent text-gold-400">própria dor</span>.
+                    Dr. Tércio Rocha: uma trajetória construída na fronteira da{" "}
+                    <span className="u-accent text-gold-400">medicina regenerativa</span>
                   </>
                 }
                 dark
               />
 
               <div className="mt-6 space-y-4 text-[0.98rem] leading-relaxed">
-                <p>{doctor.bio[1]}</p>
-                <p>{doctor.bio[2]}</p>
+                <p>{doctor.summary}</p>
               </div>
 
               <Rule className="my-8 max-w-md" />
@@ -350,11 +422,12 @@ export default function Home() {
               eyebrow="Do consultório"
               title={
                 <>
-                  Histórias reais de quem{" "}
-                  <span className="u-accent text-gold-700">regenerou</span>
+                  Artigos e casos reais sobre{" "}
+                  <span className="u-accent text-gold-700">células-tronco</span> e
+                  longevidade
                 </>
               }
-              lead="Casos clínicos narrados pelo próprio Dr. Tércio, com nomes trocados para preservar a privacidade dos pacientes."
+              lead="Artigos do Dr. Tércio sobre longevidade, células-tronco e qualidade de vida. Conteúdo com base científica, escrito para quem quer entender, não apenas seguir. Nos casos clínicos, os nomes dos pacientes foram trocados."
             />
             <Button href="/artigos" variant="ghost" className="shrink-0">
               Ver os {artigos.length} artigos
@@ -407,7 +480,16 @@ export default function Home() {
       {/* ================= LIVRO EM DESTAQUE ================= */}
       <section className="pb-20 md:pb-24">
         <div className="u-container">
-          <div className="u-ring u-halo relative grid items-center gap-10 overflow-hidden rounded-card border border-ink-900/10 bg-bone-50 p-7 md:p-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
+          <SectionHeading
+            eyebrow="Livros"
+            title={
+              <>
+                Livros do Dr. Tércio Rocha: ciência e experiência{" "}
+                <span className="u-accent text-gold-700">também nas páginas</span>
+              </>
+            }
+          />
+          <div className="u-ring u-halo relative mt-12 grid items-center gap-10 overflow-hidden rounded-card border border-ink-900/10 bg-bone-50 p-7 md:p-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
             <div className="relative z-10 mx-auto w-full max-w-[17rem]">
               <div
                 aria-hidden="true"
@@ -427,19 +509,19 @@ export default function Home() {
 
             <div className="relative z-10">
               <Badge variant="gold">Lançamento</Badge>
-              <h2 className="mt-4 text-title">{destaque.title}</h2>
+              <h3 className="mt-4 text-title">{destaque.title}</h3>
               <p className="u-accent mt-3 text-[1.28rem] leading-snug text-gold-700">
                 {destaque.tagline}
               </p>
               <p className="mt-4 text-[0.96rem] leading-relaxed text-text-body">
-                {destaque.description}
+                {destaque.summary}
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Button href={destaque.buyUrl} variant="primary" external>
                   Comprar agora
                 </Button>
                 <Button href="/livros" variant="ghost">
-                  Todos os livros
+                  Conhecer os livros
                 </Button>
               </div>
             </div>
@@ -453,9 +535,14 @@ export default function Home() {
           <div className="grid items-center gap-10 lg:grid-cols-[1.35fr_0.65fr]">
             <div>
               <Badge variant="gold">Material gratuito</Badge>
-              <h2 className="mt-4 text-title text-bone-50">{ebook.title}</h2>
+              <h2 className="mt-4 text-title text-bone-50">
+                E-book gratuito sobre longevidade: como regenerar o corpo e a mente
+              </h2>
               <p className="u-accent mt-3 text-[1.25rem] leading-snug text-gold-400">
                 {ebook.tagline}
+              </p>
+              <p className="mt-4 max-w-2xl text-[0.95rem] leading-relaxed text-bone-100/70">
+                {ebook.summary}
               </p>
               <ul className="mt-6 grid gap-2.5 sm:grid-cols-2">
                 {ebook.bullets.map((b) => (
@@ -480,7 +567,7 @@ export default function Home() {
               </ul>
               <div className="mt-8">
                 <Button href="/ebook-longevidade" variant="gold">
-                  Baixar o e-book gratuito
+                  Quero receber o e-book
                 </Button>
               </div>
             </div>
@@ -498,6 +585,25 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ================= REGENERA BRASIL ================= */}
+      <section className="py-20 md:py-24">
+        <div className="u-container">
+          <div className="grid items-end gap-10 lg:grid-cols-[1.3fr_0.7fr] lg:gap-16">
+            <div>
+              <SectionHeading eyebrow="Regenera Brasil" title={regenera.title} />
+              <p className="mt-6 max-w-3xl text-[1rem] leading-relaxed text-text-body">
+                {regenera.text}
+              </p>
+            </div>
+            <div className="lg:justify-self-end">
+              <Button href={regenera.url} variant="ghost" external>
+                Conhecer o Regenera Brasil
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ================= FAQ ================= */}
       <section className="u-dots relative overflow-hidden bg-bone-200/50 py-20 md:py-24">
         <div className="u-container relative z-10">
@@ -507,19 +613,23 @@ export default function Home() {
                 eyebrow="Perguntas frequentes"
                 title={
                   <>
-                    O que os pacientes
-                    <br className="hidden md:block" /> mais perguntam
+                    Perguntas frequentes
+                    <br className="hidden md:block" /> sobre{" "}
+                    <span className="u-accent text-gold-700">células-tronco</span>
                   </>
                 }
                 lead="Se a sua dúvida não estiver aqui, a equipe responde pelo WhatsApp."
               />
-              <div className="mt-7">
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
                 <Button href={whatsappUrl()} variant="ghost" external>
                   Tirar uma dúvida
                 </Button>
+                <Button href="/perguntas-frequentes" variant="ghost">
+                  Ver todas as perguntas
+                </Button>
               </div>
             </div>
-            <Faq items={faqs} />
+            <Faq items={perguntas} />
           </div>
         </div>
       </section>
@@ -540,36 +650,13 @@ export default function Home() {
                 eyebrow="Primeiro passo"
                 title={
                   <>
-                    Conte o seu caso. A equipe
-                    <br className="hidden md:block" /> retorna pelo WhatsApp.
+                    Deu o primeiro passo.
+                    <br className="hidden md:block" /> A equipe cuida do resto.
                   </>
                 }
-                lead="O preenchimento não gera cobrança nem compromisso. É a forma de a equipe entender sua condição antes de agendar a avaliação com o Dr. Tércio."
+                lead="Preencha com seus dados e o motivo do contato. A equipe retorna pelo WhatsApp para alinhar as próximas etapas com você. O envio não gera cobrança nem compromisso."
                 dark
               />
-
-              <ol className="mt-9 space-y-5">
-                {[
-                  ["Você envia seus dados", "Leva menos de um minuto."],
-                  ["A equipe faz a triagem", "Entendemos seu histórico e o que você busca."],
-                  [
-                    "Avaliação com o Dr. Tércio",
-                    "Conduta definida caso a caso, sem protocolo pronto.",
-                  ],
-                ].map(([t, d], i) => (
-                  <li key={t} className="flex gap-4">
-                    <span className="u-badge-steel grid h-9 w-9 shrink-0 place-items-center rounded-chip text-[0.85rem] font-semibold">
-                      {i + 1}
-                    </span>
-                    <div>
-                      <p className="text-[1.05rem] font-medium tracking-tight text-bone-50">
-                        {t}
-                      </p>
-                      <p className="mt-0.5 text-[0.88rem] text-bone-100/60">{d}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
 
               {/* Atalho para quem não quer preencher formulário nenhum. */}
               <a
@@ -589,7 +676,7 @@ export default function Home() {
                 </span>
                 <span className="relative z-10 flex-1">
                   <span className="block text-[0.95rem] font-medium text-bone-50">
-                    Prefere falar agora?
+                    Prefere falar pelo WhatsApp?
                   </span>
                   <span className="mt-0.5 block text-[0.84rem] text-bone-100/60">
                     WhatsApp {contact.whatsappLabel}
@@ -616,7 +703,7 @@ export default function Home() {
         </div>
       </section>
 
-      <JsonLd data={graph(faqSchema)} />
+      <JsonLd data={graph(faqSchema(perguntas))} />
     </>
   );
 }

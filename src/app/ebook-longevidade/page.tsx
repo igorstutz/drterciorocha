@@ -7,9 +7,9 @@ import { JsonLd, graph, breadcrumbSchema } from "@/lib/jsonld";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
-  title: "E-book gratuito: Longevidade",
+  title: "E-book grátis sobre longevidade",
   description:
-    "Como regenerar o corpo e a mente para uma vida saudável e plena. E-book gratuito do Dr. Tércio Rocha sobre envelhecimento biológico e medicina regenerativa.",
+    "E-book gratuito do Dr. Tércio Rocha: como regenerar o corpo e a mente, o que é idade biológica e como a medicina regenerativa ajuda a envelhecer bem.",
   alternates: { canonical: "/ebook-longevidade" },
 };
 
@@ -127,16 +127,16 @@ export default function Ebook() {
             <div>
               <Eyebrow>Por que este material</Eyebrow>
               <h2 className="mt-4 text-title">
-                Envelhecer não é sinônimo de perder função
+                Idade biológica: envelhecer não é sinônimo de perder função
               </h2>
               <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
                 A idade do documento diz pouco sobre o estado real das suas células.
-                O e-book apresenta a diferença entre idade cronológica e biológica, o
+                O e-book apresenta a diferença entre idade cronológica e idade biológica, o
                 que já é possível medir hoje e quais hábitos têm efeito comprovado
                 sobre o segundo número.
               </p>
               <p className="mt-4 text-[1rem] leading-relaxed text-text-body">
-                É leitura introdutória e não substitui avaliação médica — mas dá o
+                É uma leitura introdutória e não substitui a avaliação médica, mas dá o
                 vocabulário para você conversar melhor sobre o próprio caso.
               </p>
             </div>
