@@ -4,7 +4,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { indications, pickFaqs, doctor, whatsappUrl } from "@/content/site";
 import { getArtigos } from "@/lib/artigos";
-import { Button, Eyebrow, Breadcrumbs, Rule } from "@/components/ui";
+import { Button, Badge, Eyebrow, Breadcrumbs, Rule } from "@/components/ui";
+import { IconeWhatsApp } from "@/components/IconeWhatsApp";
 import { LeadForm } from "@/components/LeadForm";
 import { Faq } from "@/components/Faq";
 import {
@@ -127,14 +128,36 @@ export default async function Tratamento({
                 ))}
               </ul>
 
+              {/* Único bloco escuro da coluna: é o trecho que responde "como
+                  funciona", e precisa se destacar da lista e dos passos. */}
               {indicacao.howText && (
-                <>
-                  <Rule className="my-12" />
-                  <h2 className="text-title">{indicacao.howHeading}</h2>
-                  <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
-                    {indicacao.howText}
-                  </p>
-                </>
+                <div className="u-grain u-grid-lines relative isolate mt-12 overflow-hidden rounded-card bg-ink-900 p-7 md:p-10">
+                  <svg
+                    viewBox="0 0 200 200"
+                    className="pointer-events-none absolute -right-12 -top-12 h-60 w-60 stroke-gold-500/30"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <circle cx="100" cy="100" r="92" strokeWidth="1" strokeDasharray="2 6" />
+                    <circle cx="100" cy="100" r="64" strokeWidth="1" />
+                    <circle cx="100" cy="100" r="30" strokeWidth="1.2" />
+                    <circle cx="100" cy="100" r="9" className="fill-gold-500/30" strokeWidth="0" />
+                    <circle cx="164" cy="100" r="4" className="fill-gold-400/60" strokeWidth="0" />
+                    <circle cx="55" cy="55" r="3" className="fill-gold-400/50" strokeWidth="0" />
+                    <circle cx="70" cy="190" r="3.5" className="fill-jade-400/60" strokeWidth="0" />
+                  </svg>
+                  <div className="relative z-10 max-w-xl">
+                    <Badge variant="gold">Como atua</Badge>
+                    <h2 className="mt-5 text-title text-bone-50">{indicacao.howHeading}</h2>
+                    <p className="mt-4 text-[1.02rem] leading-relaxed text-bone-100/72">
+                      {indicacao.howText}
+                    </p>
+                    <p className="mt-6 border-t border-bone-100/10 pt-4 text-[0.8rem] leading-relaxed text-bone-100/50">
+                      Mecanismo em estudo pela medicina regenerativa. A indicação
+                      depende de avaliação médica individual.
+                    </p>
+                  </div>
+                </div>
               )}
 
               <Rule className="my-12" />
@@ -282,24 +305,33 @@ export default async function Tratamento({
               <h2 className="mt-4 text-title">
                 Perguntas frequentes sobre {indicacao.name} e células-tronco
               </h2>
-              <h3 className="mt-8 text-[1.15rem] font-medium tracking-tight">
-                Tem dúvidas sobre {indicacao.name}?
-              </h3>
-              <p className="mt-2 text-[1rem] leading-relaxed text-text-body">
-                Converse com a equipe para obter informações sobre o atendimento e
-                entender se o seu caso tem indicação para uma avaliação com o Dr.
-                Tércio.
-              </p>
-              <div className="mt-6">
-                <Button
-                  href={whatsappUrl(
-                    `Olá! Tenho dúvidas sobre células-tronco para ${indicacao.name}.`,
-                  )}
-                  variant="ghost"
-                  external
-                >
-                  Falar com a equipe
-                </Button>
+              <div className="u-halo relative mt-9 rounded-card border border-ink-900/10 bg-bone-50 p-6 md:p-7">
+                <div className="relative z-10 flex gap-4">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-btn bg-jade-500 text-bone-50">
+                    <IconeWhatsApp />
+                  </span>
+                  <div>
+                    <h3 className="text-[1.12rem] font-medium tracking-tight">
+                      Tem dúvidas sobre {indicacao.name}?
+                    </h3>
+                    <p className="mt-1.5 text-[0.93rem] leading-relaxed text-text-body">
+                      Converse com a equipe para obter informações sobre o atendimento
+                      e entender se o seu caso tem indicação para uma avaliação com o
+                      Dr. Tércio.
+                    </p>
+                  </div>
+                </div>
+                <div className="relative z-10 mt-6">
+                  <Button
+                    href={whatsappUrl(
+                      `Olá! Tenho dúvidas sobre células-tronco para ${indicacao.name}.`,
+                    )}
+                    variant="primary"
+                    external
+                  >
+                    Falar com a equipe
+                  </Button>
+                </div>
               </div>
             </div>
             <Faq items={perguntas} />

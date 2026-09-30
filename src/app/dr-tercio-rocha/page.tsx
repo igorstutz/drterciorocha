@@ -151,18 +151,24 @@ export default function SobreMedico() {
 
               <Rule className="my-12" />
 
-              <h2 className="text-title">Regenera Brasil</h2>
-              <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
-                {regenera.text}
-              </p>
-              <a
-                href={regenera.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-block text-[0.9rem] font-semibold text-gold-700 underline underline-offset-4 hover:text-gold-600"
-              >
-                Conhecer o Regenera Brasil
-              </a>
+              <div className="relative isolate overflow-hidden rounded-card bg-[linear-gradient(135deg,var(--color-gold-200)_0%,var(--color-bone-100)_60%,var(--color-bone-200)_100%)] p-7 md:p-10">
+                <span
+                  aria-hidden="true"
+                  className="u-outline-text pointer-events-none absolute -bottom-[0.22em] -right-2 -z-10 select-none text-[7.5rem] leading-none font-semibold tracking-[-0.06em] md:text-[9.5rem]"
+                >
+                  REGENERA
+                </span>
+                <Badge variant="gold">Congresso</Badge>
+                <h2 className="mt-5 text-title">Regenera Brasil</h2>
+                <p className="mt-4 text-[1rem] leading-relaxed text-text-body">
+                  {regenera.text}
+                </p>
+                <div className="mt-7">
+                  <Button href={regenera.url} variant="primary" external>
+                    Conhecer o Regenera Brasil
+                  </Button>
+                </div>
+              </div>
 
               <Rule className="my-12" />
 

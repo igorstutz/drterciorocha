@@ -10,7 +10,6 @@ import {
   whatsappUrl,
   homeFaqIds,
   pickFaqs,
-  regenera,
 } from "@/content/site";
 import { getArtigos, formatarData } from "@/lib/artigos";
 import {
@@ -25,6 +24,9 @@ import { IconeArea } from "@/components/IconeArea";
 import { Carrossel } from "@/components/Carrossel";
 import { LeadForm } from "@/components/LeadForm";
 import { Faq } from "@/components/Faq";
+import { PassosConsulta } from "@/components/PassosConsulta";
+import { RegeneraBrasil } from "@/components/RegeneraBrasil";
+import { IconeWhatsApp } from "@/components/IconeWhatsApp";
 import { JsonLd, graph, faqSchema } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
@@ -173,62 +175,7 @@ export default function Home() {
       </section>
 
       {/* ================= COMO FUNCIONA ================= */}
-      <section className="py-20 md:py-24">
-        <div className="u-container">
-          <div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
-            <div>
-              <SectionHeading
-                eyebrow="Como funciona"
-                title={
-                  <>
-                    Como funciona a consulta: o primeiro passo é{" "}
-                    <span className="u-accent text-gold-700">entender o seu caso</span>
-                  </>
-                }
-                lead="Cada organismo é único. Por isso, o atendimento começa com uma escuta cuidadosa do histórico, das queixas e dos objetivos do paciente, antes de qualquer indicação clínica."
-              />
-              <p className="mt-6 max-w-xl text-[0.86rem] leading-relaxed text-text-muted">
-                A indicação de qualquer protocolo depende de avaliação médica. O
-                conteúdo deste site tem caráter informativo e não substitui a
-                consulta.
-              </p>
-            </div>
-
-            <div className="lg:pt-10">
-              <ol className="space-y-7">
-                {[
-                  [
-                    "Você envia seus dados",
-                    "Pelo formulário ou pelo WhatsApp, em menos de um minuto.",
-                  ],
-                  ["A equipe faz a triagem", "Entende seu histórico e o que você busca."],
-                  [
-                    "Avaliação com o Dr. Tércio",
-                    "A conduta é definida caso a caso, sem protocolo pronto.",
-                  ],
-                ].map(([t, d], i) => (
-                  <li key={t} className="flex gap-5">
-                    <span className="u-badge-steel grid h-10 w-10 shrink-0 place-items-center rounded-chip text-[0.9rem] font-semibold">
-                      {i + 1}
-                    </span>
-                    <div>
-                      <h3 className="text-[1.15rem] font-medium tracking-tight">{t}</h3>
-                      <p className="mt-1 text-[0.95rem] leading-relaxed text-text-body">
-                        {d}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-              <div className="mt-9">
-                <Button href={whatsappUrl()} variant="ghost" external>
-                  Falar com a equipe
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PassosConsulta />
 
       {/* ================= INDICAÇÕES ================= */}
       <section id="tratamentos" className="u-dots relative overflow-hidden py-20 md:py-24">
@@ -318,25 +265,42 @@ export default function Home() {
             Câncer sólido não é tratado.
           </p>
 
-          <div className="mt-12 flex flex-col items-start justify-between gap-6 rounded-card border border-ink-900/10 bg-bone-50 p-7 md:flex-row md:items-center md:p-9">
-            <div className="max-w-2xl">
-              <h3 className="text-[1.3rem] font-medium tracking-tight">
-                Tem dúvidas sobre uma dessas condições?
-              </h3>
-              <p className="mt-2 text-[0.95rem] leading-relaxed text-text-body">
-                Converse com a equipe para obter informações sobre o atendimento e
-                entender se o seu caso tem indicação para uma avaliação com o Dr.
-                Tércio.
-              </p>
+          {/* Chamada escura no fim da grade clara: quebra a sequência de
+              cards brancos e marca a saída para a conversa. */}
+          <div className="u-grain relative isolate mt-12 overflow-hidden rounded-card bg-ink-900 p-7 md:p-10">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-24 -top-32 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.22),transparent_68%)]"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-40 left-1/4 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgb(47_124_104/0.22),transparent_68%)]"
+            />
+            <div className="relative z-10 flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
+              <div className="flex gap-5">
+                <span className="grid h-12 w-12 shrink-0 place-items-center rounded-btn bg-jade-500 text-bone-50">
+                  <IconeWhatsApp className="h-6 w-6" />
+                </span>
+                <div className="max-w-2xl">
+                  <h3 className="text-[1.35rem] font-medium tracking-tight text-bone-50">
+                    Tem dúvidas sobre uma dessas condições?
+                  </h3>
+                  <p className="mt-2 text-[0.95rem] leading-relaxed text-bone-100/65">
+                    Converse com a equipe para obter informações sobre o atendimento e
+                    entender se o seu caso tem indicação para uma avaliação com o Dr.
+                    Tércio.
+                  </p>
+                </div>
+              </div>
+              <Button
+                href={whatsappUrl("Olá! Gostaria de saber se meu caso pode ser avaliado.")}
+                variant="gold"
+                external
+                className="shrink-0"
+              >
+                Falar com a equipe
+              </Button>
             </div>
-            <Button
-              href={whatsappUrl("Olá! Gostaria de saber se meu caso pode ser avaliado.")}
-              variant="primary"
-              external
-              className="shrink-0"
-            >
-              Falar com a equipe
-            </Button>
           </div>
         </div>
       </section>
@@ -586,23 +550,7 @@ export default function Home() {
       </section>
 
       {/* ================= REGENERA BRASIL ================= */}
-      <section className="py-20 md:py-24">
-        <div className="u-container">
-          <div className="grid items-end gap-10 lg:grid-cols-[1.3fr_0.7fr] lg:gap-16">
-            <div>
-              <SectionHeading eyebrow="Regenera Brasil" title={regenera.title} />
-              <p className="mt-6 max-w-3xl text-[1rem] leading-relaxed text-text-body">
-                {regenera.text}
-              </p>
-            </div>
-            <div className="lg:justify-self-end">
-              <Button href={regenera.url} variant="ghost" external>
-                Conhecer o Regenera Brasil
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <RegeneraBrasil />
 
       {/* ================= FAQ ================= */}
       <section className="u-dots relative overflow-hidden bg-bone-200/50 py-20 md:py-24">

@@ -74,9 +74,23 @@ export const sisterSites = [
 
 /** Texto da copy do marketing, sem o superlativo "maior das Américas". */
 export const regenera = {
-  title: "Regenera Brasil: o congresso de medicina regenerativa criado pelo Dr. Tércio Rocha",
   text: "Criado e presidido pelo Dr. Tércio Rocha, o Regenera Brasil reúne especialistas de diferentes áreas para discutir evidências científicas, protocolos e aplicações clínicas da medicina regenerativa. Não é um congresso de tendências: cada palestra parte de protocolos que já estão sendo aplicados na prática, com rigor científico e honestidade sobre o que a evidência atual suporta.",
   url: "https://regenera-brasil.com/",
+  /* Desdobramento do próprio texto acima, sem número nem superlativo. */
+  pillars: [
+    {
+      title: "Evidência científica",
+      text: "Especialistas de diferentes áreas discutem o que a ciência já sustenta.",
+    },
+    {
+      title: "Protocolos aplicados na prática",
+      text: "Cada palestra parte de protocolos que já estão em uso na clínica.",
+    },
+    {
+      title: "Honestidade sobre a evidência",
+      text: "Clareza sobre o que a evidência atual suporta, e sobre o que ainda não.",
+    },
+  ],
 } as const;
 
 export type Faq = { q: string; a: string };
