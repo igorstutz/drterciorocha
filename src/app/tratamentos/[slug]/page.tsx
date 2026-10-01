@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { indications, pickFaqs, doctor, whatsappUrl } from "@/content/site";
+import { indications, pickFaqs, doctor } from "@/content/site";
 import { getArtigos } from "@/lib/artigos";
 import { Button, Badge, Eyebrow, Breadcrumbs, Rule } from "@/components/ui";
 import { IconeWhatsApp } from "@/components/IconeWhatsApp";
@@ -57,6 +57,22 @@ export default async function Tratamento({
 
   const outras = indications.filter((x) => x.slug !== slug);
 
+  /* Condição da página que também existe nas opções do formulário. */
+  const interesseForm =
+    indicacao.conditions.find((c) =>
+      (
+        [
+          "Artrose",
+          "Alzheimer",
+          "Parkinson",
+          "Demência",
+          "Problemas de coluna",
+          "Disfunção erétil",
+          "Retonificação peniana",
+        ] as string[]
+      ).includes(c),
+    ) ?? undefined;
+
   /* Perguntas da própria área primeiro; as gerais completam. Respostas
      clínicas ainda não validadas pelo Dr. Tércio ficam fora. */
   const perguntas = pickFaqs([...indicacao.faqIds, "cirurgico", "primeira", "custo"]);
@@ -91,11 +107,8 @@ export default async function Tratamento({
               Avaliar meu caso
             </Button>
             <Button
-              href={whatsappUrl(
-                `Olá! Gostaria de informações sobre células-tronco para ${indicacao.name}.`,
-              )}
+              whatsapp={{ local: `tratamento-${indicacao.slug}`, interesse: interesseForm }}
               variant="ghostDark"
-              external
             >
               Falar no WhatsApp
             </Button>
@@ -323,11 +336,8 @@ export default async function Tratamento({
                 </div>
                 <div className="relative z-10 mt-6">
                   <Button
-                    href={whatsappUrl(
-                      `Olá! Tenho dúvidas sobre células-tronco para ${indicacao.name}.`,
-                    )}
+                    whatsapp={{ local: `tratamento-${indicacao.slug}-faq`, interesse: interesseForm }}
                     variant="primary"
-                    external
                   >
                     Falar com a equipe
                   </Button>
@@ -356,21 +366,7 @@ export default async function Tratamento({
             <div className="rounded-card bg-bone-100 p-7 md:p-9">
               <LeadForm
                 origem={`tratamento-${indicacao.slug}`}
-                interesseInicial={
-                  indicacao.conditions.find((c) =>
-                    (
-                      [
-                        "Artrose",
-                        "Alzheimer",
-                        "Parkinson",
-                        "Demência",
-                        "Problemas de coluna",
-                        "Disfunção erétil",
-                        "Retonificação peniana",
-                      ] as string[]
-                    ).includes(c),
-                  ) ?? undefined
-                }
+                interesseInicial={interesseForm}
               />
             </div>
           </div>

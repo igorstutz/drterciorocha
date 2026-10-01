@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { treatmentOptions, whatsappUrl } from "@/content/site";
+import { ENVIO_SIMULADO, mensagemPosFormulario } from "@/lib/whatsapp-gate";
 
 type Estado = "idle" | "enviando" | "ok" | "erro";
 
@@ -19,14 +20,25 @@ export function LeadForm({
   origem,
   interesseInicial,
   compacto = false,
+  whatsapp = false,
 }: {
   origem: string;
   interesseInicial?: string;
   compacto?: boolean;
+  /** Quem veio por um botão de WhatsApp: depois do envio, a conversa abre. */
+  whatsapp?: boolean;
 }) {
   const [estado, setEstado] = useState<Estado>("idle");
   const [erro, setErro] = useState("");
+  const [enviado, setEnviado] = useState({ nome: "", interesse: "" });
+  /* /consulta?canal=whatsapp é o destino dos botões de WhatsApp sem JavaScript. */
+  const [viaUrl, setViaUrl] = useState(false);
   const utmRef = useRef<Record<string, string>>({});
+  const modoWhatsapp = whatsapp || viaUrl;
+
+  useEffect(() => {
+    setViaUrl(new URLSearchParams(window.location.search).get("canal") === "whatsapp");
+  }, []);
 
   /* Captura UTM/gclid na montagem e guarda por 30 dias: o lead que chega por
      anúncio hoje e converte semana que vem continua atribuído à campanha certa.
@@ -69,7 +81,17 @@ export function LeadForm({
     setEstado("enviando");
     setErro("");
 
+    const nome = String(fd.get("nome") ?? "");
+    const interesse = String(fd.get("interesse") ?? "");
+
     try {
+      if (ENVIO_SIMULADO) {
+        /* Prévia estática: sem /api/lead, o fluxo é só demonstrado. */
+        await new Promise((r) => setTimeout(r, 500));
+        concluir(form, nome, interesse);
+        return;
+      }
+
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -80,7 +102,8 @@ export function LeadForm({
           interesse: fd.get("interesse"),
           mensagem: fd.get("mensagem") || "",
           consentimento: fd.get("consentimento") === "on",
-          origem,
+          origem: modoWhatsapp && !origem.startsWith("whatsapp") ? `whatsapp-${origem}` : origem,
+          continuar_whatsapp: modoWhatsapp,
           pagina: window.location.pathname,
           atribuicao: utmRef.current,
         }),
@@ -88,15 +111,26 @@ export function LeadForm({
 
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).erro || "Falha no envio");
 
-      setEstado("ok");
-      form.reset();
+      concluir(form, nome, interesse);
     } catch (err) {
       setEstado("erro");
       setErro(err instanceof Error ? err.message : "Não foi possível enviar.");
     }
   }
 
+  function concluir(form: HTMLFormElement, nome: string, interesse: string) {
+    setEnviado({ nome, interesse });
+    setEstado("ok");
+    form.reset();
+    /* Tenta abrir a conversa na hora. Se o navegador bloquear a janela, o
+       botão da tela de sucesso continua lá. */
+    if (modoWhatsapp) {
+      window.open(whatsappUrl(mensagemPosFormulario(nome, interesse)), "_blank", "noopener");
+    }
+  }
+
   if (estado === "ok") {
+    const linkConversa = whatsappUrl(mensagemPosFormulario(enviado.nome, enviado.interesse));
     return (
       <div className="rounded-card border border-jade-500/25 bg-jade-900/5 p-8 text-center md:p-10">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-jade-500/12">
@@ -114,16 +148,22 @@ export function LeadForm({
         </div>
         <h3 className="mt-5 text-title">Recebemos seus dados</h3>
         <p className="mx-auto mt-3 max-w-md text-[0.98rem] leading-relaxed">
-          Nossa equipe entra em contato pelo WhatsApp para entender seu caso e agendar
-          a avaliação com o Dr. Tércio.
+          {modoWhatsapp
+            ? "Agora é só abrir a conversa: a equipe já recebe seu nome e o motivo do contato."
+            : "Nossa equipe entra em contato pelo WhatsApp para entender seu caso e agendar a avaliação com o Dr. Tércio."}
         </p>
+        {ENVIO_SIMULADO && (
+          <p className="mx-auto mt-3 max-w-md text-[0.8rem] text-text-muted">
+            Prévia: o envio foi simulado e nenhum dado foi gravado.
+          </p>
+        )}
         <a
-          href={whatsappUrl("Olá! Acabei de preencher o formulário no site.")}
+          href={linkConversa}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-7 inline-flex rounded-btn bg-jade-500 px-7 py-3.5 text-sm font-semibold text-bone-50 transition-colors hover:bg-jade-400"
         >
-          Prefiro falar agora no WhatsApp
+          {modoWhatsapp ? "Abrir conversa no WhatsApp" : "Prefiro falar agora no WhatsApp"}
         </a>
       </div>
     );
@@ -189,7 +229,11 @@ export function LeadForm({
           id={`interesse-${origem}`}
           name="interesse"
           required
-          defaultValue={interesseInicial ?? ""}
+          defaultValue={
+            interesseInicial && (treatmentOptions as readonly string[]).includes(interesseInicial)
+              ? interesseInicial
+              : ""
+          }
           className={`${campo} appearance-none bg-[length:1.1rem] bg-[right_1rem_center] bg-no-repeat pr-11`}
           style={{
             backgroundImage:
@@ -244,16 +288,7 @@ export function LeadForm({
 
       {estado === "erro" && (
         <p role="alert" className="text-[0.88rem] text-[#b3261e]">
-          {erro} Você também pode{" "}
-          <a
-            href={whatsappUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium underline underline-offset-2"
-          >
-            falar direto no WhatsApp
-          </a>
-          .
+          {erro} Confira os dados e tente novamente.
         </p>
       )}
 
@@ -263,7 +298,11 @@ export function LeadForm({
         className="group relative w-full overflow-hidden rounded-btn bg-ink-900 px-8 py-4 text-[0.95rem] font-semibold text-bone-50 transition-[transform,opacity] duration-300 hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-65"
       >
         <span className="relative z-10">
-          {estado === "enviando" ? "Enviando…" : "Quero ser paciente do Dr. Tércio"}
+          {estado === "enviando"
+            ? "Enviando…"
+            : modoWhatsapp
+              ? "Continuar no WhatsApp"
+              : "Quero ser paciente do Dr. Tércio"}
         </span>
         <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-gold-600 to-gold-500 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0" />
       </button>

@@ -9,7 +9,9 @@ import {
   formatarData,
 } from "@/lib/artigos";
 import { renderMarkdown, resumo } from "@/lib/markdown";
-import { doctor, whatsappUrl } from "@/content/site";
+import { doctor } from "@/content/site";
+import { ROTA_FORM_WHATSAPP, atributosGate } from "@/lib/whatsapp-gate";
+
 import { Button, Eyebrow, Breadcrumbs } from "@/components/ui";
 import { LeadForm } from "@/components/LeadForm";
 import { JsonLd, graph, breadcrumbSchema, articleSchema } from "@/lib/jsonld";
@@ -149,16 +151,13 @@ export default async function Artigo({
                 <Button href="/consulta" variant="gold" className="mt-6 w-full">
                   Quero ser paciente
                 </Button>
-                <a
-                  href={whatsappUrl(
-                    `Olá! Li o artigo "${artigo.titulo}" e gostaria de mais informações.`,
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href={ROTA_FORM_WHATSAPP}
+                  {...atributosGate({ local: `artigo-${artigo.slug}` })}
                   className="mt-3 block rounded-btn border border-bone-100/25 px-6 py-3 text-center text-[0.88rem] font-medium text-bone-50 transition-colors hover:border-gold-500/70"
                 >
                   Falar no WhatsApp
-                </a>
+                </Link>
               </div>
 
               {relacionados.length > 0 && (

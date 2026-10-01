@@ -6,8 +6,6 @@ import {
   indications,
   books,
   ebook,
-  contact,
-  whatsappUrl,
   homeFaqIds,
   pickFaqs,
 } from "@/content/site";
@@ -293,9 +291,8 @@ export default function Home() {
                 </div>
               </div>
               <Button
-                href={whatsappUrl("Olá! Gostaria de saber se meu caso pode ser avaliado.")}
+                whatsapp={{ local: "home-tratamentos" }}
                 variant="gold"
-                external
                 className="shrink-0"
               >
                 Falar com a equipe
@@ -569,7 +566,7 @@ export default function Home() {
                 lead="Se a sua dúvida não estiver aqui, a equipe responde pelo WhatsApp."
               />
               <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-                <Button href={whatsappUrl()} variant="ghost" external>
+                <Button whatsapp={{ local: "home-faq" }} variant="ghost">
                   Tirar uma dúvida
                 </Button>
                 <Button href="/perguntas-frequentes" variant="ghost">
@@ -606,42 +603,21 @@ export default function Home() {
                 dark
               />
 
-              {/* Atalho para quem não quer preencher formulário nenhum. */}
-              <a
-                href={whatsappUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group u-ring u-halo relative mt-10 flex items-center gap-4 overflow-hidden rounded-card border border-bone-100/12 bg-bone-100/[0.04] p-5 transition-colors duration-500 hover:border-gold-500/40"
-              >
-                <span className="relative z-10 grid h-11 w-11 shrink-0 place-items-center rounded-btn bg-jade-500 text-bone-50">
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-5 w-5 fill-current"
-                    aria-hidden="true"
-                  >
-                    <path d="M17.5 14.4c-.3-.2-1.7-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.7 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5 0-.2 0-.4 0-.5 0-.2-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.3c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.3 8.3 0 1 1 12 20.3z" />
-                  </svg>
+              {/* Quem prefere o WhatsApp também passa pelo formulário: a conversa
+                  abre logo depois do envio, com os dados já no CRM. */}
+              <div className="relative mt-10 flex items-center gap-4 rounded-card border border-bone-100/12 bg-bone-100/[0.04] p-5">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-btn bg-jade-500 text-bone-50">
+                  <IconeWhatsApp />
                 </span>
-                <span className="relative z-10 flex-1">
+                <span className="flex-1">
                   <span className="block text-[0.95rem] font-medium text-bone-50">
-                    Prefere falar pelo WhatsApp?
+                    Prefere conversar pelo WhatsApp?
                   </span>
                   <span className="mt-0.5 block text-[0.84rem] text-bone-100/60">
-                    WhatsApp {contact.whatsappLabel}
+                    Depois do envio, a conversa com a equipe abre com um clique.
                   </span>
                 </span>
-                <svg
-                  viewBox="0 0 24 24"
-                  className="relative z-10 h-4 w-4 shrink-0 stroke-gold-400 transition-transform duration-400 group-hover:translate-x-1"
-                  fill="none"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M5 12h14m-6-6 6 6-6 6" />
-                </svg>
-              </a>
+              </div>
             </div>
 
             <div className="u-ring rounded-card bg-bone-100 p-6 md:p-8">

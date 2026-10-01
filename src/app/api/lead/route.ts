@@ -11,6 +11,7 @@ type Lead = {
   mensagem?: string;
   consentimento?: boolean;
   origem?: string;
+  continuar_whatsapp?: boolean;
   pagina?: string;
   atribuicao?: Record<string, string>;
 };
@@ -83,6 +84,8 @@ export async function POST(req: Request) {
     origem: corpo.origem ?? "site",
     pagina: corpo.pagina ?? "/",
     canal: "site",
+    /* Veio por um botão de WhatsApp: a conversa abre logo depois do envio. */
+    continuar_whatsapp: Boolean(corpo.continuar_whatsapp),
     atribuicao: corpo.atribuicao ?? {},
     recebido_em: new Date().toISOString(),
   };

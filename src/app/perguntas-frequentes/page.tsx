@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { faqs, faqGroups, pickFaqs, whatsappUrl, disclaimer } from "@/content/site";
+import { faqs, faqGroups, pickFaqs, disclaimer } from "@/content/site";
 import { Button, Eyebrow, Breadcrumbs } from "@/components/ui";
 import { Faq } from "@/components/Faq";
 import { JsonLd, graph, breadcrumbSchema, faqSchema } from "@/lib/jsonld";
@@ -55,7 +55,7 @@ export default function PerguntasFrequentes() {
                 medicina regenerativa se aplica a ele.
               </p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <Button href={whatsappUrl()} variant="primary" external>
+                <Button whatsapp={{ local: "faq" }} variant="primary">
                   Falar no WhatsApp
                 </Button>
                 <Button href="/consulta" variant="ghost">

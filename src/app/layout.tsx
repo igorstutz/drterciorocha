@@ -13,6 +13,7 @@ import {
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
+import { WhatsAppGate } from "@/components/WhatsAppGate";
 import { AnimacaoEmVista } from "@/components/AnimacaoEmVista";
 
 /* next/font faz self-host das fontes: zero requisição a fonts.googleapis.com,
@@ -123,6 +124,7 @@ export default function RootLayout({
         <main id="conteudo">{children}</main>
         <Footer />
         <WhatsAppFab />
+        <WhatsAppGate />
         <AnimacaoEmVista />
         <JsonLd
           data={graph(

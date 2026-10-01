@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { doctor, whatsappUrl } from "@/content/site";
+import { doctor } from "@/content/site";
 import { Button, SectionHeading } from "@/components/ui";
 
 /* Ícones de traço, no mesmo desenho dos ícones de área. */
@@ -182,7 +182,7 @@ export function PassosConsulta() {
           <Button href="/consulta" variant="primary">
             Solicitar avaliação
           </Button>
-          <Button href={whatsappUrl()} variant="ghost" external>
+          <Button whatsapp={{ local: "home-como-funciona" }} variant="ghost">
             Falar com a equipe
           </Button>
         </div>

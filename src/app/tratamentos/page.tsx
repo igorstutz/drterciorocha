@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { indications, treatmentOptions, doctor, whatsappUrl } from "@/content/site";
+import { indications, treatmentOptions, doctor } from "@/content/site";
 import { Button, Badge, Eyebrow, Breadcrumbs, ArrowLink } from "@/components/ui";
 import { IconeArea } from "@/components/IconeArea";
 import { JsonLd, graph, breadcrumbSchema } from "@/lib/jsonld";
@@ -171,7 +171,7 @@ export default function Tratamentos() {
               <Button href="/consulta" variant="primary">
                 Quero ser paciente
               </Button>
-              <Button href={whatsappUrl()} variant="ghost" external>
+              <Button whatsapp={{ local: "tratamentos" }} variant="ghost">
                 Tirar uma dúvida no WhatsApp
               </Button>
             </div>

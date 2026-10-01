@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { whatsappUrl } from "@/content/site";
+import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
 
 /** Isca de e-mail. Três campos: qualquer atrito a mais derruba a conversão. */
 export function EbookForm() {
@@ -15,6 +16,12 @@ export function EbookForm() {
 
     setEstado("enviando");
     try {
+      if (ENVIO_SIMULADO) {
+        /* Prévia estática: sem /api/lead, o fluxo é só demonstrado. */
+        await new Promise((r) => setTimeout(r, 500));
+        setEstado("ok");
+        return;
+      }
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { whatsappUrl } from "@/content/site";
+import { ROTA_FORM_WHATSAPP, atributosGate } from "@/lib/whatsapp-gate";
 
 const nav = [
   { href: "/tratamentos", label: "Tratamentos" },
@@ -140,14 +140,14 @@ export function Header() {
             >
               Agendar consulta
             </Link>
-            <a
-              href={whatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={ROTA_FORM_WHATSAPP}
+              {...atributosGate({ local: "menu" })}
+              onClick={() => setOpen(false)}
               className="rounded-btn border border-bone-100/25 px-6 py-3.5 text-center text-sm font-medium text-bone-50"
             >
               Falar no WhatsApp
-            </a>
+            </Link>
           </div>
         </nav>
       </div>

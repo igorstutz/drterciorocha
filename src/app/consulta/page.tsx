@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { Metadata } from "next";
-import { doctor, indications, consultaFaqIds, pickFaqs, whatsappUrl, contact } from "@/content/site";
+import { doctor, indications, consultaFaqIds, pickFaqs } from "@/content/site";
 import { Eyebrow, Breadcrumbs, Rule } from "@/components/ui";
 import { LeadForm } from "@/components/LeadForm";
 import { Faq } from "@/components/Faq";
@@ -95,16 +95,11 @@ export default function Consulta() {
                 </div>
               </div>
 
+              {/* Sem atalho direto para o WhatsApp: a conversa abre depois do
+                  envio do formulário ao lado, com os dados já registrados. */}
               <p className="mt-8 text-[0.9rem] text-bone-100/60">
-                Prefere falar direto?{" "}
-                <a
-                  href={whatsappUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-gold-400 underline underline-offset-4 hover:text-gold-300"
-                >
-                  WhatsApp {contact.whatsappLabel}
-                </a>
+                Prefere conversar pelo WhatsApp? Depois de enviar o formulário, a
+                conversa com a equipe abre com um clique.
               </p>
             </div>
 

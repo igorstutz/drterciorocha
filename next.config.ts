@@ -93,7 +93,7 @@ const configPages: NextConfig = {
   output: "export",
   basePath,
   trailingSlash: true,
-  env: { NEXT_PUBLIC_BASE_PATH: basePath },
+  env: { NEXT_PUBLIC_BASE_PATH: basePath, NEXT_PUBLIC_PREVIA: "true" },
   images: {
     loader: "custom",
     loaderFile: "./src/lib/image-loader-pages.ts",

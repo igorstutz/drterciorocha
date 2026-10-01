@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ROTA_FORM_WHATSAPP, atributosGate, type GateWhatsApp } from "@/lib/whatsapp-gate";
 
 export function Eyebrow({
   children,
@@ -104,12 +105,15 @@ export function Button({
   children,
   variant = "primary",
   external = false,
+  whatsapp,
   className = "",
 }: {
-  href: string;
+  href?: string;
   children: ReactNode;
   variant?: "primary" | "gold" | "ghost" | "ghostDark";
   external?: boolean;
+  /** Botão de WhatsApp: abre o formulário antes da conversa (ver whatsapp-gate). */
+  whatsapp?: GateWhatsApp;
   className?: string;
 }) {
   const base =
@@ -126,6 +130,13 @@ export function Button({
   const cls = `${base} ${variants[variant]} ${className}`;
   const conteudo = <span className="relative z-[3]">{children}</span>;
 
+  if (whatsapp) {
+    return (
+      <Link href={ROTA_FORM_WHATSAPP} className={cls} {...atributosGate(whatsapp)}>
+        {conteudo}
+      </Link>
+    );
+  }
   if (external) {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>
@@ -134,7 +145,7 @@ export function Button({
     );
   }
   return (
-    <Link href={href} className={cls}>
+    <Link href={href ?? "/"} className={cls}>
       {conteudo}
     </Link>
   );
