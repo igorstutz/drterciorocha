@@ -135,7 +135,7 @@ export function PassosConsulta() {
                   <span
                     aria-hidden="true"
                     className={`font-accent text-[3.4rem] leading-none italic ${
-                      destino ? "text-gold-400/80" : "text-gold-500/45"
+                      destino ? "text-gold-400/80" : "text-gold-600"
                     }`}
                   >
                     {String(i + 1).padStart(2, "0")}
