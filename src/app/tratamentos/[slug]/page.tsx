@@ -4,7 +4,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { indications, pickFaqs, doctor } from "@/content/site";
 import { getArtigos } from "@/lib/artigos";
-import { Button, Badge, Eyebrow, Breadcrumbs, Rule } from "@/components/ui";
+import { Button, Badge, Eyebrow, Breadcrumbs } from "@/components/ui";
+import { IconeArea } from "@/components/IconeArea";
+import { JornadaTratamento } from "@/components/JornadaTratamento";
 import { IconeWhatsApp } from "@/components/IconeWhatsApp";
 import { LeadForm } from "@/components/LeadForm";
 import { Faq } from "@/components/Faq";
@@ -39,6 +41,8 @@ export async function generateMetadata({
     },
   };
 }
+
+const fatos = ["Aplicação ambulatorial", "Sem cirurgia", "Avaliação individual"];
 
 export default async function Tratamento({
   params,
@@ -90,82 +94,120 @@ export default async function Tratamento({
 
   return (
     <>
-      <section className="bg-ink-900 pt-32 pb-16 md:pt-40 md:pb-20">
-        <div className="u-container">
+      {/* ================= TOPO ================= */}
+      <section className="u-grain u-grid-lines relative isolate overflow-hidden bg-ink-900 pt-28 pb-16 md:pt-36 md:pb-24">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-48 -top-40 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.22),transparent_66%)] blur-2xl"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-56 -left-40 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.1),transparent_68%)] blur-2xl"
+        />
+        <div className="u-container relative z-10">
           <Breadcrumbs trail={trail} dark />
-          <Eyebrow tone="muted">
-            <span className="mt-6 block">Área de indicação</span>
-          </Eyebrow>
-          <h1 className="mt-4 max-w-4xl text-display text-bone-50">
-            {indicacao.h1}
-          </h1>
-          <p className="mt-6 max-w-2xl text-lead text-bone-100/70">
-            {indicacao.intro}
-          </p>
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-            <Button href="#formulario" variant="gold">
-              Avaliar meu caso
-            </Button>
-            <Button
-              whatsapp={{ local: `tratamento-${indicacao.slug}`, interesse: interesseForm }}
-              variant="ghostDark"
-            >
-              Falar no WhatsApp
-            </Button>
-          </div>
-        </div>
-      </section>
 
-      <section className="py-20 md:py-28">
-        <div className="u-container">
-          <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
+          <div className="mt-8 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 xl:gap-20">
             <div>
-              <h2 className="text-title">{indicacao.conditionsHeading}</h2>
-              <p className="mt-4 text-[1rem] leading-relaxed text-text-body">
-                Estar nesta lista não significa indicação automática. Cada caso passa
-                por avaliação médica antes de qualquer conduta.
-              </p>
+              <Badge variant="gold">Área de indicação</Badge>
+              <h1 className="mt-5 text-display text-bone-50">{indicacao.h1}</h1>
+              <p className="mt-6 max-w-2xl text-lead text-bone-100/70">{indicacao.intro}</p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Button href="#formulario" variant="gold">
+                  Avaliar meu caso
+                </Button>
+                <Button
+                  whatsapp={{ local: `tratamento-${indicacao.slug}`, interesse: interesseForm }}
+                  variant="ghostDark"
+                >
+                  Falar no WhatsApp
+                </Button>
+              </div>
+              <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-bone-100/12 pt-6">
+                {fatos.map((f) => (
+                  <li key={f} className="flex items-center gap-2 text-[0.85rem] text-bone-100/70">
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 stroke-azul-300" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="m4 12.5 5 5L20 6.5" />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              <ul className="mt-9 space-y-px overflow-hidden rounded-card border border-ink-900/10">
+            {/* Cartão da área: o que antes era uma lista branca solta abaixo do
+                topo agora sobe para cá, ao lado do título. */}
+            <div className="u-ring u-ring-always relative overflow-hidden rounded-card border border-bone-100/12 bg-bone-100/[0.04] p-7 backdrop-blur-sm md:p-9">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full border border-dashed border-azul-300/20"
+              />
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-4 -top-4 h-32 w-32 rounded-full border border-azul-300/15"
+              />
+              <div className="relative flex items-center gap-4">
+                <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full border border-azul-300/40 bg-[radial-gradient(circle_at_35%_30%,#2f5aa8,#0d1d3f_75%)] text-gold-300 shadow-[0_0_40px_-8px_rgb(77_130_220/0.7)]">
+                  <IconeArea slug={indicacao.slug} className="h-7 w-7 stroke-current" />
+                </span>
+                <p className="u-eyebrow text-azul-300">
+                  {indicacao.conditions.length} condições avaliadas
+                </p>
+              </div>
+              <h2 className="relative mt-6 text-[1.35rem] font-medium leading-snug tracking-tight text-bone-50">
+                {indicacao.conditionsHeading}
+              </h2>
+              <ul className="relative mt-5 grid gap-2.5 sm:grid-cols-2">
                 {indicacao.conditions.map((c) => (
                   <li
                     key={c}
-                    className="flex items-center gap-4 bg-bone-50 px-6 py-5 text-[1.02rem] text-text-strong"
+                    className="flex items-center gap-3 rounded-btn border border-bone-100/10 bg-ink-800/70 px-4 py-3 text-[0.95rem] text-bone-50"
                   >
-                    <span
-                      className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500"
-                      aria-hidden="true"
-                    />
+                    <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-azul-500/90">
+                      <svg viewBox="0 0 24 24" className="h-3 w-3 stroke-bone-50" fill="none" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="m5 12.5 4.5 4.5L19 7.5" />
+                      </svg>
+                    </span>
                     {c}
                   </li>
                 ))}
               </ul>
+              <p className="relative mt-5 text-[0.8rem] leading-relaxed text-bone-100/50">
+                Estar nesta lista não significa indicação automática. Cada caso passa por
+                avaliação médica antes de qualquer conduta.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              {/* Único bloco escuro da coluna: é o trecho que responde "como
-                  funciona", e precisa se destacar da lista e dos passos. */}
+      {/* ================= COMO ATUA E COMO FUNCIONA ================= */}
+      <section className="py-20 md:py-28">
+        <div className="u-container">
+          <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16 xl:gap-20">
+            <div>
               {indicacao.howText && (
-                <div className="u-grain u-grid-lines relative isolate mt-12 overflow-hidden rounded-card bg-ink-900 p-7 md:p-10">
+                <div className="relative mb-16 overflow-hidden rounded-card border border-azul-400/25 bg-[linear-gradient(135deg,rgb(157_188_242/0.18),var(--color-bone-50)_55%)] p-7 md:p-10">
                   <svg
                     viewBox="0 0 200 200"
-                    className="pointer-events-none absolute -right-12 -top-12 h-60 w-60 stroke-gold-500/30"
+                    className="pointer-events-none absolute -right-12 -top-12 h-60 w-60 stroke-azul-500/25"
                     fill="none"
                     aria-hidden="true"
                   >
                     <circle cx="100" cy="100" r="92" strokeWidth="1" strokeDasharray="2 6" />
                     <circle cx="100" cy="100" r="64" strokeWidth="1" />
                     <circle cx="100" cy="100" r="30" strokeWidth="1.2" />
-                    <circle cx="100" cy="100" r="9" className="fill-gold-500/30" strokeWidth="0" />
-                    <circle cx="164" cy="100" r="4" className="fill-gold-400/60" strokeWidth="0" />
-                    <circle cx="55" cy="55" r="3" className="fill-gold-400/50" strokeWidth="0" />
-                    <circle cx="70" cy="190" r="3.5" className="fill-jade-400/60" strokeWidth="0" />
+                    <circle cx="100" cy="100" r="9" className="fill-azul-400/35" strokeWidth="0" />
+                    <circle cx="164" cy="100" r="4" className="fill-gold-500/70" strokeWidth="0" />
+                    <circle cx="55" cy="55" r="3" className="fill-azul-400/50" strokeWidth="0" />
                   </svg>
                   <div className="relative z-10 max-w-xl">
-                    <Badge variant="gold">Como atua</Badge>
-                    <h2 className="mt-5 text-title text-bone-50">{indicacao.howHeading}</h2>
-                    <p className="mt-4 text-[1.02rem] leading-relaxed text-bone-100/72">
+                    <Badge variant="steel">Como atua</Badge>
+                    <h2 className="mt-5 text-title">{indicacao.howHeading}</h2>
+                    <p className="mt-4 text-[1.02rem] leading-relaxed text-text-body">
                       {indicacao.howText}
                     </p>
-                    <p className="mt-6 border-t border-bone-100/10 pt-4 text-[0.8rem] leading-relaxed text-bone-100/50">
+                    <p className="mt-6 border-t border-ink-900/10 pt-4 text-[0.8rem] leading-relaxed text-text-muted">
                       Mecanismo em estudo pela medicina regenerativa. A indicação
                       depende de avaliação médica individual.
                     </p>
@@ -173,87 +215,63 @@ export default async function Tratamento({
                 </div>
               )}
 
-              <Rule className="my-12" />
-
-              <h2 className="text-title">Como funciona o tratamento com células-tronco</h2>
-              <ol className="mt-8 space-y-7">
-                {[
-                  [
-                    "Avaliação clínica",
-                    "Histórico completo, exames e entendimento do que mais limita você hoje. Sem isso não há indicação.",
-                  ],
-                  [
-                    "Definição do protocolo",
-                    "A conduta é montada caso a caso. Não existe protocolo único aplicado a todos os pacientes.",
-                  ],
-                  [
-                    "Aplicação ambulatorial",
-                    "O procedimento é feito em ambiente ambulatorial, sem os riscos e o tempo de recuperação de uma cirurgia.",
-                  ],
-                  [
-                    "Acompanhamento",
-                    "Reavaliação ao longo do tempo para medir a resposta e ajustar o que for necessário.",
-                  ],
-                ].map(([t, d], idx) => (
-                  <li key={t} className="flex gap-5">
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-chip border border-gold-500/45 font-display text-[1rem] text-gold-700">
-                      {idx + 1}
-                    </span>
-                    <div>
-                      <h3 className="text-[1.12rem]">{t}</h3>
-                      <p className="mt-1.5 text-[0.96rem] leading-relaxed text-text-body">
-                        {d}
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <Eyebrow>Passo a passo</Eyebrow>
+              <h2 className="mt-4 text-title">Como funciona o tratamento com células-tronco</h2>
+              <div className="mt-9">
+                <JornadaTratamento />
+              </div>
             </div>
 
-            <aside className="lg:sticky lg:top-28 lg:self-start">
-              <div className="rounded-card border border-ink-900/10 bg-bone-50 p-7">
-                <div className="flex items-center gap-4">
+            <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
+              <div className="u-ring relative overflow-hidden rounded-card border border-ink-900/10 bg-bone-50 p-7">
+                <p className="u-eyebrow text-gold-700">Quem conduz o tratamento</p>
+                <div className="mt-5 flex items-center gap-4">
                   <Image
                     src="/img/tercio-retrato.webp"
                     alt=""
                     width={64}
                     height={64}
-                    className="h-16 w-16 rounded-full object-cover"
+                    className="h-16 w-16 rounded-full object-cover object-top ring-2 ring-azul-400/40 ring-offset-2 ring-offset-bone-50"
                   />
                   <div>
-                    <p className="font-display text-[1.05rem] text-text-strong">
+                    <p className="text-[1.1rem] font-medium tracking-tight text-text-strong">
                       {doctor.name}
                     </p>
-                    <p className="text-[0.8rem] text-text-muted">
-                      {doctor.jobTitle}
-                    </p>
+                    <p className="text-[0.82rem] text-text-muted">{doctor.jobTitle}</p>
                   </div>
                 </div>
                 <p className="mt-5 text-[0.92rem] leading-relaxed text-text-body">
-                  Mais de {doctor.yearsOfPractice} anos de prática clínica e protocolos
-                  de longevidade desde {doctor.since}.
+                  Mais de {doctor.yearsOfPractice} anos de prática clínica e protocolos de
+                  longevidade desde {doctor.since}.
                 </p>
-                <p className="mt-3 text-[0.78rem] text-text-muted">
-                  {doctor.crm.join(" · ")}
-                </p>
+                <ul className="mt-4 flex flex-wrap gap-1.5">
+                  {doctor.crm.map((c) => (
+                    <li key={c}>
+                      <Badge variant="steel">{c}</Badge>
+                    </li>
+                  ))}
+                </ul>
                 <Button href="/dr-tercio-rocha" variant="ghost" className="mt-6 w-full">
                   Conhecer o médico
                 </Button>
               </div>
 
-              <div className="mt-6 rounded-card bg-ink-900 p-7 text-bone-100/70">
-                <h3 className="text-[1.1rem] text-bone-50">Outras áreas</h3>
-                <ul className="mt-4 space-y-3">
+              <div className="u-grain relative isolate overflow-hidden rounded-card bg-ink-900 p-7 text-bone-100/70">
+                <h3 className="text-[1.1rem] font-medium text-bone-50">Outras áreas</h3>
+                <ul className="mt-4 divide-y divide-bone-100/8">
                   {outras.map((o) => (
                     <li key={o.slug}>
                       <Link
                         href={`/tratamentos/${o.slug}`}
-                        className="flex items-center justify-between gap-3 text-[0.92rem] transition-colors hover:text-gold-400"
+                        className="group flex items-center gap-3 py-3 text-[0.92rem] transition-colors hover:text-bone-50"
                       >
-                        {o.title}
+                        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-azul-300/25 text-gold-400 transition-colors group-hover:border-gold-400/60 group-hover:bg-azul-600">
+                          <IconeArea slug={o.slug} className="h-4 w-4 stroke-current" />
+                        </span>
+                        <span className="flex-1">{o.title}</span>
                         <svg
                           viewBox="0 0 24 24"
-                          className="h-3.5 w-3.5 shrink-0 stroke-current"
+                          className="h-3.5 w-3.5 shrink-0 stroke-current transition-transform duration-300 group-hover:translate-x-1"
                           fill="none"
                           strokeWidth="2"
                           strokeLinecap="round"
