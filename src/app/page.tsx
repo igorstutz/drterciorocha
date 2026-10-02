@@ -49,7 +49,7 @@ export default function Home() {
       <section className="u-grain u-grid-lines relative isolate flex items-center overflow-hidden bg-ink-900 pt-28 pb-16 lg:h-svh lg:max-h-[56rem] lg:min-h-[40rem] lg:pb-16 lg:pt-28">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-48 -top-48 h-[42rem] w-[42rem] rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.18),transparent_66%)] blur-2xl"
+          className="pointer-events-none absolute -right-48 -top-48 h-[42rem] w-[42rem] rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.18),transparent_66%)] blur-2xl"
         />
         <div
           aria-hidden="true"
@@ -60,7 +60,11 @@ export default function Home() {
           <div className="grid items-center gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16 xl:gap-24">
             <div>
               <Badge variant="gold">
-                Medicina regenerativa e células-tronco · desde {doctor.since}
+                {/* No celular a faixa precisa caber numa linha só. */}
+                <span className="sm:hidden">Medicina regenerativa · desde {doctor.since}</span>
+                <span className="hidden sm:inline">
+                  Medicina regenerativa e células-tronco · desde {doctor.since}
+                </span>
               </Badge>
 
               {/* O H1 carrega o termo principal da página. A segunda parte vem
@@ -164,9 +168,14 @@ export default function Home() {
       {/* ================= AFILIAÇÕES ================= */}
       <section className="u-grain relative overflow-hidden border-y border-ink-900/8 bg-bone-200/70 py-6">
         <div className="u-container relative z-10">
-          <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-center text-[0.72rem] font-medium uppercase tracking-[0.16em] text-text-muted">
-            {doctor.affiliations.map((a) => (
-              <li key={a}>{a}</li>
+          {/* No celular, uma faixa de uma linha que rola para o lado, em vez de
+              quatro nomes longos quebrados e centralizados. */}
+          <ul className="-mx-4 flex snap-x items-center gap-x-8 overflow-x-auto whitespace-nowrap px-4 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-text-muted [mask-image:linear-gradient(90deg,#000_88%,transparent)] [scrollbar-width:none] md:mx-0 md:flex-wrap md:justify-center md:gap-y-2 md:overflow-visible md:px-0 md:text-center md:text-[0.72rem] md:whitespace-normal md:[mask-image:none]">
+            {doctor.affiliations.map((a, i) => (
+              <li key={a} className="flex snap-start items-center gap-x-8">
+                {i > 0 && <span aria-hidden="true" className="h-1 w-1 rounded-full bg-gold-600/60 md:hidden" />}
+                {a}
+              </li>
             ))}
           </ul>
         </div>
@@ -268,7 +277,7 @@ export default function Home() {
           <div className="u-grain relative isolate mt-12 overflow-hidden rounded-card bg-ink-900 p-7 md:p-10">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -right-24 -top-32 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.22),transparent_68%)]"
+              className="pointer-events-none absolute -right-24 -top-32 h-80 w-80 rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.22),transparent_68%)]"
             />
             <div
               aria-hidden="true"
@@ -491,7 +500,7 @@ export default function Home() {
       </section>
 
       {/* ================= E-BOOK ================= */}
-      <section className="u-grain u-grid-lines relative isolate overflow-hidden bg-gradient-to-br from-jade-900 via-ink-900 to-ink-900 py-16 md:py-20">
+      <section className="u-grain u-grid-lines relative isolate overflow-hidden bg-gradient-to-br from-azul-900 via-ink-900 to-ink-900 py-16 md:py-20">
         <div className="u-container relative z-10">
           <div className="grid items-center gap-10 lg:grid-cols-[1.35fr_0.65fr]">
             <div>
@@ -586,7 +595,7 @@ export default function Home() {
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-40 top-0 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.14),transparent_68%)] blur-2xl"
+          className="pointer-events-none absolute -right-40 top-0 h-[32rem] w-[32rem] rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.14),transparent_68%)] blur-2xl"
         />
         <div className="u-container relative z-10">
           <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">

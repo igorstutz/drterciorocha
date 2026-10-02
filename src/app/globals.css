@@ -10,11 +10,21 @@
 
 @theme {
   /* ---- Paleta -------------------------------------------------------- */
-  --color-ink-900: #06080b;
-  --color-ink-800: #090d12;
-  --color-ink-700: #10151c;
-  --color-ink-600: #171e27;
-  --color-ink-500: #232d39;
+  /* Azul-marinho da identidade do Dr. Tércio (paleta do marketing: "azul
+     marinho e fonte em branco"). Antes era um quase preto neutro, e no
+     celular o site lia como preto e dourado. */
+  --color-ink-900: #0a1733;
+  --color-ink-800: #0d1d3f;
+  --color-ink-700: #132650;
+  --color-ink-600: #1a3060;
+  --color-ink-500: #243d73;
+
+  /* Azul de destaque: brilhos, ícones e selos sobre o marinho. */
+  --color-azul-300: #9dbcf2;
+  --color-azul-400: #5d8fe0;
+  --color-azul-500: #3567c4;
+  --color-azul-600: #244c9a;
+  --color-azul-900: #0f2a5c;
 
   --color-bone-50: #fdfbf7;
   --color-bone-100: #faf7f1;
@@ -34,9 +44,9 @@
   --color-jade-600: #1d5a4b;
   --color-jade-900: #0b2620;
 
-  --color-text-strong: #10151b;
-  --color-text-body: #39434f;
-  --color-text-muted: #5c6673;
+  --color-text-strong: #0c1a36;
+  --color-text-body: #37435a;
+  --color-text-muted: #59657c;
 
   /* ---- Tipografia ---------------------------------------------------- */
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -70,8 +80,8 @@
   --radius-btn: 0.3125rem;
   --radius-chip: 0.25rem;
 
-  --shadow-lift: 0 1px 2px rgb(6 8 11 / 0.04), 0 8px 24px -14px rgb(6 8 11 / 0.14);
-  --shadow-lift-hover: 0 1px 2px rgb(6 8 11 / 0.05), 0 16px 40px -24px rgb(6 8 11 / 0.2);
+  --shadow-lift: 0 1px 2px rgb(10 23 51 / 0.04), 0 8px 24px -14px rgb(10 23 51 / 0.14);
+  --shadow-lift-hover: 0 1px 2px rgb(10 23 51 / 0.05), 0 16px 40px -24px rgb(10 23 51 / 0.2);
 
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -203,7 +213,7 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: radial-gradient(rgb(6 8 11 / 0.055) 1px, transparent 1px);
+  background-image: radial-gradient(rgb(10 23 51 / 0.055) 1px, transparent 1px);
   background-size: 24px 24px;
   mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, transparent 42%, #000 100%);
 }
@@ -336,40 +346,41 @@
 .u-badge-metal {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgb(196 160 86 / 0.45);
+  /* Metal azul: o selo principal agora fala a cor da marca. */
+  border: 1px solid rgb(157 188 242 / 0.45);
   background-image: linear-gradient(
     100deg,
-    #6d5522 0%,
-    #c4a056 14%,
-    #f4e6c4 26%,
-    #d9bd78 38%,
-    #8a6d2f 52%,
-    #e8d3a0 68%,
-    #b6913f 84%,
-    #6d5522 100%
+    #1c3567 0%,
+    #2f5aa8 16%,
+    #7fa6e6 28%,
+    #3a66b5 40%,
+    #1f3c74 54%,
+    #5d86cf 70%,
+    #2a4c8f 86%,
+    #1c3567 100%
   );
   background-size: 320% 100%;
-  color: #1a1206;
-  text-shadow: 0 1px 0 rgb(255 255 255 / 0.35);
+  color: #f4f7ff;
+  text-shadow: 0 1px 0 rgb(0 0 0 / 0.25);
   box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.5),
-    inset 0 -1px 0 rgb(0 0 0 / 0.28),
-    0 2px 10px -4px rgb(196 160 86 / 0.5);
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    inset 0 -1px 0 rgb(0 0 0 / 0.3),
+    0 2px 10px -4px rgb(53 103 196 / 0.55);
 }
 
 /* Variante aço, para uso sobre fundo claro. */
 .u-badge-steel {
-  border: 1px solid rgb(6 8 11 / 0.2);
+  border: 1px solid rgb(10 23 51 / 0.2);
   background-image: linear-gradient(
     100deg,
-    #1b222c 0%,
-    #3c4854 18%,
-    #7e8b98 30%,
-    #4a5765 44%,
-    #1b222c 58%,
-    #5b6876 74%,
-    #2a333f 88%,
-    #1b222c 100%
+    #0d1d3f 0%,
+    #24406f 18%,
+    #6f87b0 30%,
+    #2c4777 44%,
+    #0d1d3f 58%,
+    #4a6494 74%,
+    #172b55 88%,
+    #0d1d3f 100%
   );
   background-size: 320% 100%;
   color: #f4f1ea;

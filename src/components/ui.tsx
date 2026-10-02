@@ -34,7 +34,7 @@ export function Badge({
   className?: string;
 }) {
   const base =
-    "inline-flex items-center gap-1.5 rounded-chip px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em]";
+    "inline-flex max-w-full items-center gap-1.5 whitespace-nowrap rounded-chip px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em]";
 
   if (variant === "outline") {
     return (
@@ -122,7 +122,9 @@ export function Button({
   const variants = {
     primary:
       "bg-ink-900 text-bone-50 hover:bg-ink-700 hover:shadow-[0_14px_36px_-16px_rgb(6_8_11/0.6)]",
-    gold: "bg-gold-500 text-ink-900 hover:bg-gold-400 hover:shadow-[0_14px_36px_-14px_rgb(196_160_86/0.7)]",
+    /* CTA principal sobre fundo azul: branco com texto marinho. O nome
+       ficou "gold" por histórico; o dourado agora é só detalhe. */
+    gold: "bg-bone-50 text-ink-900 hover:bg-white hover:shadow-[0_14px_36px_-14px_rgb(93_143_224/0.65)]",
     ghost: "border border-ink-900/18 text-text-strong hover:border-gold-500/60",
     ghostDark: "border border-bone-100/22 text-bone-50 hover:border-gold-500/70",
   } as const;

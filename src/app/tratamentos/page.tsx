@@ -26,7 +26,7 @@ export default function Tratamentos() {
       <section className="u-grain u-grid-lines relative isolate overflow-hidden bg-ink-900 pt-28 pb-14 md:pt-36 md:pb-16">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-40 -top-32 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.15),transparent_68%)] blur-2xl"
+          className="pointer-events-none absolute -right-40 -top-32 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.15),transparent_68%)] blur-2xl"
         />
         <div className="u-container relative z-10">
           <Breadcrumbs trail={trail} dark />

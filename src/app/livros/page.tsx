@@ -100,7 +100,7 @@ export default function Livros() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-br from-jade-900 to-ink-900 py-20 md:py-24">
+      <section className="bg-gradient-to-br from-azul-900 to-ink-900 py-20 md:py-24">
         <div className="u-container">
           <div className="grid items-center gap-12 lg:grid-cols-[1.3fr_0.7fr]">
             <div>

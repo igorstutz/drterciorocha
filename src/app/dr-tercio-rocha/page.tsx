@@ -30,7 +30,7 @@ export default function SobreMedico() {
       <section className="u-grain u-grid-lines relative isolate flex items-center overflow-hidden bg-ink-900 pt-28 pb-16 lg:h-svh lg:max-h-[52rem] lg:min-h-[38rem] lg:pb-16 lg:pt-28">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-40 -top-32 h-[38rem] w-[38rem] rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.16),transparent_66%)] blur-2xl"
+          className="pointer-events-none absolute -right-40 -top-32 h-[38rem] w-[38rem] rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.16),transparent_66%)] blur-2xl"
         />
         <div
           aria-hidden="true"

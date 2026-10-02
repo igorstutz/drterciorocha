@@ -53,7 +53,7 @@ export function PassosConsulta() {
     <section className="relative overflow-hidden py-20 md:py-28">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -left-40 top-1/3 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.12),transparent_68%)] blur-2xl"
+        className="pointer-events-none absolute -left-40 top-1/3 h-[30rem] w-[30rem] rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.12),transparent_68%)] blur-2xl"
       />
       <div className="u-container relative">
         <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-16">
@@ -109,14 +109,14 @@ export function PassosConsulta() {
                 {destino && (
                   <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.22),transparent_68%)]"
+                    className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.22),transparent_68%)]"
                   />
                 )}
                 <div className="relative z-10 flex items-center justify-between">
                   <span
                     className={`grid h-11 w-11 place-items-center rounded-full ${
                       destino
-                        ? "bg-gold-500 text-ink-900"
+                        ? "bg-azul-500 text-bone-50"
                         : "border border-gold-500/45 bg-bone-50 text-gold-700"
                     }`}
                   >

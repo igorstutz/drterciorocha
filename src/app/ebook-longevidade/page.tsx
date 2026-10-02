@@ -39,10 +39,10 @@ export default function Ebook() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-to-br from-jade-900 via-ink-900 to-ink-900 pt-32 pb-20 md:pt-40 md:pb-28">
+      <section className="relative overflow-hidden bg-gradient-to-br from-azul-900 via-ink-900 to-ink-900 pt-32 pb-20 md:pt-40 md:pb-28">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-32 top-0 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgb(196_160_86/0.15),transparent_66%)] blur-2xl"
+          className="pointer-events-none absolute -right-32 top-0 h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.15),transparent_66%)] blur-2xl"
         />
         <div className="u-container relative">
           <Breadcrumbs trail={trail} dark />
