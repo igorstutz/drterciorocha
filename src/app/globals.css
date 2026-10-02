@@ -191,6 +191,13 @@
   -webkit-text-stroke: 1.5px rgb(165 132 62 / 0.32);
 }
 
+/* Faixa rolante (afiliações no celular). Só transform: roda no compositor,
+   sem repintar a página. */
+@keyframes faixa-rolante {
+  to { transform: translateX(-50%); }
+}
+.u-faixa { animation: faixa-rolante 32s linear infinite; }
+
 /* Malha técnica, para seções escuras. */
 .u-grid-lines::before {
   content: "";
@@ -607,6 +614,9 @@
   /* O lustro depende de atravessar a peça; parado, viraria uma faixa branca
      fixa em cima do botão. */
   .u-sheen::after { display: none !important; }
+
+  /* A faixa para; em troca, dá para arrastá-la com o dedo. */
+  .u-faixa-janela { overflow-x: auto; scrollbar-width: none; }
 
   /* Sem scroll-timeline o conteúdo precisa nascer visível. */
   .u-reveal { opacity: 1 !important; }

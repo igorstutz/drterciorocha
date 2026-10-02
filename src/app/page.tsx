@@ -168,14 +168,27 @@ export default function Home() {
       {/* ================= AFILIAÇÕES ================= */}
       <section className="u-grain relative overflow-hidden border-y border-ink-900/8 bg-bone-200/70 py-6">
         <div className="u-container relative z-10">
-          {/* No celular, uma faixa de uma linha que rola para o lado, em vez de
-              quatro nomes longos quebrados e centralizados. */}
-          <ul className="-mx-4 flex snap-x items-center gap-x-8 overflow-x-auto whitespace-nowrap px-4 text-[0.7rem] font-medium uppercase tracking-[0.16em] text-text-muted [mask-image:linear-gradient(90deg,#000_88%,transparent)] [scrollbar-width:none] md:mx-0 md:flex-wrap md:justify-center md:gap-y-2 md:overflow-visible md:px-0 md:text-center md:text-[0.72rem] md:whitespace-normal md:[mask-image:none]">
-            {doctor.affiliations.map((a, i) => (
-              <li key={a} className="flex snap-start items-center gap-x-8">
-                {i > 0 && <span aria-hidden="true" className="h-1 w-1 rounded-full bg-gold-600/60 md:hidden" />}
-                {a}
-              </li>
+          {/* Celular: faixa rolante contínua. A lista vai duas vezes para o laço
+              fechar sem emenda; a cópia fica escondida dos leitores de tela. */}
+          <div className="u-faixa-janela -mx-4 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)] md:hidden">
+            <ul className="u-faixa flex w-max items-center text-[0.7rem] font-medium uppercase tracking-[0.16em] whitespace-nowrap text-text-muted">
+              {[...doctor.affiliations, ...doctor.affiliations].map((a, i) => (
+                <li
+                  key={`${a}-${i}`}
+                  aria-hidden={i >= doctor.affiliations.length || undefined}
+                  className="flex items-center gap-x-8 pr-8"
+                >
+                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-gold-600/70" />
+                  {a}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Desktop: os quatro nomes cabem, centralizados. */}
+          <ul className="hidden flex-wrap items-center justify-center gap-x-8 gap-y-2 text-center text-[0.72rem] font-medium uppercase tracking-[0.16em] text-text-muted md:flex">
+            {doctor.affiliations.map((a) => (
+              <li key={a}>{a}</li>
             ))}
           </ul>
         </div>
