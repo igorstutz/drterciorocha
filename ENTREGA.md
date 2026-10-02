@@ -104,20 +104,41 @@ Além disso:
 
 O site antigo usava verde neon `#1AFF00` como cor de destaque e link — satura, não passa
 contraste WCAG em texto sobre branco e destoa do posicionamento de medicina de longevidade
-premium. O novo é ancorado no **dourado que já existia na marca** (os logos
-`LOGO-DR.-TERCIO-DOURADO` usados na landing de consulta), sobre fundo escuro profundo e
-off-white quente.
+premium. A primeira versão do site novo foi ancorada no dourado dos logos; em 02/10/2026
+passou para a **identidade do Dr. Tércio: azul-marinho com fonte branca** (paleta enviada
+pelo marketing). No celular o site lia como "preto e dourado".
 
-- **Tipografia**: Fraunces (serifa variável) nos títulos, Inter no corpo. Ambas
-  self-hosted via `next/font` — o site antigo puxava Montserrat e Roboto da rede do
-  Google em requisição bloqueante.
+- **Cores** (`globals.css`, `@theme`): fundos escuros em azul-marinho (`ink-900`
+  `#0a1733`), azul de destaque (`azul-*`) para brilhos, ícones e o selo principal,
+  off-white quente nas seções claras. O dourado ficou só em detalhe: palavra em itálico,
+  números, fios e a etapa final das jornadas. CTA principal em branco com texto marinho.
+- **Tipografia**: Geist (variável) em tudo e Instrument Serif itálica só nas palavras de
+  destaque. Self-hosted via `next/font` — o site antigo puxava Montserrat e Roboto da
+  rede do Google em requisição bloqueante.
 - **Escala fluida** com `clamp()`: nenhum salto de tamanho entre breakpoints.
-- **Contraste AA em todos os textos** (verificado pelo Lighthouse, nota 100).
+- **Contraste AA em todos os textos** (Lighthouse: acessibilidade 100 nas páginas
+  principais em 02/10/2026).
 - **Foco visível** em todos os elementos interativos — o site antigo não tinha nenhum.
-- **Animação de entrada em CSS puro** (`animation-timeline: view()`), sem JavaScript e
-  sem custo de hidratação. Desligada acima de 1600px de altura de viewport, porque é
-  assim que o Googlebot renderiza e o conteúdo não pode nascer invisível para ele.
-- **`prefers-reduced-motion`** respeitado.
+- **Animação de entrada em CSS puro** (`animation-timeline: view()`), sem JavaScript.
+  Desligada acima de 1600px de altura de viewport, porque é assim que o Googlebot
+  renderiza e o conteúdo não pode nascer invisível para ele. Não roda no Firefox, que
+  ainda não suporta o recurso.
+- **`prefers-reduced-motion`** respeitado: com os "Efeitos de animação" do Windows
+  desligados, nada se move (só cor e opacidade respondem). É por isso que, no computador
+  do Igor, o site aparece sem animação em qualquer navegador.
+
+### Peças visuais da rodada de 01–02/10
+
+- **Jornada** (`PassosConsulta` na home e `JornadaTratamento` nas páginas de área):
+  painel marinho com linha do tempo do azul ao dourado e uma miniatura por etapa. Foi a
+  peça que o Igor mais gostou; usar como referência de estilo.
+- **Órbita das 6 áreas** (`OrbitaAreas`) no topo de `/tratamentos`.
+- **Regenera Brasil** em faixa champanhe com o nome vazado ao fundo (`RegeneraBrasil`).
+- **Página do médico** como perfil editorial: retrato com cartões flutuantes, citação
+  do próprio Dr. Tércio (artigo "Relacionamento 50 +"), credenciais em faixa marinho e
+  livros em vitrine.
+- **Celular**: selo do hero cabe numa linha (texto curto abaixo de 640px) e as
+  afiliações viram faixa rolante contínua.
 
 ## Conversão
 
@@ -133,9 +154,23 @@ Três caminhos, conforme definido:
 3. **Captura por e-book.** `/ebook-longevidade` recuperada e refeita, com formulário de
    três campos.
 
-O WhatsApp continua presente como canal secundário (botão flutuante que aparece após o
-primeiro scroll, para não competir com o CTA do hero), com mensagem contextual por
-página — na página de artrose, a mensagem já diz artrose.
+**Regra do cliente: o WhatsApp só abre depois do formulário.** Nenhum botão do site
+aponta para o `wa.me`. Os botões de WhatsApp (flutuante, menu, rodapé, tratamentos, FAQ,
+artigos) abrem o formulário numa janela (`WhatsAppGate`); depois do envio, o lead vai ao
+CRM com `origem: "whatsapp-<local>"` e `continuar_whatsapp: true`, e a conversa abre com
+nome e interesse na mensagem. Sem JavaScript, o botão leva a `/consulta?canal=whatsapp`.
+Para criar um botão novo: `Button whatsapp={{ local, interesse }}` ou `atributosGate()`
+(`src/lib/whatsapp-gate.ts`).
+
+Na prévia do GitHub Pages não existe `/api/lead`: o envio é simulado
+(`NEXT_PUBLIC_PREVIA`) para o fluxo poder ser testado, e a tela de sucesso avisa.
+
+## Busca nos artigos
+
+`/artigos` tem busca por termo (sem acento e por prefixo: "celula" acha "células"), com
+sugestões e filtro por categoria. O corpo dos artigos vai ao navegador só como lista de
+palavras distintas (`src/lib/busca.ts`), 86 KB em vez de 172 KB de texto. A busca fica na
+URL (`/artigos?q=joelho`), o que faz o `SearchAction` do schema.org funcionar.
 
 ## Conteúdo migrado
 
@@ -166,12 +201,65 @@ página, o que sugere problema no servidor ou no banco, não no conteúdo. Se o 
 ficar no ar em paralelo por algum tempo, isso precisa ser olhado — hoje ele está perdendo
 leads.
 
+## Copy revisada com o marketing (30/09/2026)
+
+O marketing propôs uma copy nova em formato One Page. A estrutura multipágina foi mantida
+(uma página por assunto e por tratamento, pensada para o Dr. Tércio ser recomendado por
+IAs) e a copy deles foi aproveitada com palavra-chave nos títulos. Os dois documentos
+enviados ao marketing estão em `../Marketing/`:
+
+- `Parecer sobre a copy - Site Dr. Tércio Rocha.pdf` — parecer de 6 páginas, em primeira
+  pessoa e tom amigável, com o link e QR code da prévia
+- `Copy do site - Dr. Tércio Rocha.docx` — copy de todas as páginas estáticas, seção por
+  seção, com link de cada página na prévia. Trechos em amarelo dependem do cliente
+- `fontes/` — `parecer.html` e `gerar_copy.py` para editar e gerar os dois de novo
+  (instruções no `LEIA-ME.md` da pasta)
+
+O que ainda está no docx mas fora do site (aguarda validação): respostas médicas das FAQ
+por tratamento, "Como atua" de transtornos hematológicos e de saúde sexual masculina.
+
 ## O que ainda falta para ir ao ar
 
+**Infra**
 - [ ] Configurar `CRM_WEBHOOK_URL` apontando para o CRM
 - [x] WhatsApp de consultas: `(11) 93619-5825` (confirmado em 23/09/2026)
-- [ ] Entrega automática do PDF do e-book (hoje o lead entra no CRM; o envio do arquivo
+- [ ] Entrega automática do PDF do e-book (o lead entra no CRM; o envio do arquivo
       precisa do serviço de e-mail)
-- [ ] Revisão do texto médico (ponto 1 acima)
 - [ ] Deploy e apontamento de DNS
 - [ ] Submeter o sitemap ao Google Search Console
+
+**Do cliente**
+- [ ] Endereço e cidades de atendimento da Clínica Tércio Rocha (SEO local, FAQ "Onde
+      atende?", rodapé)
+- [ ] Número do RQE de endocrinologia (o CFM pede junto com o CRM quando o site diz
+      "endocrinologista")
+- [ ] Tempo de carreira: o site diz 34 anos, mas desde 1990 são 36
+- [ ] Se o valor da consulta pode ser publicado; se atende por convênio e pacientes de
+      outras cidades
+- [ ] Números do Regenera Brasil (edições, participantes). Um artigo do próprio Dr. Tércio
+      cita a 3ª edição em novembro de 2025
+- [ ] Respostas médicas pendentes (segurança, regulamentação, sessões, FAQ por
+      tratamento) e revisão do texto médico (ponto 1 acima)
+- [ ] Decidir uma 7ª página, "Medicina estética regenerativa" (full face, alopecia,
+      regeneração íntima não cabem nas 6 áreas)
+
+**Ofertas em aberto (aguardando o Igor)**
+- [ ] Entrada suave (só opacidade) para quem tem os efeitos de animação desligados
+- [ ] Entrada das seções também no Firefox, com alternativa em JavaScript
+- [ ] Formulário já vir com a condição certa em todas as páginas de área: hoje
+      autoimunes, cardiovasculares e hematológicos vêm sem seleção, e lesões ortopédicas
+      vem com "Problemas de coluna" (melhor seria "Problemas de joelho")
+- [ ] Trocar no docx a frase do hero que não foi para o site, ou o contrário
+
+## Como compilar a prévia neste computador
+
+A pasta `.next` dentro do OneDrive fica travada (EBUSY) durante o build. Compilar numa
+cópia fora do OneDrive, como faz o GitHub Actions:
+
+```bash
+GITHUB_PAGES=true PAGES_BASE_PATH=/drterciorocha npm run build   # no Git Bash: MSYS_NO_PATHCONV=1
+```
+
+O push na `main` publica a prévia em https://igorstutz.github.io/drterciorocha/ pelo
+workflow `.github/workflows/pages.yml`. O script `lint` está quebrado desde o Next 16
+(`next lint` foi removido); use `npx tsc --noEmit`.
