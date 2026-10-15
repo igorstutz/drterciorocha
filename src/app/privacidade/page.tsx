@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PRIVACIDADE_ATUALIZADA, SECOES_PRIVACIDADE } from "@/content/privacidade";
-import { Breadcrumbs, Button, Eyebrow } from "@/components/ui";
+import { Button, Eyebrow } from "@/components/ui";
+import { HeroPagina } from "@/components/HeroPagina";
 import { JsonLd, graph, breadcrumbSchema } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
@@ -15,74 +16,114 @@ const trail = [
   { name: "Política de privacidade", url: "/privacidade" },
 ];
 
+/** O título vem como "1. Quem é responsável…": o número vira um selo à parte. */
+function partes(titulo: string) {
+  const m = /^(\d+)\.\s*(.*)$/.exec(titulo);
+  return m ? { n: m[1].padStart(2, "0"), texto: m[2] } : { n: "", texto: titulo };
+}
+
 export default function Privacidade() {
   return (
     <>
-      <section className="bg-ink-900 pt-32 pb-16 md:pt-40 md:pb-20">
-        <div className="u-container">
-          <Breadcrumbs trail={trail} dark />
-          <div className="mt-6">
-            <Eyebrow tone="muted">LGPD</Eyebrow>
-          </div>
-          <h1 className="mt-4 max-w-3xl text-display text-bone-50">
+      <HeroPagina
+        trail={trail}
+        selo="LGPD"
+        titulo={
+          <>
             Política de <span className="u-accent text-gold-400">privacidade</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lead text-bone-100/70">
-            O que recebemos quando você fala com a clínica, por que usamos, com quem compartilhamos e
-            como você controla os seus dados.
-          </p>
-          <p className="mt-4 text-[0.85rem] text-bone-100/50">Última atualização: {PRIVACIDADE_ATUALIZADA}</p>
-        </div>
-      </section>
+          </>
+        }
+        chamada="O que recebemos quando você fala com a clínica, por que usamos, com quem compartilhamos e como você controla os seus dados."
+        rodape={
+          <span className="inline-flex items-center gap-2 rounded-full border border-bone-100/12 bg-bone-100/[0.04] px-3.5 py-1.5 text-[0.8rem] text-bone-100/65">
+            Última atualização: {PRIVACIDADE_ATUALIZADA}
+          </span>
+        }
+      />
 
       <section className="py-20 md:py-28">
         <div className="u-container">
-          <div className="mx-auto max-w-3xl">
-            <nav aria-label="Seções desta política" className="rounded-card border border-ink-900/10 bg-bone-50 p-6 md:p-8">
-              <p className="u-eyebrow text-gold-600">Nesta página</p>
-              <ol className="mt-4 grid gap-2 text-[0.92rem] text-text-body sm:grid-cols-2">
-                {SECOES_PRIVACIDADE.map((s) => (
-                  <li key={s.id}>
-                    <a href={`#${s.id}`} className="transition-colors hover:text-gold-700">
-                      {s.titulo}
-                    </a>
-                  </li>
-                ))}
-              </ol>
+          <div className="grid gap-12 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-16 xl:gap-20">
+            <nav aria-label="Seções desta política" className="lg:sticky lg:top-28 lg:self-start">
+              <div className="rounded-card border border-ink-900/10 bg-bone-50 p-6">
+                <p className="u-eyebrow text-gold-700">Nesta página</p>
+                <ol className="mt-4 space-y-0.5 text-[0.88rem]">
+                  {SECOES_PRIVACIDADE.map((s) => {
+                    const p = partes(s.titulo);
+                    return (
+                      <li key={s.id}>
+                        <a
+                          href={`#${s.id}`}
+                          className="flex gap-3 rounded-btn px-2.5 py-2 leading-snug text-text-body transition-colors hover:bg-bone-200/70 hover:text-gold-700"
+                        >
+                          <span className="font-accent italic text-gold-600">{p.n}</span>
+                          <span>{p.texto}</span>
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
             </nav>
 
-            <div className="prose-artigo mt-14">
-              {SECOES_PRIVACIDADE.map((s) => (
-                <section key={s.id} id={s.id} className="scroll-mt-28">
-                  <h2>{s.titulo}</h2>
-                  {s.paragrafos.map((p) => (
-                    <p key={p}>{p}</p>
-                  ))}
-                  {s.lista && (
-                    <ul className="list-disc space-y-2 pl-5 marker:text-gold-600">
-                      {s.lista.map((item) => (
-                        <li key={item}>{item}</li>
+            <div className="min-w-0 max-w-3xl">
+              {SECOES_PRIVACIDADE.map((s, i) => {
+                const p = partes(s.titulo);
+                return (
+                  <section
+                    key={s.id}
+                    id={s.id}
+                    className={`scroll-mt-28 ${i > 0 ? "mt-14 border-t border-ink-900/8 pt-14" : ""}`}
+                  >
+                    <div className="flex items-baseline gap-4">
+                      {p.n && <span className="font-accent text-[2rem] leading-none italic text-gold-600">{p.n}</span>}
+                      <h2 className="text-[1.45rem] leading-snug font-medium tracking-tight text-text-strong md:text-[1.65rem]">
+                        {p.texto}
+                      </h2>
+                    </div>
+                    <div className="mt-5 space-y-4 text-[1.02rem] leading-relaxed text-text-body">
+                      {s.paragrafos.map((t) => (
+                        <p key={t}>{t}</p>
                       ))}
-                    </ul>
-                  )}
-                  {s.fecho?.map((p) => (
-                    <p key={p}>{p}</p>
-                  ))}
-                </section>
-              ))}
-            </div>
+                      {s.lista && (
+                        <ul className="space-y-3">
+                          {s.lista.map((item) => (
+                            <li key={item} className="relative pl-6">
+                              <span aria-hidden="true" className="absolute left-0.5 top-[0.62em] h-1.5 w-1.5 rotate-45 bg-gold-500" />
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                      {s.fecho?.map((t) => (
+                        <p key={t}>{t}</p>
+                      ))}
+                    </div>
+                  </section>
+                );
+              })}
 
-            <div className="mt-16 rounded-card border border-ink-900/10 bg-bone-50 p-9 text-center md:p-12">
-              <Eyebrow>Dúvidas sobre os seus dados?</Eyebrow>
-              <h2 className="mt-4 text-title">Fale com a equipe</h2>
-              <p className="mx-auto mt-4 max-w-lg text-[1rem] leading-relaxed text-text-body">
-                Pedidos de acesso, correção ou exclusão são atendidos pelo WhatsApp ou pelo formulário de
-                contato. É só dizer que o assunto é privacidade.
-              </p>
-              <div className="mt-8 flex justify-center">
-                <Button href="/consulta" variant="primary">
-                  Formulário de contato
-                </Button>
+              <div className="u-grain relative isolate mt-16 overflow-hidden rounded-card bg-ink-900 p-8 text-center md:p-12">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgb(77_130_220/0.28),transparent_68%)]"
+                />
+                <div className="relative z-10">
+                  <Eyebrow tone="muted">Dúvidas sobre os seus dados?</Eyebrow>
+                  <h2 className="mt-4 text-title text-bone-50">Fale com a equipe</h2>
+                  <p className="mx-auto mt-4 max-w-lg text-[1rem] leading-relaxed text-bone-100/65">
+                    Pedidos de acesso, correção ou exclusão são atendidos pelo WhatsApp ou pelo formulário de
+                    contato. É só dizer que o assunto é privacidade.
+                  </p>
+                  <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                    <Button href="/consulta" variant="gold">
+                      Formulário de contato
+                    </Button>
+                    <Button whatsapp={{ local: "privacidade" }} variant="ghostDark">
+                      Falar no WhatsApp
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

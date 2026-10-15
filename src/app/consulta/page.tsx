@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { IconeArea } from "@/components/IconeArea";
 import type { Metadata } from "next";
 import { doctor, indications, consultaFaqIds, pickFaqs } from "@/content/site";
 import { Eyebrow, Breadcrumbs, Rule } from "@/components/ui";
@@ -135,15 +137,25 @@ export default function Consulta() {
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {indications.map((i) => (
-              <div
+              <Link
                 key={i.slug}
-                className="rounded-card border border-ink-900/10 bg-bone-50 p-7"
+                href={`/tratamentos/${i.slug}`}
+                className="group u-halo relative flex flex-col overflow-hidden rounded-card border border-ink-900/10 bg-bone-50 p-7 transition-[box-shadow,border-color,transform] duration-500 hover:-translate-y-1 hover:border-gold-500/45 hover:shadow-lift-hover"
               >
-                <h3 className="text-[1.15rem] leading-tight">{i.title}</h3>
-                <p className="mt-3 text-[0.92rem] leading-relaxed text-text-body">
-                  {i.description}
-                </p>
-              </div>
+                <div className="relative z-10 flex flex-1 flex-col">
+                  <span className="grid h-11 w-11 place-items-center rounded-btn bg-ink-900 text-gold-400 transition-colors duration-500 group-hover:bg-gold-600 group-hover:text-ink-900">
+                    <IconeArea slug={i.slug} className="h-[1.35rem] w-[1.35rem] stroke-current" />
+                  </span>
+                  <h3 className="mt-5 text-[1.15rem] leading-tight transition-colors group-hover:text-gold-700">{i.title}</h3>
+                  <p className="mt-3 text-[0.92rem] leading-relaxed text-text-body">{i.description}</p>
+                  <span className="mt-auto inline-flex items-center gap-2 pt-5 text-[0.82rem] font-semibold text-gold-700">
+                    Ver tratamento
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 stroke-current transition-transform duration-500 group-hover:translate-x-1.5" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="M5 12h14m-6-6 6 6-6 6" />
+                    </svg>
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

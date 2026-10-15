@@ -295,15 +295,22 @@ export default async function Tratamento({
           <div className="u-container">
             <Eyebrow>Do consultório</Eyebrow>
             <h2 className="mt-4 text-title">Casos e artigos relacionados</h2>
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {/* Um artigo só vira um cartão horizontal largo; dois ou três, uma grade. */}
+            <div
+              className={`mt-10 grid gap-6 ${
+                relacionados.length === 2 ? "md:grid-cols-2" : relacionados.length >= 3 ? "md:grid-cols-3" : ""
+              }`}
+            >
               {relacionados.map((a) => (
                 <Link
                   key={a.slug}
                   href={`/artigos/${a.slug}`}
-                  className="group flex flex-col overflow-hidden rounded-card border border-ink-900/10 bg-bone-50 transition-[box-shadow,border-color,transform] duration-500 hover:-translate-y-1 hover:border-gold-500/45 hover:shadow-lift-hover"
+                  className={`group flex flex-col overflow-hidden rounded-card border border-ink-900/10 bg-bone-50 shadow-lift transition-[box-shadow,border-color,transform] duration-500 hover:-translate-y-1 hover:border-gold-500/45 hover:shadow-lift-hover ${
+                    relacionados.length === 1 ? "md:flex-row" : ""
+                  }`}
                 >
                   {a.capaLocal && (
-                    <div className="relative aspect-16/10 overflow-hidden">
+                    <div className={`relative aspect-16/10 overflow-hidden ${relacionados.length === 1 ? "md:aspect-auto md:w-[46%] md:shrink-0" : ""}`}>
                       <Image
                         src={a.capaLocal}
                         alt=""
@@ -313,13 +320,24 @@ export default async function Tratamento({
                       />
                     </div>
                   )}
-                  <div className="p-6">
-                    <h3 className="text-[1.12rem] leading-tight transition-colors group-hover:text-gold-700">
+                  <div className={`flex flex-1 flex-col p-6 ${relacionados.length === 1 ? "md:justify-center md:p-10" : ""}`}>
+                    <p className="text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-gold-700">
+                      Artigo · {a.leitura} min de leitura
+                    </p>
+                    <h3
+                      className={`mt-3 leading-tight transition-colors group-hover:text-gold-700 ${
+                        relacionados.length === 1 ? "text-[1.5rem] md:text-[1.75rem]" : "text-[1.12rem]"
+                      }`}
+                    >
                       {a.titulo}
                     </h3>
-                    <p className="mt-2.5 line-clamp-2 text-[0.9rem] leading-relaxed text-text-body">
-                      {a.descricao}
-                    </p>
+                    <p className="mt-2.5 line-clamp-3 text-[0.92rem] leading-relaxed text-text-body">{a.descricao}</p>
+                    <span className="mt-auto inline-flex items-center gap-2 pt-5 text-[0.85rem] font-semibold text-gold-700">
+                      Ler artigo
+                      <svg viewBox="0 0 24 24" className="h-4 w-4 stroke-current transition-transform duration-500 group-hover:translate-x-1.5" fill="none" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M5 12h14m-6-6 6 6-6 6" />
+                      </svg>
+                    </span>
                   </div>
                 </Link>
               ))}
