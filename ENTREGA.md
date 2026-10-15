@@ -153,6 +153,10 @@ Três caminhos, conforme definido:
    processo explicados e o formulário completo.
 3. **Captura por e-book.** `/ebook-longevidade` recuperada e refeita, com formulário de
    três campos.
+4. **Ficha para a guia de exames.** `/guia` recria o `/gerar-guia` do site antigo (dados do
+   paciente, queixas, endereço, em três passos). A equipe manda o link pelo WhatsApp depois do
+   aceite das condições; a ficha vai para a origem `guia` do painel e cai nos campos do negócio do
+   paciente. Fora do sitemap, sem indexação.
 
 **Regra do cliente: o WhatsApp só abre depois do formulário.** Nenhum botão do site
 aponta para o `wa.me`. Os botões de WhatsApp (flutuante, menu, rodapé, tratamentos, FAQ,
@@ -223,8 +227,10 @@ por tratamento, "Como atua" de transtornos hematológicos e de saúde sexual mas
 **Infra**
 - [ ] Configurar `CRM_WEBHOOK_URL` apontando para o CRM
 - [x] WhatsApp de consultas: `(11) 93619-5825` (confirmado em 23/09/2026)
-- [ ] Entrega automática do PDF do e-book (o lead entra no CRM; o envio do arquivo
-      precisa do serviço de e-mail)
+- [ ] Entrega do PDF do e-book: o site não tem serviço de e-mail, e a tela de sucesso ainda diz
+      "enviamos para o seu e-mail". O painel tem o fluxo "E-book · entrega" pronto para mandar o
+      arquivo pelo WhatsApp — falta publicar o PDF em `public/ebook-longevidade.pdf`, criar o template
+      na Meta e trocar o texto da tela de sucesso (ou oferecer o download ali mesmo)
 - [ ] Deploy e apontamento de DNS
 - [ ] Submeter o sitemap ao Google Search Console
 

@@ -1,4 +1,14 @@
 import { NextResponse } from "next/server";
+import {
+  EMAIL_VALIDO,
+  criarLimitador,
+  entregarAoCrm,
+  ipDaRequisicao,
+  soDigitos,
+  telefoneComPais,
+  texto,
+  urlDoCrm,
+} from "@/lib/crm";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,31 +26,10 @@ type Lead = {
   atribuicao?: Record<string, string>;
 };
 
-/** Limite simples por IP em memória. Segura bot burro; não substitui WAF. */
-const janela = new Map<string, number[]>();
-const LIMITE = 5;
-const JANELA_MS = 10 * 60 * 1000;
-
-function excedeuLimite(ip: string) {
-  const agora = Date.now();
-  const marcas = (janela.get(ip) ?? []).filter((t) => agora - t < JANELA_MS);
-  marcas.push(agora);
-  janela.set(ip, marcas);
-  if (janela.size > 5000) janela.clear();
-  return marcas.length > LIMITE;
-}
-
-function soDigitos(v: string) {
-  return v.replace(/\D+/g, "");
-}
+const excedeuLimite = criarLimitador();
 
 export async function POST(req: Request) {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
-    req.headers.get("x-real-ip") ??
-    "desconhecido";
-
-  if (excedeuLimite(ip)) {
+  if (excedeuLimite(ipDaRequisicao(req))) {
     return NextResponse.json(
       { erro: "Muitas tentativas. Tente novamente em alguns minutos." },
       { status: 429 },
@@ -54,15 +43,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ erro: "Requisição inválida." }, { status: 400 });
   }
 
-  const nome = (corpo.nome ?? "").trim();
-  const email = (corpo.email ?? "").trim().toLowerCase();
-  const telefone = soDigitos(corpo.whatsapp ?? "");
-  const interesse = (corpo.interesse ?? "").trim();
+  const nome = texto(corpo.nome, 120);
+  const email = texto(corpo.email, 160).toLowerCase();
+  const telefone = soDigitos(texto(corpo.whatsapp, 30));
+  const interesse = texto(corpo.interesse, 80);
 
   if (nome.length < 2) {
     return NextResponse.json({ erro: "Informe seu nome." }, { status: 400 });
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+  if (!EMAIL_VALIDO.test(email)) {
     return NextResponse.json({ erro: "E-mail inválido." }, { status: 400 });
   }
   if (telefone.length < 10 || telefone.length > 13) {
@@ -78,11 +67,11 @@ export async function POST(req: Request) {
   const lead = {
     nome,
     email,
-    telefone: telefone.startsWith("55") ? telefone : `55${telefone}`,
+    telefone: telefoneComPais(telefone),
     produto_interesse: interesse,
-    mensagem: (corpo.mensagem ?? "").trim().slice(0, 2000),
-    origem: corpo.origem ?? "site",
-    pagina: corpo.pagina ?? "/",
+    mensagem: texto(corpo.mensagem, 2000),
+    origem: texto(corpo.origem, 80) || "site",
+    pagina: texto(corpo.pagina, 200) || "/",
     canal: "site",
     /* Veio por um botão de WhatsApp: a conversa abre logo depois do envio. */
     continuar_whatsapp: Boolean(corpo.continuar_whatsapp),
@@ -92,7 +81,7 @@ export async function POST(req: Request) {
 
   /* Entrega ao CRM. Enquanto CRM_WEBHOOK_URL não estiver configurada, o lead
      é registrado no log do servidor — nenhum contato se perde silenciosamente. */
-  const webhook = process.env.CRM_WEBHOOK_URL;
+  const webhook = urlDoCrm("site");
 
   if (!webhook) {
     console.warn("[lead] CRM_WEBHOOK_URL ausente — lead registrado só no log:", lead);
@@ -100,20 +89,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const res = await fetch(webhook, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(process.env.CRM_WEBHOOK_TOKEN
-          ? { Authorization: `Bearer ${process.env.CRM_WEBHOOK_TOKEN}` }
-          : {}),
-      },
-      body: JSON.stringify(lead),
-      signal: AbortSignal.timeout(8000),
-    });
-
-    if (!res.ok) throw new Error(`CRM respondeu ${res.status}`);
-
+    await entregarAoCrm(webhook, lead);
     return NextResponse.json({ ok: true, entregue: true });
   } catch (err) {
     /* O lead não pode ser perdido por indisponibilidade do CRM: registra e
