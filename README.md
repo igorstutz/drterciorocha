@@ -47,9 +47,14 @@ O formulário posta em `POST /api/lead`, que valida e repassa para o webhook do 
 Configure em `.env.local` (ver `.env.example`):
 
 ```
-CRM_WEBHOOK_URL=https://seu-crm/webhook/lead
-CRM_WEBHOOK_TOKEN=opcional
+CRM_WEBHOOK_URL=https://<painel-de-atendimento>/api/webhooks/in/site
+CRM_WEBHOOK_TOKEN=<token da origem "site" do painel>
 ```
+
+O CRM é o painel de atendimento da clínica (`../ATENDIMENTO CRM IA`): a origem `site` é criada lá por
+`npm run clinica:configurar`, que imprime a URL e o token (`-- --mostrar-token` para ver de novo). O token
+vai no header `Authorization: Bearer`. Para testar nesta máquina, o `.env.local` aponta para
+`http://localhost:3030/api/webhooks/in/site`.
 
 Sem `CRM_WEBHOOK_URL` o lead é gravado no log do servidor e a API responde
 `{ ok: true, entregue: false }` — o paciente vê sucesso e nenhum contato se perde.
@@ -60,6 +65,13 @@ existente.
 Cada lead carrega a atribuição de campanha (`utm_*`, `gclid`, `fbclid`), capturada na
 primeira visita e guardada por 30 dias no navegador.
 
+**Ficha para a guia de exames.** `/guia` (o `/gerar-guia` do site antigo) é a ficha em três passos
+— dados do paciente, queixas, endereço — que a equipe manda pelo WhatsApp a quem aceitou as
+condições da consulta; `?tel=5511999998888` preenche o WhatsApp. Ela posta em `POST /api/guia`, que
+entrega à origem `guia` do painel: o mesmo `CRM_WEBHOOK_URL` com `/site` trocado por `/guia` e o mesmo
+token (`urlDoCrm` em `src/lib/crm.ts`) — nada a configurar a mais. Lá, a ficha inteira vira campos do
+negócio do paciente no CRM. Página de uso interno: fora do sitemap e sem indexação.
+
 ## Alterar conteúdo
 
 Quase tudo vive em `src/content/site.ts`: telefone de WhatsApp, redes sociais,
@@ -69,15 +81,26 @@ refazer o build atualiza o site inteiro, o `sitemap.xml`, o JSON-LD e o `llms.tx
 Artigos ficam em `src/content/artigos/artigos.json` (campos: `slug`, `titulo`,
 `descricao`, `categoria`, `publicado`, `capaLocal`, `corpo` em markdown).
 
+A política de privacidade (`/privacidade`, LGPD) vive em `src/content/privacidade.ts`: seções com
+título, parágrafos e lista, e a data de atualização. Escrita a partir do que o site e o painel de
+atendimento fazem de verdade (formulários, ficha da guia, WhatsApp pela Meta, atendimento automático e
+IA de apoio à equipe, atribuição de campanha no navegador por 30 dias). Os três formulários e o rodapé
+apontam para ela. Revisão jurídica recomendada antes de divulgar.
+
 ## Deploy
 
-Feito para a Vercel — `next build` e pronto, sem configuração extra. Os redirects
-301 do site antigo estão em `next.config.ts` e sobem junto.
+Na **VPS da clínica** (`root@187.77.253.83`), a mesma do painel de atendimento, em Docker atrás do Caddy
+de lá — decisão de 14/out/2026 (não vai mais para a Vercel). Roteiro completo, da primeira publicação à virada
+do domínio, em `deploy/README.md`; no dia a dia é um comando:
 
-Antes de apontar o domínio:
+```bash
+VPS=root@187.77.253.83 ./deploy/publicar.sh
+```
 
-1. Configurar `CRM_WEBHOOK_URL` nas variáveis de ambiente.
-2. Conferir que `site.url` em `src/content/site.ts` é o domínio final.
+Os redirects 301 do site antigo estão em `next.config.ts` e sobem junto. Antes de apontar o domínio:
+
+1. Conferir que `site.url` em `src/content/site.ts` é o domínio final.
+2. Virar o DNS como diz `deploy/README.md` e reiniciar o Caddy.
 3. Submeter `https://drterciorocha.com/sitemap.xml` ao Google Search Console.
 
 ## Resultados medidos

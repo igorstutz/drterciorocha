@@ -1,0 +1,29 @@
+# Site da clínica na mesma VPS do painel de atendimento (187.77.253.83).
+#
+# O Caddy (80/443, HTTPS automático) é o do painel, em /opt/atendimento-tercio/deploy: este compose
+# só sobe o container `site` na rede `clinica` do painel, e o bloco deploy/site.caddy — copiado para
+# /opt/caddy-sites/ pelo publicar.sh — diz ao Caddy para servir drterciorocha.com nele.
+#
+# Uso (em /opt/drterciorocha, com o .env preenchido — ver deploy/README.md):
+#   docker compose -f deploy/docker-compose.vps.yml --env-file .env up -d --build
+name: drterciorocha
+
+services:
+  site:
+    build:
+      context: ..
+    restart: unless-stopped
+    environment:
+      TZ: America/Sao_Paulo
+      # O Next escuta no HOSTNAME, que o Docker preenche com o id do container; 0.0.0.0 = todas as redes.
+      HOSTNAME: 0.0.0.0
+      # O painel está na mesma rede do Docker: os leads vão por dentro da VPS, sem depender do DNS
+      # do painel nem de certificado. Só mude se o painel sair desta VPS.
+      CRM_WEBHOOK_URL: ${CRM_WEBHOOK_URL:-http://app:3000/api/webhooks/in/site}
+      CRM_WEBHOOK_TOKEN: ${CRM_WEBHOOK_TOKEN:?Falta CRM_WEBHOOK_TOKEN no .env (é o SITE_WEBHOOK_TOKEN do painel)}
+
+# Rede criada pelo compose do painel (name: clinica). O painel precisa estar de pé antes do site.
+networks:
+  default:
+    name: clinica
+    external: true

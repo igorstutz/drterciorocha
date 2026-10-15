@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+.git
+.github
+.env
+.env*.local
+assets-originais
+conteudo-original
+.firecrawl
+*.tsbuildinfo
+deploy
+README.md
+ENTREGA.md

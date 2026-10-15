@@ -28,8 +28,9 @@ const redirectsPaginas = [
   { source: "/links", destination: "/", permanent: true },
   { source: "/linknabio", destination: "/", permanent: true },
   { source: "/pagina-exemplo", destination: "/", permanent: true },
-  { source: "/gerar-guia", destination: "/consulta", permanent: true },
-  { source: "/confirma-guia", destination: "/consulta", permanent: true },
+  /* A ficha para a guia de exames voltou, em /guia. */
+  { source: "/gerar-guia", destination: "/guia", permanent: true },
+  { source: "/confirma-guia", destination: "/guia", permanent: true },
   { source: "/confirmacao-dr-tercio", destination: "/consulta", permanent: true },
   /* Arquivos de data do WordPress (/2025/12/19/) não têm equivalente. */
   { source: "/:ano(\\d{4})/:mes(\\d{2})/:dia(\\d{2})", destination: "/artigos", permanent: true },
@@ -40,6 +41,9 @@ const redirectsPaginas = [
 ];
 
 const nextConfig: NextConfig = {
+  /* Produção na VPS da clínica, em Docker (ver deploy/): a pasta .next/standalone tem só o que o
+     `node server.js` precisa. Não muda nada no `next dev` nem na prévia do GitHub Pages. */
+  output: "standalone",
   images: {
     formats: ["image/avif", "image/webp"],
     remotePatterns: [

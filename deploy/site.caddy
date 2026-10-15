@@ -1,0 +1,9 @@
+# Bloco do site no Caddy do painel (importado de /etc/caddy/sites/*.caddy). HTTPS automático pelo
+# Let's Encrypt — os registros A/AAAA de drterciorocha.com e www precisam apontar para a VPS.
+drterciorocha.com {
+	reverse_proxy site:3000
+}
+
+www.drterciorocha.com {
+	redir https://drterciorocha.com{uri} permanent
+}
