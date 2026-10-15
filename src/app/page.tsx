@@ -23,6 +23,7 @@ import { Carrossel } from "@/components/Carrossel";
 import { LeadForm } from "@/components/LeadForm";
 import { Faq } from "@/components/Faq";
 import { PassosConsulta } from "@/components/PassosConsulta";
+import { Divisoria } from "@/components/Divisoria";
 import { RegeneraBrasil } from "@/components/RegeneraBrasil";
 import { IconeWhatsApp } from "@/components/IconeWhatsApp";
 import { JsonLd, graph, faqSchema } from "@/lib/jsonld";
@@ -196,6 +197,9 @@ export default function Home() {
 
       {/* ================= COMO FUNCIONA ================= */}
       <PassosConsulta />
+
+      {/* Divisória: as duas seções têm fundo claro e se emendavam sem respiro. */}
+      <Divisoria className="-mt-4 md:-mt-8" />
 
       {/* ================= INDICAÇÕES ================= */}
       <section id="tratamentos" className="u-dots relative overflow-hidden py-20 md:py-24">

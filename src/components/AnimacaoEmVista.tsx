@@ -19,8 +19,7 @@ export function AnimacaoEmVista() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
+    /* Roda mesmo com "efeitos de animação" desligados no sistema (pedido do usuário, 15/out/2026). */
     const alvos = document.querySelectorAll<HTMLElement>("[data-anima]");
     if (!alvos.length) return;
 
