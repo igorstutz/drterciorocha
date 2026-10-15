@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${site.url}/artigos`, lastModified: agora, changeFrequency: "weekly", priority: 0.75 },
     { url: `${site.url}/livros`, lastModified: agora, changeFrequency: "yearly", priority: 0.7 },
     { url: `${site.url}/perguntas-frequentes`, lastModified: agora, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${site.url}/privacidade`, lastModified: agora, changeFrequency: "yearly", priority: 0.3 },
   ];
 
   const tratamentos: MetadataRoute.Sitemap = indications.map((i) => ({

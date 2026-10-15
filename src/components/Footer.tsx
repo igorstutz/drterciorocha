@@ -127,7 +127,12 @@ export function Footer() {
               Responsável técnico: {doctor.name}, médico endocrinologista —{" "}
               {doctor.crm.join(" | ")}
             </p>
-            <p>© {ano} {doctor.name}. Todos os direitos reservados.</p>
+            <p className="flex flex-wrap gap-x-4 gap-y-1">
+              <span>© {ano} {doctor.name}. Todos os direitos reservados.</span>
+              <Link href="/privacidade" className="transition-colors hover:text-bone-50">
+                Política de privacidade
+              </Link>
+            </p>
           </div>
         </div>
       </div>

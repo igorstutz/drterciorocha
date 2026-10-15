@@ -285,6 +285,14 @@ export function LeadForm({
           tratamento deles conforme a LGPD. Posso solicitar a exclusão a qualquer momento.
         </span>
       </label>
+      {/* Fora do label: um link dentro dele também marcaria a caixa. */}
+      <p className="-mt-2 text-[0.78rem] leading-relaxed text-text-muted">
+        Como tratamos os seus dados está na{" "}
+        <a href="/privacidade" target="_blank" rel="noopener" className="underline underline-offset-2 hover:text-gold-700">
+          Política de privacidade
+        </a>
+        .
+      </p>
 
       {estado === "erro" && (
         <p role="alert" className="text-[0.88rem] text-[#b3261e]">

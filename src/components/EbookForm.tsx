@@ -119,7 +119,11 @@ export function EbookForm() {
 
       <p className="mt-4 text-[0.76rem] leading-relaxed text-text-muted">
         Ao enviar, você autoriza o contato da equipe do Dr. Tércio Rocha conforme a
-        LGPD. Seus dados não são compartilhados com terceiros.
+        LGPD e a nossa{" "}
+        <a href="/privacidade" target="_blank" rel="noopener" className="underline underline-offset-2 hover:text-gold-700">
+          Política de privacidade
+        </a>
+        .
       </p>
     </form>
   );
