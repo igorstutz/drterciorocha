@@ -77,6 +77,10 @@ Conferir: `https://drterciorocha.com` abre com cadeado; `curl -I https://www.drt
 `https://drterciorocha.com/sitemap.xml` e `/llms.txt` respondem; um formulário em `/consulta` chega ao painel.
 Por fim, submeter o `sitemap.xml` no Google Search Console.
 
+Depois da virada, no app da Meta **Painel Clínica Tércio Rocha** (developers.facebook.com/apps → Configurações do app → Básico),
+trocar a **URL da Política de Privacidade** de `https://igorstutz.github.io/drterciorocha/privacidade/` (a prévia, usada para
+publicar o app em 16/out/2026) para `https://drterciorocha.com/privacidade` e salvar. A troca por API está desligada no app.
+
 Prévia antes da virada: crie um registro A `novo.drterciorocha.com` → `187.77.253.83`, acrescente a
 `deploy/site.caddy` um bloco `novo.drterciorocha.com { reverse_proxy site:3000 }`, publique e tire o bloco
 depois. (Os canonicals continuam apontando para `drterciorocha.com` — é só para olhar.)
