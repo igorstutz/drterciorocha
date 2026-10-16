@@ -50,10 +50,11 @@ export const doctor = {
   ],
 } as const;
 
-/** Único contato do site, confirmado pelo Dr. Tércio em 23/09/2026. */
+/** Único contato do site: o número oficial do WhatsApp da clínica na API da Meta (16/10/2026), que cai no painel.
+    Antes era o (11) 93619-5825, atendido no celular. */
 export const contact = {
-  whatsapp: "5511936195825",
-  whatsappLabel: "(11) 93619-5825",
+  whatsapp: "17113570489",
+  whatsappLabel: "+1 (711) 357-0489",
   whatsappMessage:
     "Olá! Vim pelo site e gostaria de informações sobre tratamento com células-tronco.",
 } as const;
