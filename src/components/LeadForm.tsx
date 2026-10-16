@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { treatmentOptions, whatsappUrl } from "@/content/site";
 import { ENVIO_SIMULADO, mensagemPosFormulario } from "@/lib/whatsapp-gate";
+import { proximoValorTelefone } from "@/lib/telefone";
 
 type Estado = "idle" | "enviando" | "ok" | "erro";
 
@@ -30,6 +31,7 @@ export function LeadForm({
 }) {
   const [estado, setEstado] = useState<Estado>("idle");
   const [erro, setErro] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [enviado, setEnviado] = useState({ nome: "", interesse: "" });
   /* /consulta?canal=whatsapp é o destino dos botões de WhatsApp sem JavaScript. */
   const [viaUrl, setViaUrl] = useState(false);
@@ -201,6 +203,8 @@ export function LeadForm({
             inputMode="tel"
             autoComplete="tel"
             placeholder="(00) 00000-0000"
+            value={telefone}
+            onChange={(e) => setTelefone((anterior) => proximoValorTelefone(anterior, e.target.value))}
             className={campo}
           />
         </div>

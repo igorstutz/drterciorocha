@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { whatsappUrl } from "@/content/site";
 import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
+import { proximoValorTelefone } from "@/lib/telefone";
 
 /** Isca de e-mail. Três campos: qualquer atrito a mais derruba a conversão. */
 export function EbookForm() {
   const [estado, setEstado] = useState<"idle" | "enviando" | "ok" | "erro">("idle");
+  const [whatsapp, setWhatsapp] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -94,7 +96,7 @@ export function EbookForm() {
           <label htmlFor="eb-whats" className="mb-2 block text-[0.82rem] font-medium text-text-strong">
             WhatsApp
           </label>
-          <input id="eb-whats" name="whatsapp" type="tel" inputMode="tel" required autoComplete="tel" placeholder="(00) 00000-0000" className={campo} />
+          <input id="eb-whats" name="whatsapp" type="tel" inputMode="tel" required autoComplete="tel" placeholder="(00) 00000-0000" value={whatsapp} onChange={(e) => setWhatsapp((anterior) => proximoValorTelefone(anterior, e.target.value))} className={campo} />
         </div>
       </div>
 

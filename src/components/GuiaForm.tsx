@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { whatsappUrl } from "@/content/site";
 import { ATENDIMENTOS, ESTADOS_CIVIS, LOCAIS, MENSAGEM_POS_GUIA, UFS } from "@/content/guia";
 import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
+import { mascararTelefone, proximoValorTelefone } from "@/lib/telefone";
 
 /**
  * Ficha em três passos para a guia de solicitação de exames — o /gerar-guia do site antigo.
@@ -27,14 +28,6 @@ const seta = {
     "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7683' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
 };
 const select = `${campo} appearance-none bg-[length:1.1rem] bg-[right_1rem_center] bg-no-repeat pr-11`;
-
-function formatarTelefone(valor: string) {
-  let d = valor.replace(/\D/g, "");
-  if ((d.length === 12 || d.length === 13) && d.startsWith("55")) d = d.slice(2);
-  if (d.length === 11) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
-  if (d.length === 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
-  return d;
-}
 
 function Campo({
   id,
@@ -83,7 +76,7 @@ export function GuiaForm() {
 
   useEffect(() => {
     const tel = new URLSearchParams(window.location.search).get("tel");
-    if (tel) setTelefone(formatarTelefone(tel));
+    if (tel) setTelefone(mascararTelefone(tel));
   }, []);
 
   function passoValido() {
@@ -247,7 +240,7 @@ export function GuiaForm() {
               autoComplete="tel"
               placeholder="(00) 00000-0000"
               value={telefone}
-              onChange={(e) => setTelefone(e.target.value)}
+              onChange={(e) => setTelefone((anterior) => proximoValorTelefone(anterior, e.target.value))}
               className={campo}
             />
           </Campo>
