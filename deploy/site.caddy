@@ -7,3 +7,9 @@ drterciorocha.com {
 www.drterciorocha.com {
 	redir https://drterciorocha.com{uri} permanent
 }
+
+# Prévia antes da virada (16/out/2026): o site novo em novo.drterciorocha.com, para testar o formulário
+# de verdade. Os canonicals continuam apontando para drterciorocha.com. Tirar depois da virada.
+novo.drterciorocha.com {
+	reverse_proxy site:3000
+}
