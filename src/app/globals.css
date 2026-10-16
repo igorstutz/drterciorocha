@@ -87,12 +87,22 @@
 }
 
 @layer base {
+  /* Nada passa da lateral no celular. Os brilhos e círculos decorativos das seções saem da
+     borda de propósito e cada seção os corta com overflow-hidden — o Chromium respeita, mas o
+     Safari do iPhone ainda deixava arrastar a página alguns pixels para o lado (16/10/2026).
+     `clip` não cria área de rolagem, então os blocos com `sticky` continuam funcionando;
+     iPhone com iOS anterior ao 16 não conhece `clip` e fica com `hidden` no html. */
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    overflow-x: clip;
+  }
+  @supports not (overflow-x: clip) {
+    html { overflow-x: hidden; }
   }
 
   body {
+    overflow-x: clip;
     background-color: var(--color-bone-100);
     color: var(--color-text-body);
     font-family: var(--font-sans);
