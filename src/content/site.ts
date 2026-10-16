@@ -43,7 +43,7 @@ export const doctor = {
   bio: [
     "Médico endocrinologista com mais de 34 anos de experiência clínica e de pesquisa, o Dr. Tércio Rocha atua com medicina regenerativa e protocolos de longevidade desde 1990. Hoje atende na Clínica Tércio Rocha, com registro ativo em São Paulo, Rio de Janeiro e Santa Catarina.",
     "Sua história pessoal com uma doença agressiva moldou não apenas a resiliência, mas a forma como enxerga cada paciente: como um organismo com capacidade de regeneração, que precisa das ferramentas certas para se reconstruir.",
-    "Membro da Academia Brasileira Antienvelhecimento, da Academia Internacional de Medicina Antienvelhecimento e da Sociedade Francesa de Medicina Estética e Mesoterapia, e fundador da Sociedade Brasileira de Medicina Estética, mantém atuação constante na pesquisa e no ensino médico. É autor de três livros e criador do Regenera Brasil. Combina décadas de prática clínica com um compromisso permanente com a ciência de vanguarda.",
+    "Membro da Academia Brasileira Antienvelhecimento, da Academia Internacional de Medicina Antienvelhecimento e da Sociedade Francesa de Medicina Estética e Mesoterapia, e fundador da Sociedade Brasileira de Medicina Estética, mantém atuação constante na pesquisa e no ensino médico. É autor de quatro livros e criador do Regenera Brasil. Combina décadas de prática clínica com um compromisso permanente com a ciência de vanguarda.",
   ],
 } as const;
 
@@ -126,7 +126,7 @@ export const faqById = {
   },
   quem: {
     q: "Quem é o Dr. Tércio Rocha?",
-    a: "O Dr. Tércio Rocha é médico endocrinologista, com mais de 34 anos de prática clínica e protocolos de longevidade desde 1990. É fundador da Sociedade Brasileira de Medicina Estética, autor de três livros e criador do congresso Regenera Brasil. Tem registro nos CRM SP 148068, CRM RJ 525847 e CRM SC 30974.",
+    a: "O Dr. Tércio Rocha é médico endocrinologista, com mais de 34 anos de prática clínica e protocolos de longevidade desde 1990. É fundador da Sociedade Brasileira de Medicina Estética, autor de quatro livros e criador do congresso Regenera Brasil. Tem registro nos CRM SP 148068, CRM RJ 525847 e CRM SC 30974.",
   },
   onde: {
     q: "Onde o Dr. Tércio Rocha atende?",
@@ -334,6 +334,20 @@ export const treatmentOptions = [
 
 export const books = [
   {
+    slug: "150-mais",
+    title: "150+: A nova expectativa de vida",
+    cover: "/img/livro-150.jpg",
+    tagline: "O quanto você quer viver?",
+    summary:
+      "O novo livro do Dr. Tércio Rocha sobre longevidade, com lançamento em 30 de outubro de 2026 pela Literare Books International. Já em pré-venda na Amazon.",
+    description:
+      "Depois de Partículas Divinas, Vida na Veia! e Longevi Science, o Dr. Tércio Rocha volta à pergunta que move o seu trabalho: quanto tempo, e com que qualidade, uma pessoa pode viver. 152 páginas, Literare Books International.",
+    buyUrl: "https://www.amazon.com.br/150-nova-expectativa-quanto-viver/dp/8594557620",
+    /** Pré-venda: o botão diz "Reservar" e a data aparece no cartão. */
+    lancamento: "30 de outubro de 2026",
+    featured: true,
+  },
+  {
     slug: "longevi-science",
     title: "Longevi Science: a Bíblia da Longevidade",
     cover: "/img/livro-longevi-science.webp",
@@ -343,9 +357,8 @@ export const books = [
       "Um compêndio sobre os mecanismos do envelhecimento e as estratégias de longevidade com maior embasamento científico disponível.",
     description:
       "O médico endocrinologista Tércio Rocha apresenta o resultado de décadas de estudos, descobertas e experiências com células-tronco e medicina regenerativa, um campo que une ciência, amor e espiritualidade em busca da plenitude humana. O livro revela o passo a passo da longevidade e reúne o melhor do conhecimento científico mundial sobre regeneração celular, qualidade de vida e envelhecimento saudável.",
-    buyUrl:
-      "https://loja.literarebooks.com.br/nao-ficcao/longevi-science-a-biblia-da-longevidade",
-    featured: true,
+    buyUrl: "https://www.amazon.com.br/Longevi-Science-longevidade-T%C3%A9rcio-Rocha-ebook/dp/B0G1V64Q1W",
+    featured: false,
   },
   {
     slug: "particulas-divinas",
@@ -358,7 +371,7 @@ export const books = [
       "A trajetória pessoal e médica do Dr. Tércio Rocha: a história de quem enfrentou a própria doença e encontrou na medicina regenerativa um novo caminho.",
     description:
       "Desde cedo, como testemunha dos meus avós e bisavós, percebi que a dificuldade era o melhor presente que Deus poderia mandar a um indivíduo. Aprende quem tem a coragem de recusar o papel de vítima das circunstâncias e assume a posição de um guerreiro, construtor de si mesmo.",
-    buyUrl: "https://loja.literarebooks.com.br/autoajuda/particulas-divinas",
+    buyUrl: "https://www.amazon.com.br/Part%C3%ADculas-Divinas-trajet%C3%B3ria-entrela%C3%A7adas-C%C3%A9lulas-Tronco/dp/6559226875",
     featured: false,
   },
   {
@@ -371,7 +384,7 @@ export const books = [
       "Uma visão prática e direta sobre como o cuidado com o organismo pode transformar a qualidade de vida em qualquer fase.",
     description:
       "Muitos que procuram a medicina regenerativa enxergam nas células-tronco uma última esperança, uma luz no fim do túnel. Contudo, logo no início do tratamento, descobrem que essa luz não marca um final, mas sim o início de um novo capítulo, iluminando um caminho de renovação, com vitalidade e desejo de viver.",
-    buyUrl: "https://loja.literarebooks.com.br/nao-ficcao/vida-na-veia",
+    buyUrl: "https://www.amazon.com.br/Vida-veia-patrim%C3%B4nio-desfrutar-Regenerar-se-ebook/dp/B0DQF9XF68",
     featured: false,
   },
 ] as const;

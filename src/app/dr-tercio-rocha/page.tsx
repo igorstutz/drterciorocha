@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   /* absolute: com o template o nome do médico sairia duas vezes. */
   title: { absolute: "Dr. Tércio Rocha, endocrinologista | Medicina Regenerativa" },
   description:
-    "Conheça o Dr. Tércio Rocha: endocrinologista dedicado à medicina regenerativa desde 1990, autor de três livros e criador do congresso Regenera Brasil.",
+    "Conheça o Dr. Tércio Rocha: endocrinologista dedicado à medicina regenerativa desde 1990, autor de quatro livros e criador do congresso Regenera Brasil.",
   alternates: { canonical: "/dr-tercio-rocha" },
 };
 
@@ -264,7 +264,7 @@ export default function SobreMedico() {
             </Button>
           </div>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
+          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {books.map((b) => (
               <article key={b.slug} className="group flex flex-col">
                 <div className="relative grid place-items-center rounded-card bg-[linear-gradient(160deg,var(--color-ink-800),var(--color-azul-900))] px-10 py-10">
@@ -285,7 +285,7 @@ export default function SobreMedico() {
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center gap-2 text-[0.88rem] font-semibold text-ink-900 transition-colors hover:text-azul-600"
                 >
-                  Ver na livraria
+                  {"lancamento" in b ? "Reservar na Amazon" : "Ver na Amazon"}
                   <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 stroke-current" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M7 17 17 7M9 7h8v8" />
                   </svg>

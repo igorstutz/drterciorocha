@@ -34,14 +34,14 @@ export default function Livros() {
     <>
       <HeroPagina
         trail={trail}
-        selo="Três livros e um e-book"
+        selo="Quatro livros e um e-book"
         titulo={
           <>
             Livros do Dr. Tércio Rocha sobre{" "}
             <span className="u-accent text-gold-400">células-tronco</span> e longevidade
           </>
         }
-        chamada="Ciência e experiência também nas páginas: décadas de prática clínica com células-tronco transformadas em três livros e um e-book gratuito."
+        chamada="Ciência e experiência também nas páginas: décadas de prática clínica com células-tronco transformadas em quatro livros e um e-book gratuito."
         rodape={
           <div className="flex flex-wrap gap-3">
             <Button href="#livros" variant="gold">
@@ -53,15 +53,16 @@ export default function Livros() {
           </div>
         }
         lateral={
-          /* As três capas em leque, a do meio à frente. */
+          /* As capas em leque; o lançamento (o primeiro da lista) fica à frente. */
           <div aria-hidden="true" className="relative mx-auto h-[19rem] w-full max-w-[26rem] sm:h-[23rem]">
             <div className="absolute inset-x-10 bottom-0 h-10 rounded-full bg-black/50 blur-2xl" />
             {books.map((b, i) => {
               const pos = [
-                "left-0 top-6 -rotate-[9deg]",
-                "left-1/2 top-0 z-10 -translate-x-1/2",
-                "right-0 top-6 rotate-[9deg]",
-              ][i % 3];
+                "left-[39%] top-0 z-30 rotate-[3deg]",
+                "left-0 top-8 z-10 -rotate-[9deg]",
+                "left-[19%] top-4 z-20 -rotate-[3deg]",
+                "left-[58%] top-8 z-[15] rotate-[9deg]",
+              ][i % 4];
               return (
                 <div
                   key={b.slug}
@@ -130,7 +131,7 @@ export default function Livros() {
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span aria-hidden="true" className="h-px w-10 bg-gold-500/50" />
-                  {b.featured ? <Eyebrow>Lançamento</Eyebrow> : <Eyebrow>Livro</Eyebrow>}
+                  {"lancamento" in b ? <Eyebrow>{`Lançamento · ${b.lancamento}`}</Eyebrow> : <Eyebrow>Livro</Eyebrow>}
                 </div>
                 <h2 className="mt-4 text-title">{b.title}</h2>
                 {"subtitle" in b && b.subtitle && (
@@ -146,7 +147,7 @@ export default function Livros() {
                   {b.description}
                 </p>
                 <Button href={b.buyUrl} variant="primary" external className="mt-8">
-                  Comprar na livraria
+                  {"lancamento" in b ? "Reservar na pré-venda" : "Comprar na Amazon"}
                 </Button>
               </div>
             </article>

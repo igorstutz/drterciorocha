@@ -495,7 +495,7 @@ export default function Home() {
             </div>
 
             <div className="relative z-10">
-              <Badge variant="gold">Lançamento</Badge>
+              <Badge variant="gold">{"lancamento" in destaque ? `Lançamento · ${destaque.lancamento}` : "Lançamento"}</Badge>
               <h3 className="mt-4 text-title">{destaque.title}</h3>
               <p className="u-accent mt-3 text-[1.28rem] leading-snug text-gold-700">
                 {destaque.tagline}
@@ -505,7 +505,7 @@ export default function Home() {
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                 <Button href={destaque.buyUrl} variant="primary" external>
-                  Comprar agora
+                  {"lancamento" in destaque ? "Reservar na pré-venda" : "Comprar na Amazon"}
                 </Button>
                 <Button href="/livros" variant="ghost">
                   Conhecer os livros
