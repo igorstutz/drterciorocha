@@ -10,6 +10,7 @@ import {
   texto,
   urlDoCrm,
 } from "@/lib/crm";
+import { problemaNoTelefone } from "@/lib/telefone";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -73,7 +74,8 @@ export async function POST(req: Request) {
 
   if (nome.length < 2) return erro("Informe o nome completo do paciente.");
   if (!EMAIL_VALIDO.test(email)) return erro("E-mail inválido.");
-  if (telefone.length < 10 || telefone.length > 13) return erro("WhatsApp inválido.");
+  const problemaTelefone = problemaNoTelefone(texto(corpo.whatsapp, 30));
+  if (problemaTelefone || telefone.length < 10 || telefone.length > 15) return erro(problemaTelefone ?? "WhatsApp inválido.");
   if (cpf.length !== 11) return erro("CPF inválido: são 11 dígitos.");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(nascimento) && !/^\d{2}\/\d{2}\/\d{4}$/.test(nascimento)) {
     return erro("Informe a data de nascimento.");
@@ -97,7 +99,8 @@ export async function POST(req: Request) {
   const ficha = {
     nome,
     email,
-    telefone: telefoneComPais(telefone),
+    /* Com "+" na frente os dígitos já trazem o país; sem ele, é número nacional. */
+    telefone: texto(corpo.whatsapp, 30).startsWith("+") ? telefone : telefoneComPais(telefone),
     cpf,
     rg,
     nascimento: dataBrasileira(nascimento),

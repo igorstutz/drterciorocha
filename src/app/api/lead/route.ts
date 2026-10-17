@@ -9,6 +9,7 @@ import {
   texto,
   urlDoCrm,
 } from "@/lib/crm";
+import { problemaNoTelefone } from "@/lib/telefone";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -54,8 +55,10 @@ export async function POST(req: Request) {
   if (!EMAIL_VALIDO.test(email)) {
     return NextResponse.json({ erro: "E-mail inválido." }, { status: 400 });
   }
-  if (telefone.length < 10 || telefone.length > 13) {
-    return NextResponse.json({ erro: "WhatsApp inválido." }, { status: 400 });
+  /* A mesma regra da tela: quem contornar o formulário também não manda número impossível. */
+  const problemaTelefone = problemaNoTelefone(texto(corpo.whatsapp, 30));
+  if (problemaTelefone || telefone.length < 10 || telefone.length > 15) {
+    return NextResponse.json({ erro: problemaTelefone ?? "WhatsApp inválido." }, { status: 400 });
   }
   if (!corpo.consentimento) {
     return NextResponse.json(
@@ -67,7 +70,8 @@ export async function POST(req: Request) {
   const lead = {
     nome,
     email,
-    telefone: telefoneComPais(telefone),
+    /* Com "+" na frente os dígitos já trazem o país; sem ele, é número nacional. */
+    telefone: texto(corpo.whatsapp, 30).startsWith("+") ? telefone : telefoneComPais(telefone),
     produto_interesse: interesse,
     mensagem: texto(corpo.mensagem, 2000),
     origem: texto(corpo.origem, 80) || "site",

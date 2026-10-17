@@ -36,3 +36,46 @@ export function proximoValorTelefone(anterior: string, digitado: string): string
   }
   return mascararTelefone(digitado);
 }
+
+/* DDDs que existem no Brasil (Anatel). */
+const DDDS = new Set([
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 21, 22, 24, 27, 28, 31, 32, 33, 34, 35, 37, 38,
+  41, 42, 43, 44, 45, 46, 47, 48, 49, 51, 53, 54, 55, 61, 62, 63, 64, 65, 66, 67, 68, 69,
+  71, 73, 74, 75, 77, 79, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 99,
+]);
+
+/**
+ * O que está errado no WhatsApp digitado, numa frase que diz como corrigir — ou null se o
+ * número é possível. Usada na tela (antes de enviar) e nas rotas /api/lead e /api/guia.
+ *
+ * Não dá para saber se o número tem WhatsApp: a API oficial da Meta não tem consulta para isso
+ * (só se descobre mandando uma mensagem). O que dá para barrar é o número impossível — a
+ * Marly digitou "55 11 999-8750" e virou DDD 55 com 9 dígitos começando por 1 (17/10/2026); o
+ * lead caiu no CRM sem jeito de ser chamado.
+ */
+export function problemaNoTelefone(valor: string): string | null {
+  const bruto = (valor ?? "").trim();
+  const digitos = bruto.replace(/\D/g, "");
+  if (!digitos) return "Informe seu WhatsApp com DDD.";
+
+  // Estrangeiro: só com "+" e código de outro país. O painel normaliza.
+  if (bruto.startsWith("+") && !digitos.startsWith("55")) {
+    return digitos.length >= 8 && digitos.length <= 15 ? null : "Confira o número com o código do país.";
+  }
+
+  let d = digitos;
+  if ((d.length === 12 || d.length === 13) && d.startsWith("55")) d = d.slice(2);
+  if (d.length < 10) return "Faltam dígitos. Informe o DDD e o número, como (11) 98765-4321.";
+  if (d.length > 11) return "Sobram dígitos. Informe só o DDD e o número, como (11) 98765-4321.";
+
+  const ddd = Number(d.slice(0, 2));
+  const numero = d.slice(2);
+  if (!DDDS.has(ddd)) return `O DDD ${d.slice(0, 2)} não existe. Confira o número.`;
+  if (/^(\d)\1+$/.test(numero)) return "Confira o número: ele parece incompleto.";
+  if (numero.length === 9) {
+    return numero.startsWith("9") ? null : "O celular tem 9 dígitos depois do DDD e começa com 9. Confira o número.";
+  }
+  // 8 dígitos: fixo (2 a 5) ou celular antigo, sem o 9 da frente.
+  if (/^[2-5]/.test(numero)) return "Esse parece um telefone fixo. Informe um celular com WhatsApp.";
+  return "Faltam dígitos: o celular tem 9 dígitos depois do DDD e começa com 9.";
+}

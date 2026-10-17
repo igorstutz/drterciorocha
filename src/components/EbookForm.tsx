@@ -3,18 +3,26 @@
 import { useState } from "react";
 import { whatsappUrl } from "@/content/site";
 import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
-import { proximoValorTelefone } from "@/lib/telefone";
+import { problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
 
 /** Isca de e-mail. Três campos: qualquer atrito a mais derruba a conversão. */
 export function EbookForm() {
   const [estado, setEstado] = useState<"idle" | "enviando" | "ok" | "erro">("idle");
   const [whatsapp, setWhatsapp] = useState("");
+  const [erroTelefone, setErroTelefone] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const fd = new FormData(form);
     if (fd.get("empresa")) return;
+
+    const problema = problemaNoTelefone(whatsapp);
+    if (problema) {
+      setErroTelefone(problema);
+      form.querySelector<HTMLInputElement>('input[name="whatsapp"]')?.focus();
+      return;
+    }
 
     setEstado("enviando");
     try {
@@ -96,7 +104,22 @@ export function EbookForm() {
           <label htmlFor="eb-whats" className="mb-2 block text-[0.82rem] font-medium text-text-strong">
             WhatsApp
           </label>
-          <input id="eb-whats" name="whatsapp" type="tel" inputMode="tel" required autoComplete="tel" placeholder="(00) 00000-0000" value={whatsapp} onChange={(e) => setWhatsapp((anterior) => proximoValorTelefone(anterior, e.target.value))} className={campo} />
+          <input id="eb-whats" name="whatsapp" type="tel" inputMode="tel" required autoComplete="tel" placeholder="(00) 00000-0000" value={whatsapp}
+            onChange={(e) => {
+              const novo = proximoValorTelefone(whatsapp, e.target.value);
+              setWhatsapp(novo);
+              if (erroTelefone) setErroTelefone(problemaNoTelefone(novo));
+            }}
+            onBlur={() => whatsapp && setErroTelefone(problemaNoTelefone(whatsapp))}
+            aria-invalid={erroTelefone ? true : undefined}
+            aria-describedby={erroTelefone ? "eb-whats-erro" : undefined}
+            className={`${campo} ${erroTelefone ? "border-[#b3261e]/60!" : ""}`}
+          />
+          {erroTelefone && (
+            <p id="eb-whats-erro" role="alert" className="mt-2 text-[0.82rem] leading-snug text-[#b3261e]">
+              {erroTelefone}
+            </p>
+          )}
         </div>
       </div>
 

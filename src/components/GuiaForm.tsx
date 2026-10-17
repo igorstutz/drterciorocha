@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { whatsappUrl } from "@/content/site";
 import { ATENDIMENTOS, ESTADOS_CIVIS, LOCAIS, MENSAGEM_POS_GUIA, UFS } from "@/content/guia";
 import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
-import { mascararTelefone, proximoValorTelefone } from "@/lib/telefone";
+import { mascararTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
 
 /**
  * Ficha em três passos para a guia de solicitação de exames — o /gerar-guia do site antigo.
@@ -71,6 +71,7 @@ export function GuiaForm() {
   const [estado, setEstado] = useState<Estado>("idle");
   const [erro, setErro] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [erroTelefone, setErroTelefone] = useState<string | null>(null);
   const [endereco, setEndereco] = useState({ rua: "", bairro: "", cidade: "", estado: "" });
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -85,6 +86,13 @@ export function GuiaForm() {
     const campos = grupo.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
       "input, select, textarea",
     );
+    /* O WhatsApp passa pela mesma regra do formulário de consulta: número impossível não avança. */
+    const tel = grupo.querySelector<HTMLInputElement>('input[name="whatsapp"]');
+    if (tel) {
+      const problema = problemaNoTelefone(telefone);
+      tel.setCustomValidity(problema ?? "");
+      setErroTelefone(problema);
+    }
     for (const c of campos) {
       if (!c.checkValidity()) {
         c.reportValidity();
@@ -240,9 +248,22 @@ export function GuiaForm() {
               autoComplete="tel"
               placeholder="(00) 00000-0000"
               value={telefone}
-              onChange={(e) => setTelefone((anterior) => proximoValorTelefone(anterior, e.target.value))}
-              className={campo}
+              onChange={(e) => {
+                const novo = proximoValorTelefone(telefone, e.target.value);
+                setTelefone(novo);
+                e.target.setCustomValidity("");
+                if (erroTelefone) setErroTelefone(problemaNoTelefone(novo));
+              }}
+              onBlur={() => telefone && setErroTelefone(problemaNoTelefone(telefone))}
+              aria-invalid={erroTelefone ? true : undefined}
+              aria-describedby={erroTelefone ? "g-whatsapp-erro" : undefined}
+              className={`${campo} ${erroTelefone ? "border-[#b3261e]/60!" : ""}`}
             />
+            {erroTelefone && (
+              <p id="g-whatsapp-erro" role="alert" className="mt-2 text-[0.82rem] leading-snug text-[#b3261e]">
+                {erroTelefone}
+              </p>
+            )}
           </Campo>
         </div>
         <div className="grid gap-5 sm:grid-cols-2">
