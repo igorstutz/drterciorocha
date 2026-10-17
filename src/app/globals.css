@@ -275,6 +275,10 @@
   opacity: 0;
   transition: opacity 0.45s var(--ease-out-soft);
   z-index: 2;
+  /* O anel fica por cima do cartão inteiro (só a borda aparece, pela máscara). Sem isto ele
+     capturava o toque e o clique: no formulário da home e no do fim dos artigos não dava para
+     tocar nos campos nem marcar o consentimento (descoberto em 17/10/2026). */
+  pointer-events: none;
 }
 
 .u-ring:hover::before,
