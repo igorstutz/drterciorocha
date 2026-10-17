@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { treatmentOptions, whatsappUrl } from "@/content/site";
 import { ENVIO_SIMULADO, mensagemPosFormulario } from "@/lib/whatsapp-gate";
-import { problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
+import { avisoNoTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
 
 type Estado = "idle" | "enviando" | "ok" | "erro";
 
@@ -226,6 +226,11 @@ export function LeadForm({
           {erroTelefone && (
             <p id={`whatsapp-${origem}-erro`} role="alert" className="mt-2 text-[0.82rem] leading-snug text-[#b3261e]">
               {erroTelefone}
+            </p>
+          )}
+          {!erroTelefone && avisoNoTelefone(telefone) && (
+            <p id={`whatsapp-aviso-${origem}`} role="status" className="mt-2 text-[0.82rem] leading-snug text-gold-700">
+              {avisoNoTelefone(telefone)}
             </p>
           )}
         </div>

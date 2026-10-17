@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { whatsappUrl } from "@/content/site";
 import { ATENDIMENTOS, ESTADOS_CIVIS, LOCAIS, MENSAGEM_POS_GUIA, UFS } from "@/content/guia";
 import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
-import { mascararTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
+import { avisoNoTelefone, mascararTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
 
 /**
  * Ficha em três passos para a guia de solicitação de exames — o /gerar-guia do site antigo.
@@ -262,6 +262,11 @@ export function GuiaForm() {
             {erroTelefone && (
               <p id="g-whatsapp-erro" role="alert" className="mt-2 text-[0.82rem] leading-snug text-[#b3261e]">
                 {erroTelefone}
+              </p>
+            )}
+            {!erroTelefone && avisoNoTelefone(telefone) && (
+              <p id="g-whatsapp-aviso" role="status" className="mt-2 text-[0.82rem] leading-snug text-gold-700">
+                {avisoNoTelefone(telefone)}
               </p>
             )}
           </Campo>

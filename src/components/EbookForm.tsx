@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { whatsappUrl } from "@/content/site";
 import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
-import { problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
+import { avisoNoTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
 
 /** Isca de e-mail. Três campos: qualquer atrito a mais derruba a conversão. */
 export function EbookForm() {
@@ -118,6 +118,11 @@ export function EbookForm() {
           {erroTelefone && (
             <p id="eb-whats-erro" role="alert" className="mt-2 text-[0.82rem] leading-snug text-[#b3261e]">
               {erroTelefone}
+            </p>
+          )}
+          {!erroTelefone && avisoNoTelefone(whatsapp) && (
+            <p id="eb-whats-aviso" role="status" className="mt-2 text-[0.82rem] leading-snug text-gold-700">
+              {avisoNoTelefone(whatsapp)}
             </p>
           )}
         </div>

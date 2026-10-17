@@ -75,7 +75,23 @@ export function problemaNoTelefone(valor: string): string | null {
   if (numero.length === 9) {
     return numero.startsWith("9") ? null : "O celular tem 9 dígitos depois do DDD e começa com 9. Confira o número.";
   }
-  // 8 dígitos: fixo (2 a 5) ou celular antigo, sem o 9 da frente.
-  if (/^[2-5]/.test(numero)) return "Esse parece um telefone fixo. Informe um celular com WhatsApp.";
+  // 8 dígitos: fixo (2 a 5) ou celular antigo, sem o 9 da frente. Fixo passa: muito número fixo tem
+  // WhatsApp Business hoje (pedido do usuário, 17/10/2026) — quem avisa é `avisoNoTelefone`, sem barrar.
+  if (/^[2-5]/.test(numero)) return null;
   return "Faltam dígitos: o celular tem 9 dígitos depois do DDD e começa com 9.";
+}
+
+/**
+ * Alerta que não impede o envio: o número é possível, mas tem cara de telefone fixo. Muito fixo tem
+ * WhatsApp Business, então a pessoa pode seguir; o alerta só faz quem digitou o celular errado conferir.
+ */
+export function avisoNoTelefone(valor: string): string | null {
+  const bruto = (valor ?? "").trim();
+  if (bruto.startsWith("+") && !bruto.replace(/\D/g, "").startsWith("55")) return null;
+  if (problemaNoTelefone(bruto)) return null;
+  let d = bruto.replace(/\D/g, "");
+  if ((d.length === 12 || d.length === 13) && d.startsWith("55")) d = d.slice(2);
+  return d.length === 10 && /^[2-5]/.test(d.slice(2))
+    ? "Esse número parece de telefone fixo. Se ele tem WhatsApp, pode enviar assim."
+    : null;
 }
