@@ -43,7 +43,8 @@ export const SECOES_PRIVACIDADE: SecaoPrivacidade[] = [
     ],
     fecho: [
       "Medição de anúncios: o site usa o Pixel da Meta e a API de Conversões da Meta para saber quantas visitas e quantos contatos vieram dos nossos anúncios no Facebook e no Instagram. O pixel grava cookies próprios no seu navegador (_fbp e, quando você chega por um anúncio, _fbc). Quando você envia o formulário de consulta, um botão de WhatsApp ou o pedido do e-book, a Meta recebe que houve um contato, junto com o seu e-mail, telefone e nome criptografados (convertidos num código que não permite ler o dado original), o endereço IP e o navegador, para relacionar o contato ao anúncio que você viu.",
-      "Nunca enviamos à Meta o que você pretende tratar, a mensagem que escreveu nem nenhum dado da ficha para a guia de exames; a página da ficha nem carrega o pixel. Você pode bloquear esses cookies nas configurações do navegador e ajustar os anúncios que vê nas configurações da sua conta do Facebook ou do Instagram. As fontes e as imagens são servidas pelo próprio site.",
+      "Estatísticas de uso: o site também usa o Google Analytics 4, do Google, para contar visitas, páginas vistas, de onde a visita veio (busca, anúncio, rede social), o tipo de aparelho e quantos formulários são enviados. Ele grava cookies próprios no seu navegador (_ga). Não enviamos ao Google nenhum dado pessoal nem de saúde: nem nome, e-mail ou telefone, nem o que você pretende tratar.",
+      "Nunca enviamos à Meta o que você pretende tratar, a mensagem que escreveu nem nenhum dado da ficha para a guia de exames; a página da ficha não carrega nem o pixel nem o Google Analytics. Você pode bloquear esses cookies nas configurações do navegador e ajustar os anúncios que vê nas configurações da sua conta do Facebook ou do Instagram. As fontes e as imagens são servidas pelo próprio site.",
     ],
   },
   {
@@ -73,6 +74,7 @@ export const SECOES_PRIVACIDADE: SecaoPrivacidade[] = [
     paragrafos: ["Não vendemos nem cedemos os seus dados. Compartilhamos apenas com quem é necessário para o atendimento funcionar:"],
     lista: [
       "Meta Platforms (WhatsApp Business Platform), que transporta as mensagens entre você e a clínica — sujeita à política de privacidade do WhatsApp.",
+      "Google (Google Analytics 4), que gera as estatísticas de uso do site, sem dados pessoais.",
       "Meta Platforms (Pixel e API de Conversões), que mede o resultado dos anúncios, nos limites do item 2 — sem dados de saúde.",
       "Provedores de hospedagem e infraestrutura do site e do sistema de atendimento da clínica, com acesso restrito e contratos de confidencialidade.",
       "Provedor das ferramentas de inteligência artificial descritas acima, nos limites do item 4.",

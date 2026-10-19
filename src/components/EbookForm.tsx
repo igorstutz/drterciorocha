@@ -5,6 +5,7 @@ import { whatsappUrl } from "@/content/site";
 import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
 import { avisoNoTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
 import { dadosParaMeta, novoEventoId, rastrearLead } from "@/lib/meta-pixel";
+import { gaLead } from "@/lib/google-analytics";
 
 /** Isca de e-mail. Três campos: qualquer atrito a mais derruba a conversão. */
 export function EbookForm() {
@@ -51,6 +52,7 @@ export function EbookForm() {
       });
       if (!res.ok) throw new Error();
       rastrearLead(eventoId, "ebook");
+      gaLead("ebook");
       setEstado("ok");
     } catch {
       setEstado("erro");

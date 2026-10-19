@@ -77,7 +77,11 @@ export function GuiaForm() {
 
   useEffect(() => {
     const tel = new URLSearchParams(window.location.search).get("tel");
-    if (tel) setTelefone(mascararTelefone(tel));
+    if (tel) {
+      setTelefone(mascararTelefone(tel));
+      /* O telefone sai do endereço depois de lido: não fica no histórico nem chega a ferramentas de medição. */
+      window.history.replaceState(window.history.state, "", window.location.pathname);
+    }
   }, []);
 
   function passoValido() {

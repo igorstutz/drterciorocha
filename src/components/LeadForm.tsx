@@ -5,6 +5,7 @@ import { treatmentOptions, whatsappUrl } from "@/content/site";
 import { ENVIO_SIMULADO, mensagemPosFormulario } from "@/lib/whatsapp-gate";
 import { avisoNoTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
 import { dadosParaMeta, novoEventoId, rastrearContato, rastrearLead } from "@/lib/meta-pixel";
+import { gaContatoWhatsapp, gaLead } from "@/lib/google-analytics";
 
 type Estado = "idle" | "enviando" | "ok" | "erro";
 
@@ -129,6 +130,8 @@ export function LeadForm({
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).erro || "Falha no envio");
       rastrearLead(eventoId, modoWhatsapp ? "whatsapp" : "consulta");
       if (contatoId) rastrearContato(contatoId);
+      gaLead(modoWhatsapp ? "whatsapp" : "consulta");
+      if (modoWhatsapp) gaContatoWhatsapp();
 
       concluir(form, nome, interesse);
     } catch (err) {
