@@ -51,23 +51,32 @@ export function dadosParaMeta(eventoId: string) {
   };
 }
 
-/** Evento padrão no pixel, com o mesmo id que o servidor manda pela API de Conversões. */
-function rastrear(evento: "Lead" | "Contact", eventoId: string, categoria: string): void {
+/**
+ * Evento no pixel, com o mesmo id que o servidor manda pela API de Conversões.
+ *
+ * O formulário enviado sai como LeadSubmitted (evento personalizado), não como o Lead padrão: a Meta classificou
+ * a conta como saúde e o pixel traz `eventValidation.restrictedEventNames: ["Lead"]` — o navegador nem envia o Lead
+ * (conferido em 19/10/2026). LeadSubmitted é o nome que a gestora de tráfego configurou nos anúncios.
+ */
+export const EVENTO_LEAD = "LeadSubmitted";
+
+function rastrear(evento: typeof EVENTO_LEAD | "Contact", eventoId: string, categoria: string): void {
   try {
-    window.fbq?.("track", evento, { content_category: categoria }, { eventID: eventoId });
+    if (evento === "Contact") window.fbq?.("track", evento, { content_category: categoria }, { eventID: eventoId });
+    else window.fbq?.("trackCustom", evento, { content_category: categoria }, { eventID: eventoId });
   } catch {
     /* pixel bloqueado ou fora do ar: a API de Conversões cobre */
   }
 }
 
-/** Lead: todo formulário enviado (consulta, WhatsApp, e-book). */
+/** LeadSubmitted: todo formulário enviado (consulta, WhatsApp, e-book). */
 export function rastrearLead(eventoId: string, categoria: string): void {
-  rastrear("Lead", eventoId, categoria);
+  rastrear(EVENTO_LEAD, eventoId, categoria);
 }
 
 /**
  * Contact: só o caminho do WhatsApp (pop-up dos botões "Falar com a equipe", flutuante e do menu, que termina em
- * "Continuar no WhatsApp"). Vai junto com o Lead, para medir quem prefere o WhatsApp sem tirar volume do Lead
+ * "Continuar no WhatsApp"). Vai junto com o LeadSubmitted, para medir quem prefere o WhatsApp sem tirar volume do LeadSubmitted
  * (pedido da gestora de tráfego, 19/10/2026).
  */
 export function rastrearContato(eventoId: string): void {

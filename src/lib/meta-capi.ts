@@ -58,7 +58,8 @@ export async function enviarLeadParaMeta(d: LeadParaMeta, pagina = "/"): Promise
   };
 
   const quando = Math.floor(Date.now() / 1000);
-  const evento = (nome: "Lead" | "Contact", id: string | undefined, categoria: string) => ({
+  /* LeadSubmitted, não Lead: a Meta restringe o Lead nesta conta (saúde) — ver EVENTO_LEAD em meta-pixel.ts. */
+  const evento = (nome: "LeadSubmitted" | "Contact", id: string | undefined, categoria: string) => ({
     event_name: nome,
     event_time: quando,
     ...(id ? { event_id: id.slice(0, 100) } : {}),
@@ -68,7 +69,7 @@ export async function enviarLeadParaMeta(d: LeadParaMeta, pagina = "/"): Promise
     custom_data: { content_category: categoria },
   });
   const corpo = {
-    data: [evento("Lead", d.eventoId, d.categoria), ...(d.contatoId ? [evento("Contact", d.contatoId, "whatsapp")] : [])],
+    data: [evento("LeadSubmitted", d.eventoId, d.categoria), ...(d.contatoId ? [evento("Contact", d.contatoId, "whatsapp")] : [])],
   };
 
   try {
