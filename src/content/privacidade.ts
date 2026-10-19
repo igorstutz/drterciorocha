@@ -2,8 +2,8 @@
  * Política de privacidade (LGPD) — o texto de /privacidade. Escrita em 14/10/2026 a partir do que o site
  * e o painel de atendimento fazem de verdade: formulários (consulta, botões de WhatsApp, e-book), a ficha
  * para a guia de exames (/guia), o WhatsApp pela plataforma da Meta, o atendimento automático e o apoio
- * de IA à equipe, e a atribuição de campanha guardada no navegador por 30 dias. Sem cookies de rastreio
- * nem analytics de terceiros no site novo.
+ * de IA à equipe, a atribuição de campanha guardada no navegador por 30 dias e, desde 19/10/2026, o pixel
+ * da Meta com a API de Conversões (medição de anúncios; nada de saúde vai para a Meta).
  *
  * Revisão jurídica recomendada antes da publicação definitiva. O que mudar (prazos, canal do encarregado,
  * razão social/CNPJ) muda aqui; a data abaixo acompanha.
@@ -11,7 +11,7 @@
 
 import { contact, doctor } from "./site";
 
-export const PRIVACIDADE_ATUALIZADA = "14 de outubro de 2026";
+export const PRIVACIDADE_ATUALIZADA = "19 de outubro de 2026";
 
 export interface SecaoPrivacidade {
   id: string;
@@ -42,7 +42,8 @@ export const SECOES_PRIVACIDADE: SecaoPrivacidade[] = [
       "Origem da visita: se você chegou por um anúncio ou link de campanha, guardamos no seu navegador, por até 30 dias, os parâmetros dessa campanha (utm_source, utm_medium, utm_campaign, utm_content, utm_term, gclid, fbclid e a página de referência), para saber por onde o contato chegou. Esse registro fica só no seu navegador até você enviar um formulário.",
     ],
     fecho: [
-      "Este site não usa cookies de rastreamento nem ferramentas de análise de audiência de terceiros. As fontes e as imagens são servidas pelo próprio site.",
+      "Medição de anúncios: o site usa o Pixel da Meta e a API de Conversões da Meta para saber quantas visitas e quantos contatos vieram dos nossos anúncios no Facebook e no Instagram. O pixel grava cookies próprios no seu navegador (_fbp e, quando você chega por um anúncio, _fbc). Quando você envia o formulário de consulta, um botão de WhatsApp ou o pedido do e-book, a Meta recebe que houve um contato, junto com o seu e-mail, telefone e nome criptografados (convertidos num código que não permite ler o dado original), o endereço IP e o navegador, para relacionar o contato ao anúncio que você viu.",
+      "Nunca enviamos à Meta o que você pretende tratar, a mensagem que escreveu nem nenhum dado da ficha para a guia de exames; a página da ficha nem carrega o pixel. Você pode bloquear esses cookies nas configurações do navegador e ajustar os anúncios que vê nas configurações da sua conta do Facebook ou do Instagram. As fontes e as imagens são servidas pelo próprio site.",
     ],
   },
   {
@@ -72,6 +73,7 @@ export const SECOES_PRIVACIDADE: SecaoPrivacidade[] = [
     paragrafos: ["Não vendemos nem cedemos os seus dados. Compartilhamos apenas com quem é necessário para o atendimento funcionar:"],
     lista: [
       "Meta Platforms (WhatsApp Business Platform), que transporta as mensagens entre você e a clínica — sujeita à política de privacidade do WhatsApp.",
+      "Meta Platforms (Pixel e API de Conversões), que mede o resultado dos anúncios, nos limites do item 2 — sem dados de saúde.",
       "Provedores de hospedagem e infraestrutura do site e do sistema de atendimento da clínica, com acesso restrito e contratos de confidencialidade.",
       "Provedor das ferramentas de inteligência artificial descritas acima, nos limites do item 4.",
       "Quando você pede informações sobre cursos e treinamentos, indicamos o contato da consultora responsável; os seus dados só chegam a ela se você mesmo falar com ela.",

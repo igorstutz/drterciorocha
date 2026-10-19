@@ -5,6 +5,9 @@
  * Dr. Tércio ficam fora até serem validadas.
  */
 
+/** Pixel da Meta da clínica (Gerenciador de Eventos). Não é segredo: aparece no código de toda página. */
+export const META_PIXEL_ID = "621141566738202";
+
 export const site = {
   name: "Dr. Tércio Rocha",
   legalName: "Dr. Tércio Rocha — Medicina Regenerativa",

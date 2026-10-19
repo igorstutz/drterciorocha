@@ -4,6 +4,7 @@ import { useState } from "react";
 import { whatsappUrl } from "@/content/site";
 import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
 import { avisoNoTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
+import { dadosParaMeta, novoEventoId, rastrearLead } from "@/lib/meta-pixel";
 
 /** Isca de e-mail. Três campos: qualquer atrito a mais derruba a conversão. */
 export function EbookForm() {
@@ -32,10 +33,12 @@ export function EbookForm() {
         setEstado("ok");
         return;
       }
+      const eventoId = novoEventoId();
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          meta: dadosParaMeta(eventoId),
           nome: fd.get("nome"),
           email: fd.get("email"),
           whatsapp: fd.get("whatsapp"),
@@ -47,6 +50,7 @@ export function EbookForm() {
         }),
       });
       if (!res.ok) throw new Error();
+      rastrearLead(eventoId, "ebook");
       setEstado("ok");
     } catch {
       setEstado("erro");

@@ -10,6 +10,7 @@ import {
   urlDoCrm,
 } from "@/lib/crm";
 import { problemaNoTelefone } from "@/lib/telefone";
+import { categoriaDoLead, enviarLeadParaMeta } from "@/lib/meta-capi";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -25,6 +26,8 @@ type Lead = {
   continuar_whatsapp?: boolean;
   pagina?: string;
   atribuicao?: Record<string, string>;
+  /** Do pixel no navegador: id do evento (deduplicação) e cookies _fbp/_fbc. */
+  meta?: { event_id?: unknown; fbp?: unknown; fbc?: unknown; url?: unknown };
 };
 
 const excedeuLimite = criarLimitador();
@@ -85,6 +88,26 @@ export async function POST(req: Request) {
 
   /* Entrega ao CRM. Enquanto CRM_WEBHOOK_URL não estiver configurada, o lead
      é registrado no log do servidor — nenhum contato se perde silenciosamente. */
+  /* API de Conversões da Meta, em paralelo e sem segurar a resposta: falha aqui nunca derruba o lead.
+     Só identificação criptografada vai — nunca o que a pessoa quer tratar nem a mensagem. */
+  const meta = corpo.meta ?? {};
+  const textoMeta = (v: unknown, max: number) => (typeof v === "string" ? v.slice(0, max) : undefined);
+  void enviarLeadParaMeta(
+    {
+      eventoId: textoMeta(meta.event_id, 100),
+      email,
+      telefone: lead.telefone,
+      nome,
+      ip: ipDaRequisicao(req),
+      navegador: req.headers.get("user-agent"),
+      fbp: textoMeta(meta.fbp, 200),
+      fbc: textoMeta(meta.fbc, 300),
+      url: textoMeta(meta.url, 500),
+      categoria: categoriaDoLead(lead.origem),
+    },
+    lead.pagina,
+  );
+
   const webhook = urlDoCrm("site");
 
   if (!webhook) {

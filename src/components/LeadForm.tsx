@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { treatmentOptions, whatsappUrl } from "@/content/site";
 import { ENVIO_SIMULADO, mensagemPosFormulario } from "@/lib/whatsapp-gate";
 import { avisoNoTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
+import { dadosParaMeta, novoEventoId, rastrearLead } from "@/lib/meta-pixel";
 
 type Estado = "idle" | "enviando" | "ok" | "erro";
 
@@ -103,10 +104,13 @@ export function LeadForm({
         return;
       }
 
+      /* O mesmo id vai no pixel e na API de Conversões: a Meta conta o lead uma vez só. */
+      const eventoId = novoEventoId();
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          meta: dadosParaMeta(eventoId),
           nome: fd.get("nome"),
           whatsapp: fd.get("whatsapp"),
           email: fd.get("email"),
@@ -121,6 +125,7 @@ export function LeadForm({
       });
 
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).erro || "Falha no envio");
+      rastrearLead(eventoId, modoWhatsapp ? "whatsapp" : "consulta");
 
       concluir(form, nome, interesse);
     } catch (err) {

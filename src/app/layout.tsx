@@ -15,6 +15,7 @@ import { Footer } from "@/components/Footer";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
 import { WhatsAppGate } from "@/components/WhatsAppGate";
 import { AnimacaoEmVista } from "@/components/AnimacaoEmVista";
+import { MetaPixel } from "@/components/MetaPixel";
 
 /* next/font faz self-host das fontes: zero requisição a fonts.googleapis.com,
    zero FOUT e nenhum layout shift. O site antigo puxava Montserrat e Roboto
@@ -126,6 +127,7 @@ export default function RootLayout({
         <WhatsAppFab />
         <WhatsAppGate />
         <AnimacaoEmVista />
+        <MetaPixel />
         <JsonLd
           data={graph(
             physicianSchema,
