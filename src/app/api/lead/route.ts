@@ -27,7 +27,7 @@ type Lead = {
   pagina?: string;
   atribuicao?: Record<string, string>;
   /** Do pixel no navegador: id do evento (deduplicação) e cookies _fbp/_fbc. */
-  meta?: { event_id?: unknown; fbp?: unknown; fbc?: unknown; url?: unknown };
+  meta?: { event_id?: unknown; contact_event_id?: unknown; fbp?: unknown; fbc?: unknown; url?: unknown };
 };
 
 const excedeuLimite = criarLimitador();
@@ -95,6 +95,7 @@ export async function POST(req: Request) {
   void enviarLeadParaMeta(
     {
       eventoId: textoMeta(meta.event_id, 100),
+      contatoId: lead.continuar_whatsapp ? textoMeta(meta.contact_event_id, 100) : undefined,
       email,
       telefone: lead.telefone,
       nome,

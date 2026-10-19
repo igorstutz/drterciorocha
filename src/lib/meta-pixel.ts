@@ -51,11 +51,25 @@ export function dadosParaMeta(eventoId: string) {
   };
 }
 
-/** Lead no pixel, com o mesmo id que o servidor manda pela API de Conversões. */
-export function rastrearLead(eventoId: string, categoria: string): void {
+/** Evento padrão no pixel, com o mesmo id que o servidor manda pela API de Conversões. */
+function rastrear(evento: "Lead" | "Contact", eventoId: string, categoria: string): void {
   try {
-    window.fbq?.("track", "Lead", { content_category: categoria }, { eventID: eventoId });
+    window.fbq?.("track", evento, { content_category: categoria }, { eventID: eventoId });
   } catch {
     /* pixel bloqueado ou fora do ar: a API de Conversões cobre */
   }
+}
+
+/** Lead: todo formulário enviado (consulta, WhatsApp, e-book). */
+export function rastrearLead(eventoId: string, categoria: string): void {
+  rastrear("Lead", eventoId, categoria);
+}
+
+/**
+ * Contact: só o caminho do WhatsApp (pop-up dos botões "Falar com a equipe", flutuante e do menu, que termina em
+ * "Continuar no WhatsApp"). Vai junto com o Lead, para medir quem prefere o WhatsApp sem tirar volume do Lead
+ * (pedido da gestora de tráfego, 19/10/2026).
+ */
+export function rastrearContato(eventoId: string): void {
+  rastrear("Contact", eventoId, "whatsapp");
 }

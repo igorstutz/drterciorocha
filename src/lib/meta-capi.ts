@@ -16,6 +16,8 @@ const hash = (v: string) => createHash("sha256").update(v.trim().toLowerCase(), 
 
 export interface LeadParaMeta {
   eventoId?: string;
+  /** Caminho do WhatsApp: manda também um Contact, com este id (o mesmo do pixel). */
+  contatoId?: string;
   email: string;
   telefone: string; // com o código do país, só dígitos
   nome: string;
@@ -55,18 +57,18 @@ export async function enviarLeadParaMeta(d: LeadParaMeta, pagina = "/"): Promise
     ...(d.fbc ? { fbc: d.fbc.slice(0, 300) } : {}),
   };
 
+  const quando = Math.floor(Date.now() / 1000);
+  const evento = (nome: "Lead" | "Contact", id: string | undefined, categoria: string) => ({
+    event_name: nome,
+    event_time: quando,
+    ...(id ? { event_id: id.slice(0, 100) } : {}),
+    action_source: "website",
+    event_source_url: urlDoEvento(d.url, pagina),
+    user_data,
+    custom_data: { content_category: categoria },
+  });
   const corpo = {
-    data: [
-      {
-        event_name: "Lead",
-        event_time: Math.floor(Date.now() / 1000),
-        ...(d.eventoId ? { event_id: d.eventoId.slice(0, 100) } : {}),
-        action_source: "website",
-        event_source_url: urlDoEvento(d.url, pagina),
-        user_data,
-        custom_data: { content_category: d.categoria },
-      },
-    ],
+    data: [evento("Lead", d.eventoId, d.categoria), ...(d.contatoId ? [evento("Contact", d.contatoId, "whatsapp")] : [])],
   };
 
   try {
