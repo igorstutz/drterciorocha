@@ -5,9 +5,13 @@
 
 export const ESTADOS_CIVIS = ["Solteiro(a)", "Casado(a)", "União estável", "Divorciado(a)", "Viúvo(a)"] as const;
 
-export const ATENDIMENTOS = ["Presencial", "On-line"] as const;
+/** Onde a consulta acontece: presencial só em São Paulo (desde out/2026 não há mais Florianópolis) ou on-line. */
+export const LOCAIS = ["Presencial São Paulo", "Online"] as const;
 
-export const LOCAIS = ["São Paulo", "Florianópolis", "Atendimento on-line"] as const;
+/** Tipo de atendimento que vai para o painel junto com o local (o CRM guarda os dois campos). */
+export function tipoDoLocal(local: (typeof LOCAIS)[number]): "Presencial" | "On-line" {
+  return local === "Online" ? "On-line" : "Presencial";
+}
 
 export const UFS = [
   "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",

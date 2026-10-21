@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ATENDIMENTOS, ESTADOS_CIVIS, LOCAIS, UFS } from "@/content/guia";
+import { ESTADOS_CIVIS, LOCAIS, UFS, tipoDoLocal } from "@/content/guia";
 import {
   EMAIL_VALIDO,
   criarLimitador,
@@ -33,8 +33,8 @@ function dataBrasileira(v: string): string {
   return m ? `${m[3]}/${m[2]}/${m[1]}` : v;
 }
 
-function entre(lista: readonly string[], v: string) {
-  return lista.includes(v);
+function entre<T extends string>(lista: readonly T[], v: string): v is T {
+  return (lista as readonly string[]).includes(v);
 }
 
 export async function POST(req: Request) {
@@ -62,7 +62,6 @@ export async function POST(req: Request) {
   const idade = soDigitos(texto(corpo.idade, 3));
   const peso = texto(corpo.peso, 10);
   const altura = texto(corpo.altura, 10);
-  const atendimento = texto(corpo.atendimento, 20);
   const local = texto(corpo.local, 30);
   const cep = soDigitos(texto(corpo.cep, 10));
   const rua = texto(corpo.rua, 160);
@@ -86,8 +85,8 @@ export async function POST(req: Request) {
   if (!idade || idadeNum < 1 || idadeNum > 120) return erro("Informe a idade.");
   if (!peso) return erro("Informe o peso.");
   if (!altura) return erro("Informe a altura.");
-  if (!entre(ATENDIMENTOS, atendimento)) return erro("Escolha o tipo de atendimento.");
-  if (!entre(LOCAIS, local)) return erro("Escolha o local de atendimento.");
+  if (!entre(LOCAIS, local)) return erro("Escolha o atendimento: presencial em São Paulo ou online.");
+  const atendimento = tipoDoLocal(local);
   if (cep.length !== 8) return erro("CEP inválido: são 8 dígitos.");
   if (!rua) return erro("Informe a rua.");
   if (!numero) return erro("Informe o número.");

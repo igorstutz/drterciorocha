@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { whatsappUrl } from "@/content/site";
-import { ATENDIMENTOS, ESTADOS_CIVIS, LOCAIS, MENSAGEM_POS_GUIA, UFS } from "@/content/guia";
+import { ESTADOS_CIVIS, LOCAIS, MENSAGEM_POS_GUIA, UFS } from "@/content/guia";
 import { ENVIO_SIMULADO } from "@/lib/whatsapp-gate";
 import { avisoNoTelefone, mascararTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
 
@@ -326,18 +326,11 @@ export function GuiaForm() {
             <input id="g-altura" name="altura" inputMode="decimal" required placeholder="1,63" className={campo} />
           </Campo>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2">
-          <Campo id="g-atendimento" label="Tipo de atendimento">
-            <select id="g-atendimento" name="atendimento" required defaultValue="" className={select} style={seta}>
-              <Opcoes lista={ATENDIMENTOS} vazio="Selecione" />
-            </select>
-          </Campo>
-          <Campo id="g-local" label="Local de atendimento">
-            <select id="g-local" name="local" required defaultValue="" className={select} style={seta}>
-              <Opcoes lista={LOCAIS} vazio="Selecione" />
-            </select>
-          </Campo>
-        </div>
+        <Campo id="g-local" label="Atendimento">
+          <select id="g-local" name="local" required defaultValue="" className={select} style={seta}>
+            <Opcoes lista={LOCAIS} vazio="Selecione" />
+          </select>
+        </Campo>
       </fieldset>
 
       {/* Passo 3 — endereço */}

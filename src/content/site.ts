@@ -134,7 +134,7 @@ export const faqById = {
   },
   onde: {
     q: "Onde o Dr. Tércio Rocha atende?",
-    a: `O Dr. Tércio Rocha tem registro ativo em São Paulo (CRM SP 148068), Rio de Janeiro (CRM RJ 525847) e Santa Catarina (CRM SC 30974) e atende na Clínica Tércio Rocha. As datas e o local de atendimento em cada cidade são confirmados pelo WhatsApp ${contact.whatsappLabel}.`,
+    a: `O Dr. Tércio Rocha tem registro ativo em São Paulo (CRM SP 148068), Rio de Janeiro (CRM RJ 525847) e Santa Catarina (CRM SC 30974) e atende presencialmente na Clínica Tércio Rocha, no Jardim América, em São Paulo, ou on-line, por videochamada. O agendamento é feito pelo WhatsApp ${contact.whatsappLabel}.`,
   },
   agendar: {
     q: "Como agendar uma consulta com o Dr. Tércio Rocha?",
