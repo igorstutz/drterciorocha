@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import {
   EMAIL_VALIDO,
   criarLimitador,
+  cookiesDoPixel,
   entregarAoCrm,
   ipDaRequisicao,
   soDigitos,
@@ -117,7 +118,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    await entregarAoCrm(webhook, lead);
+    await entregarAoCrm(webhook, { ...lead, meta: cookiesDoPixel(req, meta) });
     return NextResponse.json({ ok: true, entregue: true });
   } catch (err) {
     /* O lead não pode ser perdido por indisponibilidade do CRM: registra e

@@ -33,6 +33,25 @@ export async function entregarAoCrm(url: string, corpo: unknown): Promise<void> 
   if (!res.ok) throw new Error(`CRM respondeu ${res.status}`);
 }
 
+/**
+ * Cookies do pixel do Meta (_fbc = clique no anúncio, _fbp = navegador) para o painel: ele os manda junto quando o lead
+ * avança no funil (evento da etapa, API de Conversões), e a Meta liga a venda ao anúncio. Vêm do corpo (o formulário lê
+ * do navegador) ou, na falta, dos cookies da própria requisição. Só valores no formato "fb.1.…".
+ */
+export function cookiesDoPixel(req: Request, doCorpo?: { fbc?: unknown; fbp?: unknown }): { fbc?: string; fbp?: string } {
+  const cookies = Object.fromEntries(
+    (req.headers.get("cookie") ?? "")
+      .split(";")
+      .map((c) => c.trim().split("="))
+      .filter(([k]) => k === "_fbc" || k === "_fbp")
+      .map(([k, ...v]) => [k, decodeURIComponent(v.join("="))]),
+  );
+  const valido = (v: unknown, max: number) => (typeof v === "string" && /^fb\.\d\.\d+\./.test(v.trim()) ? v.trim().slice(0, max) : undefined);
+  const fbc = valido(doCorpo?.fbc, 300) ?? valido(cookies._fbc, 300);
+  const fbp = valido(doCorpo?.fbp, 200) ?? valido(cookies._fbp, 200);
+  return { ...(fbc ? { fbc } : {}), ...(fbp ? { fbp } : {}) };
+}
+
 export function ipDaRequisicao(req: Request): string {
   return (
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??

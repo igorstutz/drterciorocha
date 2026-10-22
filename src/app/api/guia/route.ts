@@ -3,6 +3,7 @@ import { ESTADOS_CIVIS, LOCAIS, UFS, tipoDoLocal } from "@/content/guia";
 import {
   EMAIL_VALIDO,
   criarLimitador,
+  cookiesDoPixel,
   entregarAoCrm,
   ipDaRequisicao,
   soDigitos,
@@ -132,7 +133,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    await entregarAoCrm(url, ficha);
+    await entregarAoCrm(url, { ...ficha, meta: cookiesDoPixel(req) });
     return NextResponse.json({ ok: true, entregue: true });
   } catch (err) {
     /* A ficha não pode se perder por indisponibilidade do painel: registra e devolve
