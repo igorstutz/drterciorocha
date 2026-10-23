@@ -25,6 +25,8 @@ type Lead = {
   consentimento?: boolean;
   origem?: string;
   continuar_whatsapp?: boolean;
+  /** Protocolo do formulário (o mesmo da mensagem do WhatsApp): o painel liga a conversa ao lead mesmo com o número errado. */
+  protocolo?: string;
   pagina?: string;
   atribuicao?: Record<string, string>;
   /** Do pixel no navegador: id do evento (deduplicação) e cookies _fbp/_fbc. */
@@ -83,6 +85,7 @@ export async function POST(req: Request) {
     canal: "site",
     /* Veio por um botão de WhatsApp: a conversa abre logo depois do envio. */
     continuar_whatsapp: Boolean(corpo.continuar_whatsapp),
+    protocolo: /^[A-Z0-9]{5,8}$/.test(String(corpo.protocolo ?? "")) ? String(corpo.protocolo) : undefined,
     atribuicao: corpo.atribuicao ?? {},
     recebido_em: new Date().toISOString(),
   };

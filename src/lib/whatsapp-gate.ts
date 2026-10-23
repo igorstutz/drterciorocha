@@ -23,11 +23,24 @@ export function atributosGate({ local, interesse }: GateWhatsApp) {
   };
 }
 
+/**
+ * Protocolo do formulário: vai para o painel junto com o lead e na mensagem que abre o WhatsApp. Se a pessoa digitou o número
+ * errado, o painel reconhece pelo protocolo quem escreveu e junta tudo no número certo (vinculo-formulario.ts no painel).
+ * Sem 0/O, 1/I/L, 5/S e 8/B, que se confundem.
+ */
+const ALFABETO_PROTOCOLO = "ACDEFGHJKMNPQRTUVWXY234679";
+
+export function novoProtocolo(): string {
+  const bytes = new Uint8Array(5);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => ALFABETO_PROTOCOLO[b % ALFABETO_PROTOCOLO.length]).join("");
+}
+
 /** Mensagem que abre a conversa depois do envio. */
-export function mensagemPosFormulario(nome: string, interesse?: string) {
+export function mensagemPosFormulario(nome: string, interesse?: string, protocolo?: string) {
   const primeiro = nome.trim().split(/\s+/)[0] ?? "";
   const sobre = interesse && interesse !== "Outros" ? ` sobre ${interesse}` : "";
-  return `Olá! Meu nome é ${primeiro}. Acabei de preencher o formulário no site${sobre}.`;
+  return `Olá! Meu nome é ${primeiro}. Acabei de preencher o formulário no site${sobre}.${protocolo ? ` Protocolo ${protocolo}` : ""}`;
 }
 
 /** Na prévia estática (GitHub Pages) não existe /api/lead: o envio é simulado. */

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { treatmentOptions, whatsappUrl } from "@/content/site";
-import { ENVIO_SIMULADO, mensagemPosFormulario } from "@/lib/whatsapp-gate";
+import { ENVIO_SIMULADO, mensagemPosFormulario, novoProtocolo } from "@/lib/whatsapp-gate";
 import { avisoNoTelefone, problemaNoTelefone, proximoValorTelefone } from "@/lib/telefone";
 import { dadosParaMeta, novoEventoId, rastrearContato, rastrearLead } from "@/lib/meta-pixel";
 import { gaContatoWhatsapp, gaLead } from "@/lib/google-analytics";
@@ -35,7 +35,7 @@ export function LeadForm({
   const [erro, setErro] = useState("");
   const [telefone, setTelefone] = useState("");
   const [erroTelefone, setErroTelefone] = useState<string | null>(null);
-  const [enviado, setEnviado] = useState({ nome: "", interesse: "" });
+  const [enviado, setEnviado] = useState({ nome: "", interesse: "", protocolo: "" });
   /* /consulta?canal=whatsapp é o destino dos botões de WhatsApp sem JavaScript. */
   const [viaUrl, setViaUrl] = useState(false);
   const utmRef = useRef<Record<string, string>>({});
@@ -107,6 +107,8 @@ export function LeadForm({
 
       /* O mesmo id vai no pixel e na API de Conversões: a Meta conta o lead uma vez só. */
       const eventoId = novoEventoId();
+      /* Protocolo: liga o formulário à conversa mesmo se o WhatsApp foi digitado errado. */
+      const protocolo = novoProtocolo();
       /* Caminho do WhatsApp: também um Contact, com id próprio. */
       const contatoId = modoWhatsapp ? novoEventoId() : undefined;
       const res = await fetch("/api/lead", {
@@ -122,6 +124,7 @@ export function LeadForm({
           consentimento: fd.get("consentimento") === "on",
           origem: modoWhatsapp && !origem.startsWith("whatsapp") ? `whatsapp-${origem}` : origem,
           continuar_whatsapp: modoWhatsapp,
+          protocolo,
           pagina: window.location.pathname,
           atribuicao: utmRef.current,
         }),
@@ -133,26 +136,26 @@ export function LeadForm({
       gaLead(modoWhatsapp ? "whatsapp" : "consulta");
       if (modoWhatsapp) gaContatoWhatsapp();
 
-      concluir(form, nome, interesse);
+      concluir(form, nome, interesse, protocolo);
     } catch (err) {
       setEstado("erro");
       setErro(err instanceof Error ? err.message : "Não foi possível enviar.");
     }
   }
 
-  function concluir(form: HTMLFormElement, nome: string, interesse: string) {
-    setEnviado({ nome, interesse });
+  function concluir(form: HTMLFormElement, nome: string, interesse: string, protocolo = "") {
+    setEnviado({ nome, interesse, protocolo });
     setEstado("ok");
     form.reset();
     /* Tenta abrir a conversa na hora. Se o navegador bloquear a janela, o
        botão da tela de sucesso continua lá. */
     if (modoWhatsapp) {
-      window.open(whatsappUrl(mensagemPosFormulario(nome, interesse)), "_blank", "noopener");
+      window.open(whatsappUrl(mensagemPosFormulario(nome, interesse, protocolo)), "_blank", "noopener");
     }
   }
 
   if (estado === "ok") {
-    const linkConversa = whatsappUrl(mensagemPosFormulario(enviado.nome, enviado.interesse));
+    const linkConversa = whatsappUrl(mensagemPosFormulario(enviado.nome, enviado.interesse, enviado.protocolo));
     return (
       <div className="rounded-card border border-jade-500/25 bg-jade-900/5 p-8 text-center md:p-10">
         <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-jade-500/12">
