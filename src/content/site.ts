@@ -148,6 +148,113 @@ export const faqById = {
     q: "Quanto custa o tratamento com células-tronco?",
     a: "O valor do tratamento com células-tronco depende do protocolo indicado para cada caso, que só é definido depois da avaliação médica. A equipe apresenta as condições antes de qualquer decisão.",
   },
+  /* --- Perguntas de cada área (25/out/2026, GEO/AEO): a pergunta como o paciente escreve no Google ou numa IA,
+     a resposta na primeira frase e com o nome do médico, para fazer sentido citada fora do site. Os fatos vêm das
+     respostas que a equipe da clínica manda aos pacientes; nada de valor, prazo de resultado ou promessa. --- */
+  autoimunesCura: {
+    q: "Células-tronco curam doenças autoimunes?",
+    a: "Não. No tratamento de doenças autoimunes com células-tronco conduzido pelo Dr. Tércio Rocha, o objetivo não é a cura, e sim modular o sistema imunológico para reduzir a inflamação e melhorar a qualidade de vida. As células-tronco mesenquimais são estudadas justamente por essa capacidade imunomoduladora.",
+  },
+  autoimunesQuais: {
+    q: "Quais doenças autoimunes podem ser tratadas com células-tronco?",
+    a: "O Dr. Tércio Rocha avalia o tratamento com células-tronco em esclerose múltipla, lúpus, artrite reumatoide e doença de Crohn, entre outras doenças em que o sistema imunológico ataca o próprio corpo. A indicação de cada caso é definida em consulta, a partir do histórico e dos exames.",
+  },
+  complementar: {
+    q: "O tratamento com células-tronco substitui os remédios que eu já tomo?",
+    a: "Não. O tratamento com células-tronco é um complemento ao acompanhamento que o paciente já faz, e nenhum remédio deve ser suspenso por conta própria. Qualquer mudança na medicação é decidida com o médico que acompanha o caso.",
+  },
+  alzheimer: {
+    q: "Células-tronco ajudam no Alzheimer e na demência?",
+    a: "No Alzheimer e na demência, o Dr. Tércio Rocha usa as células-tronco para apoiar a modulação da inflamação e o funcionamento neurológico, o que pode contribuir para memória, humor, sono e orientação. O tratamento faz parte de um cuidado completo, que inclui alimentação e saúde intestinal, e não promete cura.",
+  },
+  parkinson: {
+    q: "Como é o tratamento de Parkinson com células-tronco?",
+    a: "No Parkinson, o protocolo do Dr. Tércio Rocha costuma ter cerca de 3 sessões, com aplicações intratecal e endovenosa, definidas em consulta. O objetivo não é a cura: é ajudar no controle dos sintomas, como os tremores, na mobilidade e na autonomia, e retardar a progressão da doença.",
+  },
+  fase: {
+    q: "Existe uma fase certa da doença para começar o tratamento com células-tronco?",
+    a: "Em doenças degenerativas, começar mais cedo costuma estar associado a melhores possibilidades de resposta. Mesmo assim, o tratamento com células-tronco pode ser indicado em diferentes fases da doença: quem decide é o Dr. Tércio Rocha, na avaliação do caso.",
+  },
+  artrose: {
+    q: "Células-tronco ajudam na artrose do joelho?",
+    a: "Sim, a artrose está entre as indicações do Dr. Tércio Rocha. O tratamento com células-tronco busca apoiar a recuperação da cartilagem, da cápsula articular e dos ligamentos, melhorando a mobilidade, a amplitude de movimento e o conforto da articulação, sem cirurgia. A técnica é escolhida caso a caso.",
+  },
+  coluna: {
+    q: "Hérnia de disco e dor na coluna têm tratamento com células-tronco?",
+    a: "Sim. Na coluna, o tratamento com células-tronco do Dr. Tércio Rocha é voltado à dor crônica ligada ao desgaste dos discos, como a hérnia de disco. As células liberam substâncias que reduzem a inflamação local e apoiam o tecido do disco, com o objetivo de diminuir a dor e melhorar a mobilidade.",
+  },
+  infarto: {
+    q: "Células-tronco ajudam depois de um infarto?",
+    a: "A medicina regenerativa estuda as células-tronco para apoiar a reparação do coração depois de um infarto e a função cardíaca na insuficiência cardíaca. No consultório do Dr. Tércio Rocha, esse tratamento é sempre um complemento ao acompanhamento com o cardiologista, nunca um substituto.",
+  },
+  sangue: {
+    q: "Anemia falciforme e talassemia podem ser tratadas com células-tronco?",
+    a: "A anemia falciforme e a talassemia estão entre os transtornos do sangue avaliados pelo Dr. Tércio Rocha. Nesses casos, a terapia regenerativa busca ajudar no equilíbrio e no funcionamento do sistema que produz as células do sangue, respeitando as particularidades de cada paciente.",
+  },
+  disfuncao: {
+    q: "Como funciona o tratamento da disfunção erétil com células-tronco?",
+    a: "O protocolo do Dr. Tércio Rocha para a disfunção erétil busca regenerar as estruturas do pênis envolvidas na ereção, como a irrigação sanguínea e os corpos cavernosos. Ele é feito em 3 aplicações, com intervalo de 30 dias entre elas, e a indicação é confirmada em consulta.",
+  },
+  sexualOutras: {
+    q: "Andropausa e infertilidade masculina são avaliadas?",
+    a: "Sim. Além da disfunção erétil, o Dr. Tércio Rocha avalia a andropausa, a infertilidade masculina e a retonificação peniana. A conduta de cada caso é definida em consulta, a partir dos exames e do histórico do paciente.",
+  },
+  antiaging: {
+    q: "Qual a diferença entre anti-aging e longevidade?",
+    a: "O anti-aging previne os efeitos do envelhecimento, com foco em saúde, vitalidade e estética. A longevidade busca preservar ou recuperar as funções do organismo com a idade, sobretudo em pacientes mais velhos. Os dois protocolos podem ser associados, conforme a indicação do Dr. Tércio Rocha.",
+  },
+  inflammaging: {
+    q: "Como as células-tronco agem no envelhecimento?",
+    a: "Com a idade, o corpo mantém uma inflamação crônica de baixo grau, chamada inflammaging. As células-tronco usadas pelo Dr. Tércio Rocha ajudam a modular o sistema imunológico e a reduzir essa inflamação, e liberam substâncias que estimulam as células do próprio corpo a se repararem.",
+  },
+  fullFace: {
+    q: "O que é o full face com células-tronco?",
+    a: "Full face é o protocolo de estética regenerativa do Dr. Tércio Rocha para rosto, colo e pescoço. Ele estimula as células que produzem colágeno e fibras elásticas, melhorando firmeza, elasticidade, textura e viço da pele. O resultado aparece de forma gradual e natural, sem a proposta de dar volume.",
+  },
+  nanofat: {
+    q: "O que é NanoFat?",
+    a: "NanoFat é um procedimento regenerativo que usa a gordura do próprio paciente, emulsificada e filtrada. O objetivo não é dar volume, e sim melhorar a qualidade da pele: textura, firmeza, hidratação e luminosidade, além de suavizar linhas finas e cicatrizes. O Dr. Tércio Rocha pode associá-lo ao full face.",
+  },
+  intimo: {
+    q: "Como funciona o embelezamento íntimo regenerativo?",
+    a: "O embelezamento íntimo do Dr. Tércio Rocha usa a estética regenerativa para melhorar a qualidade dos tecidos da região íntima, estimulando colágeno e fibras elásticas para mais firmeza e elasticidade. O protocolo é individual e definido depois da avaliação clínica.",
+  },
+  autismo: {
+    q: "Células-tronco ajudam no autismo?",
+    a: "No Transtorno do Espectro Autista (TEA), o tratamento com células-tronco do Dr. Tércio Rocha é complementar às terapias que o paciente já faz. O objetivo é apoiar o desenvolvimento, com foco em cognição, comportamento, sono e comunicação. A resposta varia muito entre pacientes e não há resultado padronizado.",
+  },
+  autismoSessoes: {
+    q: "Quantas sessões tem o tratamento do autismo com células-tronco?",
+    a: "Em geral, o protocolo do Dr. Tércio Rocha para o autismo tem de 3 a 4 sessões. Ele pode ser acompanhado de suporte metabólico, nutricional e intestinal, e o número exato é definido depois da avaliação clínica detalhada.",
+  },
+  paralisia: {
+    q: "Paralisia cerebral pode ser tratada com células-tronco? Existe idade?",
+    a: "A terapia regenerativa na paralisia cerebral pode ser feita em diferentes faixas etárias. Com o Dr. Tércio Rocha, ela é complementar e busca apoiar os mecanismos de reparo do sistema nervoso e a recuperação funcional. Os resultados dependem da idade, do grau de acometimento e da resposta de cada paciente.",
+  },
+  fibromialgia: {
+    q: "Fibromialgia tem tratamento com células-tronco?",
+    a: "Sim, a fibromialgia está entre as condições avaliadas pelo Dr. Tércio Rocha. As células-tronco liberam substâncias anti-inflamatórias que podem equilibrar a inflamação crônica e reduzir a hipersensibilidade à dor, com o objetivo de melhorar a dor, o bem-estar e a qualidade de vida aos poucos.",
+  },
+  sensibilizacao: {
+    q: "O que é sensibilização central na fibromialgia?",
+    a: "Sensibilização central é a forma como o sistema nervoso passa a amplificar os estímulos de dor, comum na fibromialgia. O tratamento com células-tronco conduzido pelo Dr. Tércio Rocha busca modular esse processo, ajudando o organismo a reduzir a hipersensibilidade à dor ao longo do tempo.",
+  },
+  diabetes2: {
+    q: "Células-tronco ajudam no diabetes tipo 2?",
+    a: "No diabetes tipo 2, o tratamento com células-tronco do Dr. Tércio Rocha é focado na modulação do sistema imunológico e na regeneração de tecidos, o que pode aumentar a sensibilidade à insulina e melhorar o controle da glicose. Ele não substitui o acompanhamento e os remédios do diabetes.",
+  },
+  diabetes1: {
+    q: "Diabetes tipo 1 pode ser tratado com células-tronco no Brasil?",
+    a: "O diabetes tipo 1 não é tratado na Clínica Tércio Rocha. O protocolo com células-tronco para ele é invasivo, feito em centro cirúrgico, e hoje só está disponível nos Estados Unidos. O tratamento oferecido na clínica é para o diabetes tipo 2.",
+  },
+  posVacinal: {
+    q: "Síndrome pós-vacinal, fibrose pulmonar e nefropatias são avaliadas?",
+    a: "Sim. O Dr. Tércio Rocha avalia em consulta as síndromes pós-vacinais, a fibrose pulmonar e as nefropatias (doenças dos rins). A medicina regenerativa busca melhorar a qualidade de vida, reduzir sintomas e retardar a progressão da doença, sem promessa de cura.",
+  },
+  foraDaLista: {
+    q: "Minha doença não aparece no site. Posso pedir uma avaliação?",
+    a: `Sim. No formulário do site, escolha "Outros" e descreva o seu caso, ou escreva para a equipe da Clínica Tércio Rocha pelo WhatsApp ${contact.whatsappLabel}. A equipe explica se a condição tem indicação para uma avaliação com o Dr. Tércio Rocha. Câncer sólido não é tratado.`,
+  },
 } as const satisfies Record<string, Faq>;
 
 export type FaqId = keyof typeof faqById;
@@ -161,6 +268,10 @@ export const faqGroups = [
   {
     title: "Sobre medicina regenerativa e células-tronco",
     ids: ["medicina", "alogenicas", "doencas", "cirurgico", "idade", "biologica"],
+  },
+  {
+    title: "Sobre cada tratamento",
+    ids: ["autoimunesCura", "autoimunesQuais", "complementar", "alzheimer", "parkinson", "fase", "artrose", "coluna", "infarto", "sangue", "disfuncao", "sexualOutras", "antiaging", "inflammaging", "fullFace", "nanofat", "intimo", "autismo", "autismoSessoes", "paralisia", "fibromialgia", "sensibilizacao", "diabetes2", "diabetes1", "posVacinal", "foraDaLista"],
   },
   { title: "Sobre o Dr. Tércio Rocha", ids: ["quem", "onde"] },
   { title: "Sobre a consulta", ids: ["agendar", "primeira", "custo"] },
@@ -195,7 +306,7 @@ export const indications = [
     howHeading: "Como as células-tronco atuam nas doenças autoimunes",
     howText:
       "As células-tronco mesenquimais são estudadas pela capacidade de modular a resposta do sistema imunológico e de apoiar a regeneração dos tecidos afetados pela inflamação.",
-    faqIds: [],
+    faqIds: ["autoimunesCura", "autoimunesQuais", "complementar"],
   },
   {
     slug: "doencas-degenerativas",
@@ -215,7 +326,7 @@ export const indications = [
     howHeading: "Como as células-tronco atuam nas doenças degenerativas",
     howText:
       "A medicina regenerativa estuda o uso de células-tronco para proteger e apoiar a recuperação de tecidos em degeneração.",
-    faqIds: ["idade"],
+    faqIds: ["alzheimer", "parkinson", "fase", "idade"],
   },
   {
     slug: "lesoes-ortopedicas",
@@ -235,7 +346,7 @@ export const indications = [
     howHeading: "Como as células-tronco atuam nas lesões ortopédicas",
     howText:
       "As células-tronco são estudadas pela capacidade de apoiar a regeneração de cartilagem, tendões e outros tecidos das articulações.",
-    faqIds: [],
+    faqIds: ["artrose", "coluna"],
   },
   {
     slug: "doencas-cardiovasculares",
@@ -255,7 +366,7 @@ export const indications = [
     howHeading: "Como as células-tronco atuam no coração",
     howText:
       "A medicina regenerativa estuda o uso de células-tronco na reparação do tecido do coração após um infarto e na melhora da função cardíaca.",
-    faqIds: [],
+    faqIds: ["infarto", "complementar"],
   },
   {
     slug: "transtornos-hematologicos",
@@ -275,7 +386,7 @@ export const indications = [
     /* Texto de atuação pendente de validação do Dr. Tércio. */
     howHeading: "",
     howText: "",
-    faqIds: [],
+    faqIds: ["sangue", "complementar"],
   },
   {
     slug: "saude-sexual-masculina",
@@ -295,7 +406,7 @@ export const indications = [
     /* Texto de atuação pendente de validação do Dr. Tércio. */
     howHeading: "",
     howText: "",
-    faqIds: [],
+    faqIds: ["disfuncao", "sexualOutras"],
   },
   /* --- Áreas acrescentadas em 25/out/2026: cada opção do formulário tem a sua página. Textos a partir das
      respostas que a equipe da clínica manda aos pacientes (respostas rápidas do painel), sem as promessas. --- */
@@ -317,7 +428,7 @@ export const indications = [
     howHeading: "Como as células-tronco atuam no envelhecimento",
     howText:
       "Com a idade, o corpo mantém uma inflamação crônica de baixo grau. As células-tronco ajudam a modular o sistema imunológico e a reduzir essa inflamação, e liberam substâncias que estimulam as células do próprio corpo a se repararem — com efeito sobre a energia das células e a limpeza das células envelhecidas.",
-    faqIds: ["biologica", "idade"],
+    faqIds: ["antiaging", "inflammaging", "biologica", "idade"],
     interesse: "Anti-Aging",
   },
   {
@@ -338,7 +449,7 @@ export const indications = [
     howHeading: "Como a estética regenerativa atua na pele",
     howText:
       "O tratamento estimula os fibroblastos, as células que produzem colágeno e fibras elásticas, o que melhora a firmeza, a elasticidade, a textura e o viço da pele de forma gradual e natural. Em alguns casos é associado ao NanoFat, que usa a gordura do próprio paciente para melhorar a qualidade da pele — o objetivo não é dar volume.",
-    faqIds: [],
+    faqIds: ["fullFace", "nanofat", "intimo"],
     interesse: "Full face",
     fatos: ["Aplicação ambulatorial", "Resultado gradual e natural", "Avaliação individual"],
   },
@@ -360,7 +471,7 @@ export const indications = [
     howHeading: "Como as células-tronco atuam no neurodesenvolvimento",
     howText:
       "As células-tronco ajudam a controlar a inflamação do sistema nervoso e liberam substâncias que apoiam os neurônios e as conexões entre eles. No autismo, o foco é a cognição, o comportamento, o sono e a comunicação, e o protocolo costuma ter de 3 a 4 sessões. A resposta varia muito de um paciente para outro, e não há resultado padronizado.",
-    faqIds: ["idade"],
+    faqIds: ["autismo", "autismoSessoes", "paralisia"],
     interesse: "Autismo",
   },
   {
@@ -381,7 +492,7 @@ export const indications = [
     howHeading: "Como as células-tronco atuam na fibromialgia",
     howText:
       "As células-tronco liberam substâncias anti-inflamatórias e fatores de crescimento que podem equilibrar a inflamação crônica e diminuir a sensibilização central — a forma como o sistema nervoso amplifica a dor. Também apoiam a recuperação de pequenas lesões em músculos, articulações e tendões. O objetivo é a melhora progressiva da dor e da qualidade de vida.",
-    faqIds: [],
+    faqIds: ["fibromialgia", "sensibilizacao", "complementar"],
     interesse: "Fibromialgia",
   },
   {
@@ -402,7 +513,7 @@ export const indications = [
     howHeading: "Como as células-tronco atuam no diabetes tipo 2",
     howText:
       "O tratamento é focado na modulação do sistema imunológico e na regeneração de tecidos, o que pode aumentar a sensibilidade à insulina e melhorar o controle da glicose. O diabetes tipo 1 não é tratado na clínica: o protocolo para ele é feito em centro cirúrgico e hoje só está disponível nos Estados Unidos.",
-    faqIds: [],
+    faqIds: ["diabetes2", "diabetes1", "complementar"],
     interesse: "Diabetes Mellitus Tipo 2",
   },
   {
@@ -423,7 +534,7 @@ export const indications = [
     howHeading: "Como a medicina regenerativa atua nesses casos",
     howText:
       "As terapias estimulam a regeneração de tecidos e órgãos que perderam a capacidade de se recuperar. O foco é melhorar a qualidade de vida, reduzir os sintomas e retardar a progressão da doença — sem promessa de cura, porque cada organismo responde de um jeito.",
-    faqIds: [],
+    faqIds: ["posVacinal", "foraDaLista"],
     interesse: "Outros",
   },
 ] as const satisfies readonly {

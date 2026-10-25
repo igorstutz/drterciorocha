@@ -9,7 +9,7 @@ import { JsonLd, graph, breadcrumbSchema, faqSchema } from "@/lib/jsonld";
 export const metadata: Metadata = {
   title: "Perguntas frequentes sobre células-tronco",
   description:
-    "Respostas diretas sobre tratamento com células-tronco: indicações, primeira consulta, valores e idade biológica, pelo Dr. Tércio Rocha.",
+    "Respostas diretas sobre tratamento com células-tronco: autismo, Parkinson, Alzheimer, artrose, fibromialgia, diabetes tipo 2, disfunção erétil, full face, primeira consulta e valores, pelo Dr. Tércio Rocha.",
   alternates: { canonical: "/perguntas-frequentes" },
 };
 
@@ -21,6 +21,7 @@ const trail = [
 /** Âncora, rótulo curto e ícone de cada tema (na ordem de `faqGroups`). */
 const temas = [
   { id: "tratamento", curto: "O tratamento", icone: "M12 3c-1.5 3-5 4.5-5 9a5 5 0 0 0 10 0c0-4.5-3.5-6-5-9zM12 14v4" },
+  { id: "por-tratamento", curto: "Cada tratamento", icone: "M9 3h6M10 3v5.5L5.5 17a2.5 2.5 0 0 0 2.2 3.7h8.6a2.5 2.5 0 0 0 2.2-3.7L14 8.5V3M7.5 14h9" },
   { id: "medico", curto: "O médico", icone: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0" },
   { id: "consulta", curto: "A consulta", icone: "M7 3v3m10-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zM9 14l2 2 4-4" },
 ];

@@ -67,8 +67,7 @@ export default async function Tratamento({
     indicacao.conditions.find((c) => ([...treatmentOptions, "Disfunção erétil"] as string[]).includes(c));
   const fatos = "fatos" in indicacao ? indicacao.fatos : FATOS;
 
-  /* Perguntas da própria área primeiro; as gerais completam. Respostas
-     clínicas ainda não validadas pelo Dr. Tércio ficam fora. */
+  /* Perguntas da própria área primeiro; as gerais completam (textos a partir das respostas da equipe da clínica). */
   const perguntas = pickFaqs([...indicacao.faqIds, "cirurgico", "primeira", "custo"]);
 
   /* Artigos cujo título ou descrição citam alguma condição deste grupo. */
