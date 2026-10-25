@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { indications, pickFaqs, doctor } from "@/content/site";
+import { indications, pickFaqs, doctor, treatmentOptions } from "@/content/site";
 import { getArtigos } from "@/lib/artigos";
 import { Button, Badge, Eyebrow, Breadcrumbs } from "@/components/ui";
 import { IconeArea } from "@/components/IconeArea";
@@ -42,7 +42,7 @@ export async function generateMetadata({
   };
 }
 
-const fatos = ["Aplicação ambulatorial", "Sem cirurgia", "Avaliação individual"];
+const FATOS = ["Aplicação ambulatorial", "Sem cirurgia", "Avaliação individual"];
 
 export default async function Tratamento({
   params,
@@ -61,30 +61,21 @@ export default async function Tratamento({
 
   const outras = indications.filter((x) => x.slug !== slug);
 
-  /* Condição da página que também existe nas opções do formulário. */
+  /* A opção do formulário da página: a da área ou a primeira condição que também está no formulário. */
   const interesseForm =
-    indicacao.conditions.find((c) =>
-      (
-        [
-          "Artrose",
-          "Alzheimer",
-          "Parkinson",
-          "Demência",
-          "Problemas de coluna",
-          "Disfunção erétil",
-          "Retonificação peniana",
-        ] as string[]
-      ).includes(c),
-    ) ?? undefined;
+    ("interesse" in indicacao ? indicacao.interesse : undefined) ??
+    indicacao.conditions.find((c) => ([...treatmentOptions, "Disfunção erétil"] as string[]).includes(c));
+  const fatos = "fatos" in indicacao ? indicacao.fatos : FATOS;
 
   /* Perguntas da própria área primeiro; as gerais completam. Respostas
      clínicas ainda não validadas pelo Dr. Tércio ficam fora. */
   const perguntas = pickFaqs([...indicacao.faqIds, "cirurgico", "primeira", "custo"]);
 
   /* Artigos cujo título ou descrição citam alguma condição deste grupo. */
-  const termos = [indicacao.title, ...indicacao.conditions].map((t) =>
-    t.toLowerCase(),
-  );
+  /* Primeira palavra curta ("dor") casava com qualquer texto. */
+  const termos = [indicacao.title, ...indicacao.conditions]
+    .map((t) => t.toLowerCase())
+    .filter((t) => t.split(" ")[0].length >= 5);
   const relacionados = getArtigos()
     .filter((a) => {
       const texto = `${a.titulo} ${a.descricao}`.toLowerCase();

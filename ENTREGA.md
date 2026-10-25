@@ -79,7 +79,7 @@ profissional de saúde. Agora o site declara, num único `@graph` com nós inter
 | `Physician` + `MedicalBusiness` | todas | identifica o médico como entidade de saúde |
 | `MedicalClinic` | todas | a Clínica Tércio Rocha como organização |
 | `Person` | todas | credenciais, CRMs, afiliações, `sameAs` das redes |
-| `MedicalProcedure` | tratamentos | os seis grupos de indicação |
+| `MedicalProcedure` | tratamentos | as doze áreas de indicação |
 | `MedicalWebPage` | tratamentos, artigos | conteúdo médico revisado por profissional |
 | `FAQPage` | home, consulta, tratamentos, FAQ | respostas diretas extraíveis |
 | `BreadcrumbList` | todas as internas | hierarquia do site |
@@ -132,7 +132,7 @@ pelo marketing). No celular o site lia como "preto e dourado".
 - **Jornada** (`PassosConsulta` na home e `JornadaTratamento` nas páginas de área):
   painel marinho com linha do tempo do azul ao dourado e uma miniatura por etapa. Foi a
   peça que o Igor mais gostou; usar como referência de estilo.
-- **Órbita das 6 áreas** (`OrbitaAreas`) no topo de `/tratamentos`.
+- **Órbita das áreas** (`OrbitaAreas`) no topo de `/tratamentos` (no celular, grade de ícones).
 - **Regenera Brasil** em faixa champanhe com o nome vazado ao fundo (`RegeneraBrasil`).
 - **Página do médico** como perfil editorial: retrato com cartões flutuantes, citação
   do próprio Dr. Tércio (artigo "Relacionamento 50 +"), credenciais em faixa marinho e
@@ -246,8 +246,13 @@ por tratamento, "Como atua" de transtornos hematológicos e de saúde sexual mas
       cita a 3ª edição em novembro de 2025
 - [ ] Respostas médicas pendentes (segurança, regulamentação, sessões, FAQ por
       tratamento) e revisão do texto médico (ponto 1 acima)
-- [ ] Decidir uma 7ª página, "Medicina estética regenerativa" (full face, alopecia,
-      regeneração íntima não cabem nas 6 áreas)
+- [x] Páginas para as opções do formulário que não tinham área (25/out/2026): Longevidade e
+      Anti-aging, Estética Regenerativa (full face, embelezamento íntimo, flacidez), Autismo e
+      Neurodesenvolvimento (TEA, paralisia cerebral), Fibromialgia e Dor Crônica, Diabetes Tipo 2 e
+      Outras Condições (síndromes pós-vacinais, fibrose pulmonar, nefropatias). Textos a partir das
+      respostas que a equipe já manda aos pacientes, sem promessa de resultado; a lista completa de
+      /tratamentos leva cada condição à sua página
+- [ ] Revisão do Dr. Tércio Rocha nos textos das seis áreas novas (25/out/2026)
 
 **Ofertas em aberto (aguardando o Igor)**
 - [ ] Entrada suave (só opacidade) para quem tem os efeitos de animação desligados

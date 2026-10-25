@@ -1,7 +1,7 @@
 # drterciorocha.com — novo site
 
 Substituto do WordPress + Elementor. Next.js 16 (App Router), React 19,
-Tailwind CSS 4, TypeScript. Todas as 50 páginas são pré-renderizadas estáticas.
+Tailwind CSS 4, TypeScript. Todas as páginas são pré-renderizadas estáticas.
 
 ## Rodar
 
@@ -18,7 +18,7 @@ src/
   app/
     page.tsx                    home
     consulta/                   formulário de captação
-    tratamentos/                hub + 6 áreas de indicação (SSG)
+    tratamentos/                hub + 12 áreas de indicação (SSG) — toda opção do formulário tem a sua (areaDoInteresse)
     dr-tercio-rocha/            biografia e credenciais
     artigos/                    listagem + 31 artigos (SSG)
     livros/                     3 livros

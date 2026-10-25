@@ -106,7 +106,7 @@ export type Faq = { q: string; a: string };
 export const faqById = {
   medicina: {
     q: "O que é medicina regenerativa?",
-    a: "Medicina regenerativa é a área da medicina que busca restaurar a função de tecidos e órgãos estimulando os mecanismos de reparo do próprio corpo, por exemplo com células-tronco. O Dr. Tércio Rocha usa a medicina regenerativa em doenças autoimunes, degenerativas, ortopédicas, cardiovasculares, hematológicas e na saúde sexual masculina.",
+    a: "Medicina regenerativa é a área da medicina que busca restaurar a função de tecidos e órgãos estimulando os mecanismos de reparo do próprio corpo, por exemplo com células-tronco. O Dr. Tércio Rocha usa a medicina regenerativa em doenças autoimunes, degenerativas, ortopédicas, cardiovasculares e hematológicas, na saúde sexual masculina, no autismo, na fibromialgia, no diabetes tipo 2, na longevidade e na estética regenerativa.",
   },
   alogenicas: {
     q: "O que são células-tronco mesenquimais alogênicas?",
@@ -114,7 +114,7 @@ export const faqById = {
   },
   doencas: {
     q: "Quais doenças podem ser tratadas com células-tronco?",
-    a: "As principais áreas atendidas pelo Dr. Tércio Rocha são doenças autoimunes (esclerose múltipla, lúpus, artrite reumatoide, doença de Crohn), doenças degenerativas (Alzheimer, Parkinson, osteoartrite), lesões ortopédicas (joelho, coluna, hérnia de disco), doenças cardiovasculares, transtornos hematológicos (anemia falciforme, talassemia) e saúde sexual masculina. Câncer sólido não é tratado. A indicação de cada caso só é definida em avaliação médica.",
+    a: "As principais áreas atendidas pelo Dr. Tércio Rocha são doenças autoimunes (esclerose múltipla, lúpus, artrite reumatoide, doença de Crohn), doenças degenerativas (Alzheimer, Parkinson, osteoartrite), lesões ortopédicas (joelho, coluna, hérnia de disco), doenças cardiovasculares, transtornos hematológicos (anemia falciforme, talassemia), saúde sexual masculina, autismo e paralisia cerebral, fibromialgia, diabetes tipo 2, longevidade e anti-aging e estética regenerativa (full face, embelezamento íntimo). Síndromes pós-vacinais, fibrose pulmonar e nefropatias também são avaliadas. Câncer sólido não é tratado. A indicação de cada caso só é definida em avaliação médica.",
   },
   cirurgico: {
     q: "O tratamento com células-tronco é cirúrgico?",
@@ -173,7 +173,7 @@ export const homeFaqIds = ["doencas", "cirurgico", "quem", "onde", "agendar", "c
 export const consultaFaqIds = ["agendar", "primeira", "custo", "onde"] as const;
 
 /**
- * Os seis grupos de indicação. `description` e `conditions` vêm da página
+ * As áreas de indicação (seis até 25/out/2026; as outras seis cobrem as opções do formulário que não tinham página). `description` e `conditions` vêm da página
  * /consulta-dr-tercio-rocha/ do site antigo; o resto é a copy revisada.
  */
 export const indications = [
@@ -297,6 +297,135 @@ export const indications = [
     howText: "",
     faqIds: [],
   },
+  /* --- Áreas acrescentadas em 25/out/2026: cada opção do formulário tem a sua página. Textos a partir das
+     respostas que a equipe da clínica manda aos pacientes (respostas rápidas do painel), sem as promessas. --- */
+  {
+    slug: "longevidade-e-anti-aging",
+    title: "Longevidade e Anti-aging",
+    name: "longevidade e anti-aging",
+    short: "Prevenir o envelhecimento e preservar as funções do corpo.",
+    description:
+      "Protocolos para prevenir os efeitos do envelhecimento (anti-aging) e para preservar ou recuperar as funções do organismo ao longo dos anos (longevidade).",
+    conditions: ["Anti-aging", "Longevidade", "Fragilidade do envelhecimento"],
+    seoTitle: "Longevidade, anti-aging e células-tronco",
+    metaDescription:
+      "Anti-aging e longevidade: como o Dr. Tércio Rocha usa as células-tronco para prevenir os efeitos do envelhecimento e preservar as funções do organismo.",
+    h1: "Longevidade e anti-aging com células-tronco",
+    intro:
+      "Anti-aging e longevidade são protocolos diferentes, que podem ser associados. O anti-aging previne os efeitos do envelhecimento, com foco em saúde, vitalidade e estética. A longevidade busca preservar ou recuperar as funções do organismo ao longo dos anos, sobretudo em pacientes de idade mais avançada. O Dr. Tércio Rocha define em consulta qual é o indicado para cada caso.",
+    conditionsHeading: "O que é avaliado em longevidade e anti-aging",
+    howHeading: "Como as células-tronco atuam no envelhecimento",
+    howText:
+      "Com a idade, o corpo mantém uma inflamação crônica de baixo grau. As células-tronco ajudam a modular o sistema imunológico e a reduzir essa inflamação, e liberam substâncias que estimulam as células do próprio corpo a se repararem — com efeito sobre a energia das células e a limpeza das células envelhecidas.",
+    faqIds: ["biologica", "idade"],
+    interesse: "Anti-Aging",
+  },
+  {
+    slug: "estetica-regenerativa",
+    title: "Estética Regenerativa",
+    name: "estética regenerativa",
+    short: "Firmeza, elasticidade e viço da pele.",
+    description:
+      "Protocolos para o rosto, o corpo e a região íntima que estimulam a produção de colágeno e melhoram a firmeza, a elasticidade e a textura da pele.",
+    conditions: ["Full face", "Embelezamento íntimo", "Flacidez", "Textura e viço da pele"],
+    seoTitle: "Estética regenerativa: full face e embelezamento íntimo",
+    metaDescription:
+      "Full face, embelezamento íntimo e flacidez: como o Dr. Tércio Rocha usa a estética regenerativa para melhorar a firmeza e a textura da pele.",
+    h1: "Estética regenerativa: full face, embelezamento íntimo e flacidez",
+    intro:
+      "A estética regenerativa usa os mecanismos do próprio organismo para melhorar a qualidade dos tecidos: no rosto, no colo e no pescoço (full face), na região íntima e nas áreas com flacidez. O Dr. Tércio Rocha avalia cada caso para definir o protocolo.",
+    conditionsHeading: "O que é tratado na estética regenerativa",
+    howHeading: "Como a estética regenerativa atua na pele",
+    howText:
+      "O tratamento estimula os fibroblastos, as células que produzem colágeno e fibras elásticas, o que melhora a firmeza, a elasticidade, a textura e o viço da pele de forma gradual e natural. Em alguns casos é associado ao NanoFat, que usa a gordura do próprio paciente para melhorar a qualidade da pele — o objetivo não é dar volume.",
+    faqIds: [],
+    interesse: "Full face",
+    fatos: ["Aplicação ambulatorial", "Resultado gradual e natural", "Avaliação individual"],
+  },
+  {
+    slug: "autismo-e-neurodesenvolvimento",
+    title: "Autismo e Neurodesenvolvimento",
+    name: "autismo e neurodesenvolvimento",
+    short: "Desenvolvimento, comportamento, sono e comunicação.",
+    description:
+      "Abordagem regenerativa e integrativa, complementar às terapias que o paciente já faz, para o Transtorno do Espectro Autista e a paralisia cerebral.",
+    conditions: ["Autismo (TEA)", "Paralisia cerebral"],
+    seoTitle: "Autismo (TEA) e células-tronco",
+    metaDescription:
+      "Autismo (TEA) e paralisia cerebral: como o Dr. Tércio Rocha avalia o tratamento com células-tronco, complementar às terapias do paciente.",
+    h1: "Autismo e neurodesenvolvimento: tratamento com células-tronco",
+    intro:
+      "No Transtorno do Espectro Autista (TEA) e na paralisia cerebral, o tratamento com células-tronco é complementar: soma-se às terapias que o paciente já faz, com o objetivo de apoiar o desenvolvimento e a qualidade de vida dele e da família. O Dr. Tércio Rocha avalia cada caso para definir se o tratamento é indicado.",
+    conditionsHeading: "Quais condições do neurodesenvolvimento são avaliadas",
+    howHeading: "Como as células-tronco atuam no neurodesenvolvimento",
+    howText:
+      "As células-tronco ajudam a controlar a inflamação do sistema nervoso e liberam substâncias que apoiam os neurônios e as conexões entre eles. No autismo, o foco é a cognição, o comportamento, o sono e a comunicação, e o protocolo costuma ter de 3 a 4 sessões. A resposta varia muito de um paciente para outro, e não há resultado padronizado.",
+    faqIds: ["idade"],
+    interesse: "Autismo",
+  },
+  {
+    slug: "fibromialgia-e-dor-cronica",
+    title: "Fibromialgia e Dor Crônica",
+    name: "fibromialgia e dor crônica",
+    short: "Dor difusa e persistente.",
+    description:
+      "Tratamento de apoio para a fibromialgia e outros quadros de dor difusa e persistente, com foco na inflamação crônica e na forma como o corpo sente a dor.",
+    conditions: ["Fibromialgia", "Dor crônica difusa"],
+    seoTitle: "Fibromialgia e células-tronco",
+    metaDescription:
+      "Fibromialgia e dor crônica: como o Dr. Tércio Rocha avalia o tratamento com células-tronco para reduzir a inflamação e a sensibilidade à dor.",
+    h1: "Tratamento da fibromialgia com células-tronco",
+    intro:
+      "A fibromialgia causa dor espalhada pelo corpo, que persiste por meses, muitas vezes com cansaço e sono ruim. O Dr. Tércio Rocha avalia cada caso para definir se o tratamento com células-tronco é indicado, sempre de forma individual.",
+    conditionsHeading: "Quais quadros de dor crônica são avaliados",
+    howHeading: "Como as células-tronco atuam na fibromialgia",
+    howText:
+      "As células-tronco liberam substâncias anti-inflamatórias e fatores de crescimento que podem equilibrar a inflamação crônica e diminuir a sensibilização central — a forma como o sistema nervoso amplifica a dor. Também apoiam a recuperação de pequenas lesões em músculos, articulações e tendões. O objetivo é a melhora progressiva da dor e da qualidade de vida.",
+    faqIds: [],
+    interesse: "Fibromialgia",
+  },
+  {
+    slug: "diabetes-tipo-2",
+    title: "Diabetes Tipo 2",
+    name: "diabetes tipo 2",
+    short: "Sensibilidade à insulina e controle da glicose.",
+    description:
+      "Uso de células-tronco no diabetes mellitus tipo 2, com foco na modulação do sistema imunológico e na regeneração de tecidos.",
+    conditions: ["Diabetes mellitus tipo 2"],
+    seoTitle: "Diabetes tipo 2 e células-tronco",
+    metaDescription:
+      "Diabetes mellitus tipo 2: como o Dr. Tércio Rocha avalia o tratamento com células-tronco, com foco na sensibilidade à insulina e no controle da glicose.",
+    h1: "Tratamento do diabetes tipo 2 com células-tronco",
+    intro:
+      "No diabetes mellitus tipo 2, o corpo passa a responder mal à insulina e a glicose do sangue fica alta. O Dr. Tércio Rocha avalia cada caso para definir se o tratamento com células-tronco é indicado, junto do acompanhamento que o paciente já faz.",
+    conditionsHeading: "Qual tipo de diabetes é avaliado",
+    howHeading: "Como as células-tronco atuam no diabetes tipo 2",
+    howText:
+      "O tratamento é focado na modulação do sistema imunológico e na regeneração de tecidos, o que pode aumentar a sensibilidade à insulina e melhorar o controle da glicose. O diabetes tipo 1 não é tratado na clínica: o protocolo para ele é feito em centro cirúrgico e hoje só está disponível nos Estados Unidos.",
+    faqIds: [],
+    interesse: "Diabetes Mellitus Tipo 2",
+  },
+  {
+    slug: "outras-condicoes",
+    title: "Outras Condições",
+    name: "outras condições",
+    short: "Pulmão, rins, síndromes pós-vacinais e outros casos.",
+    description:
+      "Síndromes pós-vacinais, fibrose pulmonar, nefropatias e outras condições também podem ser avaliadas pelo Dr. Tércio Rocha em consulta.",
+    conditions: ["Síndromes pós-vacinais", "Fibrose pulmonar", "Nefropatias (doenças dos rins)"],
+    seoTitle: "Fibrose pulmonar, nefropatias e células-tronco",
+    metaDescription:
+      "Síndromes pós-vacinais, fibrose pulmonar e nefropatias: como o Dr. Tércio Rocha avalia o tratamento com células-tronco em outras condições.",
+    h1: "Outras condições avaliadas com células-tronco",
+    intro:
+      "Além das áreas principais, o Dr. Tércio Rocha avalia outras condições, como as síndromes pós-vacinais, a fibrose pulmonar e as nefropatias (doenças dos rins). Se a sua condição não aparece no site, escolha \"Outros\" no formulário e conte o seu caso: a equipe explica se ele tem indicação para uma avaliação.",
+    conditionsHeading: "Outras condições avaliadas",
+    howHeading: "Como a medicina regenerativa atua nesses casos",
+    howText:
+      "As terapias estimulam a regeneração de tecidos e órgãos que perderam a capacidade de se recuperar. O foco é melhorar a qualidade de vida, reduzir os sintomas e retardar a progressão da doença — sem promessa de cura, porque cada organismo responde de um jeito.",
+    faqIds: [],
+    interesse: "Outros",
+  },
 ] as const satisfies readonly {
   slug: string;
   title: string;
@@ -312,6 +441,10 @@ export const indications = [
   howHeading: string;
   howText: string;
   faqIds: readonly FaqId[];
+  /** Opção do formulário que a página já deixa escolhida (sem ela, a primeira condição que estiver no formulário). */
+  interesse?: (typeof treatmentOptions)[number];
+  /** As três marcas embaixo do título; sem elas, as de sempre (ambulatorial, sem cirurgia, avaliação individual). */
+  fatos?: readonly string[];
 }[];
 
 /** Opções do formulário — as mesmas 18 do site antigo. */
@@ -335,6 +468,28 @@ export const treatmentOptions = [
   "Full face",
   "Outros",
 ] as const;
+
+/** A página de cada opção do formulário — a lista completa em /tratamentos leva a ela. */
+export const areaDoInteresse: Record<(typeof treatmentOptions)[number], (typeof indications)[number]["slug"]> = {
+  "Diabetes Mellitus Tipo 2": "diabetes-tipo-2",
+  Demência: "doencas-degenerativas",
+  Alzheimer: "doencas-degenerativas",
+  Artrose: "lesoes-ortopedicas",
+  Parkinson: "doencas-degenerativas",
+  Autismo: "autismo-e-neurodesenvolvimento",
+  "Anti-Aging": "longevidade-e-anti-aging",
+  "Retonificação peniana": "saude-sexual-masculina",
+  "Embelezamento íntimo": "estetica-regenerativa",
+  "Problemas de coluna": "lesoes-ortopedicas",
+  Fibromialgia: "fibromialgia-e-dor-cronica",
+  "Síndromes Pós-vacinais": "outras-condicoes",
+  "Fibrose pulmonar": "outras-condicoes",
+  Cardiopatias: "doencas-cardiovasculares",
+  Nefropatias: "outras-condicoes",
+  "Problemas de joelho": "lesoes-ortopedicas",
+  "Full face": "estetica-regenerativa",
+  Outros: "outras-condicoes",
+};
 
 export const books = [
   {

@@ -10,13 +10,19 @@ const rotulo: Record<string, string> = {
   "doencas-cardiovasculares": "Cardiovasculares",
   "transtornos-hematologicos": "Hematológicas",
   "saude-sexual-masculina": "Saúde sexual",
+  "longevidade-e-anti-aging": "Longevidade",
+  "estetica-regenerativa": "Estética",
+  "autismo-e-neurodesenvolvimento": "Autismo",
+  "fibromialgia-e-dor-cronica": "Fibromialgia",
+  "diabetes-tipo-2": "Diabetes",
+  "outras-condicoes": "Outras",
 };
 
 /* Raio da órbita, em % do lado do quadrado. */
 const RAIO = 40;
 
 /**
- * As seis áreas em volta das células-tronco: o mapa do que o Dr. Tércio trata,
+ * As áreas em volta das células-tronco: o mapa do que o Dr. Tércio trata,
  * com cada área levando à sua página. Posições calculadas no servidor (seno e
  * cosseno fixos), então não há JavaScript nem movimento no cliente.
  */
@@ -31,7 +37,27 @@ export function OrbitaAreas() {
   });
 
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-[22rem] sm:max-w-[26rem] lg:max-w-[30rem]">
+    <>
+      {/* No celular, doze áreas em volta do núcleo não cabem (os rótulos se cobrem): grade de ícones. */}
+      <ul className="grid grid-cols-3 gap-2 sm:hidden">
+        {indications.map((i) => (
+          <li key={i.slug}>
+            <Link
+              href={`/tratamentos/${i.slug}`}
+              className="flex h-full flex-col items-center gap-2 rounded-card border border-azul-300/20 bg-ink-800/60 px-1.5 py-3.5 text-center transition-colors active:border-gold-400/60 active:bg-azul-600"
+            >
+              <span className="grid h-10 w-10 place-items-center rounded-full border border-azul-300/40 bg-ink-900 text-gold-400">
+                <IconeArea slug={i.slug} className="h-5 w-5 stroke-current" />
+              </span>
+              <span className="text-[0.72rem] font-medium leading-tight text-bone-100/85">
+                {rotulo[i.slug] ?? i.title}
+              </span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+    <div className="relative mx-auto hidden aspect-square w-full sm:block sm:max-w-[26rem] lg:max-w-[30rem]">
       {/* anéis */}
       <div aria-hidden="true" className="absolute inset-[10%] rounded-full border border-dashed border-azul-300/25" />
       <div aria-hidden="true" className="absolute inset-[27%] rounded-full border border-azul-300/15" />
@@ -82,5 +108,6 @@ export function OrbitaAreas() {
         </Link>
       ))}
     </div>
+    </>
   );
 }

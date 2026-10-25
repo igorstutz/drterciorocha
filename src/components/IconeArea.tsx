@@ -1,6 +1,6 @@
 /**
  * Um ícone por área de indicação. Desenhados à mão em vez de biblioteca:
- * são seis, e um pacote de ícones inteiro para seis desenhos é peso morto
+ * são doze, e um pacote de ícones inteiro para doze desenhos é peso morto
  * no bundle.
  */
 
@@ -54,6 +54,51 @@ const desenhos: Record<string, React.ReactNode> = {
       <circle cx="10" cy="14" r="5.6" />
       <path d="M14.6 9.4 20.5 3.5" />
       <path d="M15.2 3.5h5.3v5.3" />
+    </>
+  ),
+  // ampulheta — o tempo, e o que se faz com ele
+  "longevidade-e-anti-aging": (
+    <>
+      <path d="M6.5 3.5h11M6.5 20.5h11" />
+      <path d="M7.5 3.5c0 4.2 4.5 5.6 4.5 8.5s-4.5 4.3-4.5 8.5M16.5 3.5c0 4.2-4.5 5.6-4.5 8.5s4.5 4.3 4.5 8.5" />
+      <path d="M9.6 18.4h4.8L12 16.2Z" />
+    </>
+  ),
+  // brilho — a pele que volta a ter viço
+  "estetica-regenerativa": (
+    <>
+      <path d="M10 3.5c.6 4.1 2.4 5.9 6.5 6.5-4.1.6-5.9 2.4-6.5 6.5-.6-4.1-2.4-5.9-6.5-6.5 4.1-.6 5.9-2.4 6.5-6.5Z" />
+      <path d="M18 14.5c.3 1.9 1.1 2.7 3 3-1.9.3-2.7 1.1-3 3-.3-1.9-1.1-2.7-3-3 1.9-.3 2.7-1.1 3-3Z" />
+    </>
+  ),
+  // infinito — o símbolo da neurodiversidade
+  "autismo-e-neurodesenvolvimento": (
+    <>
+      <path d="M12 12c-1.9-2.6-3.4-3.9-5.2-3.9a3.9 3.9 0 0 0 0 7.8c1.8 0 3.3-1.3 5.2-3.9Zm0 0c1.9 2.6 3.4 3.9 5.2 3.9a3.9 3.9 0 0 0 0-7.8c-1.8 0-3.3 1.3-5.2 3.9Z" />
+    </>
+  ),
+  // ponto de dor que se espalha
+  "fibromialgia-e-dor-cronica": (
+    <>
+      <circle cx="12" cy="12" r="2.6" />
+      <path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M6 6l2.1 2.1M15.9 15.9 18 18M18 6l-2.1 2.1M8.1 15.9 6 18" />
+    </>
+  ),
+  // medidor de glicose com a fita
+  "diabetes-tipo-2": (
+    <>
+      <rect x="6" y="3" width="12" height="14.5" rx="2.4" />
+      <rect x="8.5" y="5.6" width="7" height="4.4" rx="1" />
+      <circle cx="12" cy="13.6" r="1.3" />
+      <path d="M10.6 17.5v3.5h2.8v-3.5" />
+    </>
+  ),
+  // estetoscópio — o caso que se avalia em consulta
+  "outras-condicoes": (
+    <>
+      <path d="M6 3.5H5a1 1 0 0 0-1 1v4.2a4.8 4.8 0 0 0 9.6 0V4.5a1 1 0 0 0-1-1h-1" />
+      <path d="M8.8 13.5v1.8a5 5 0 0 0 10 0v-2.1" />
+      <circle cx="18.8" cy="11" r="2.2" />
     </>
   ),
 };

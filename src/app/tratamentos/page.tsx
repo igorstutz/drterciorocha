@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { indications, treatmentOptions, doctor } from "@/content/site";
+import { indications, treatmentOptions, areaDoInteresse, doctor } from "@/content/site";
 import { Button, Badge, Eyebrow, Breadcrumbs } from "@/components/ui";
 import { IconeArea } from "@/components/IconeArea";
 import { OrbitaAreas } from "@/components/OrbitaAreas";
@@ -9,7 +9,7 @@ import { JsonLd, graph, breadcrumbSchema } from "@/lib/jsonld";
 export const metadata: Metadata = {
   title: "Tratamentos com células-tronco",
   description:
-    "Doenças tratadas com células-tronco pelo Dr. Tércio Rocha: autoimunes, degenerativas, ortopédicas, cardiovasculares, hematológicas e disfunção erétil.",
+    "Doenças tratadas com células-tronco pelo Dr. Tércio Rocha: autoimunes, degenerativas, ortopédicas, cardiovasculares, hematológicas, disfunção erétil, autismo, fibromialgia, diabetes tipo 2, longevidade e estética regenerativa.",
   alternates: { canonical: "/tratamentos" },
 };
 
@@ -18,7 +18,8 @@ const trail = [
   { name: "Tratamentos", url: "/tratamentos" },
 ];
 
-/** Condições distintas somadas entre as seis áreas. */
+/** Condições distintas somadas entre as áreas. */
+const tituloDaArea = new Map<string, string>(indications.map((i) => [i.slug, i.title]));
 const totalCondicoes = new Set(indications.flatMap((i) => i.conditions)).size;
 
 export default function Tratamentos() {
@@ -39,7 +40,7 @@ export default function Tratamentos() {
 
           <div className="mt-8 grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-12">
             <div>
-              <Badge variant="gold">Seis áreas de indicação</Badge>
+              <Badge variant="gold">{indications.length} áreas de indicação</Badge>
               <h1 className="mt-5 text-display text-bone-50">
                 Tratamentos com{" "}
                 <span className="u-accent whitespace-nowrap text-gold-400">células-tronco</span>:
@@ -89,7 +90,7 @@ export default function Tratamentos() {
         </div>
       </section>
 
-      {/* ================= AS SEIS ÁREAS ================= */}
+      {/* ================= AS ÁREAS ================= */}
       <section className="u-dots relative overflow-hidden py-20 md:py-28">
         <div className="u-container relative z-10">
           <div className="grid gap-5 lg:grid-cols-2">
@@ -160,7 +161,8 @@ export default function Tratamentos() {
               <h2 className="mt-4 text-title">Condições avaliadas no consultório</h2>
               <p className="mt-5 text-[1rem] leading-relaxed text-text-body">
                 Cada item exige avaliação médica individual. Estar nesta lista não
-                significa indicação automática de tratamento.
+                significa indicação automática de tratamento. Toque numa condição para
+                ver a página da área.
               </p>
 
               <div className="mt-10 border-t border-ink-900/10 pt-8">
@@ -190,16 +192,22 @@ export default function Tratamentos() {
                 {treatmentOptions
                   .filter((o) => o !== "Outros")
                   .map((o) => (
-                    <li
-                      key={o}
-                      className="flex items-center gap-3 rounded-btn border border-ink-900/8 bg-bone-100 px-3.5 py-2.5 text-[0.9rem] text-text-strong"
-                    >
-                      <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ink-900">
-                        <svg viewBox="0 0 24 24" className="h-3 w-3 stroke-azul-300" fill="none" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                          <path d="m5 12.5 4.5 4.5L19 7.5" />
+                    <li key={o}>
+                      <Link
+                        href={`/tratamentos/${areaDoInteresse[o]}`}
+                        title={tituloDaArea.get(areaDoInteresse[o])}
+                        className="group flex items-center gap-3 rounded-btn border border-ink-900/8 bg-bone-100 px-3.5 py-2.5 text-[0.9rem] text-text-strong transition-colors hover:border-azul-400/45 hover:bg-bone-50"
+                      >
+                        <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-ink-900">
+                          <svg viewBox="0 0 24 24" className="h-3 w-3 stroke-azul-300" fill="none" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="m5 12.5 4.5 4.5L19 7.5" />
+                          </svg>
+                        </span>
+                        <span className="flex-1">{o}</span>
+                        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 shrink-0 stroke-text-muted transition-transform duration-300 group-hover:translate-x-1 group-hover:stroke-azul-600" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                          <path d="M5 12h14m-6-6 6 6-6 6" />
                         </svg>
-                      </span>
-                      {o}
+                      </Link>
                     </li>
                   ))}
               </ul>

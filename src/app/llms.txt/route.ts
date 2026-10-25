@@ -53,7 +53,7 @@ ${books.map((b) => `- **${b.title}** — ${b.tagline}`).join("\n")}
 
 - [Início](${site.url}/): apresentação e áreas de indicação
 - [Agendar consulta](${site.url}/consulta): formulário de avaliação
-- [Tratamentos](${site.url}/tratamentos): as seis áreas de indicação
+- [Tratamentos](${site.url}/tratamentos): as ${indications.length} áreas de indicação, com a página de cada opção do formulário
 - [O médico](${site.url}/dr-tercio-rocha): trajetória e credenciais
 - [Artigos](${site.url}/artigos): ${artigos.length} casos clínicos e textos
 - [Livros](${site.url}/livros)
