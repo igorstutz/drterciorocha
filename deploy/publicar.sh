@@ -17,11 +17,13 @@ cd "$(dirname "$0")/.."
 
 echo "== Enviando o site para $VPS:$DESTINO =="
 # Fora do pacote: dependências, builds, segredos, o git e os originais do site antigo (só o public/ é servido).
-# Na chegada, os .sh perdem o CRLF que o Windows pode ter posto.
+# Na chegada, os .sh perdem o CRLF que o Windows pode ter posto. Antes de extrair, src/, public/ e
+# scripts/ são apagados: o tar só acrescenta, e um arquivo removido ou movido aqui ficaria lá (uma página
+# antiga ao lado da nova quebra o build). O .env e dados/ (artigos e imagens do painel) não são tocados.
 tar --exclude=node_modules --exclude=.next --exclude=out --exclude=.git --exclude=.env \
     --exclude='.env*.local' --exclude=assets-originais --exclude=conteudo-original --exclude=.firecrawl \
     --exclude=tsconfig.tsbuildinfo --exclude='*.log' --exclude=./dados \
-    -czf - . | ssh "$VPS" "mkdir -p '$DESTINO' && cd '$DESTINO' && tar xzf - && sed -i 's/\r\$//' deploy/*.sh"
+    -czf - . | ssh "$VPS" "mkdir -p '$DESTINO' && cd '$DESTINO' && rm -rf src public scripts && tar xzf - && sed -i 's/\r\$//' deploy/*.sh"
 
 if [ "${SO_ENVIAR:-}" = "1" ]; then
   echo "Código enviado. Agora crie o .env na VPS (deploy/env.vps.exemplo) e rode sem SO_ENVIAR."
