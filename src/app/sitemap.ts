@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site, indications } from "@/content/site";
 import { getArtigos } from "@/lib/artigos";
+import { autores, AUTOR_PADRAO, getAutor } from "@/content/autores";
 
 export const dynamic = "force-static";
 /* Os artigos agora mudam pelo painel, sem build: a lista se refaz a cada 10 minutos. */
@@ -35,5 +36,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...estaticas, ...tratamentos, ...artigos];
+  /* Colunistas com ao menos um artigo no ar (sem isso a página deles é 404). */
+  const comArtigo = new Set(getArtigos().map((a) => getAutor(a.autor).slug));
+  const colunistas: MetadataRoute.Sitemap = autores
+    .filter((a) => a.slug !== AUTOR_PADRAO && comArtigo.has(a.slug))
+    .map((a) => ({ url: `${site.url}${a.pagina}`, lastModified: agora, changeFrequency: "monthly", priority: 0.5 }));
+
+  return [...estaticas, ...tratamentos, ...artigos, ...colunistas];
 }

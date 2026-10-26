@@ -24,6 +24,8 @@ const redirectsPaginas = [
   { source: "/category/medicinaregenerativa", destination: "/artigos", permanent: true },
   { source: "/category/:slug", destination: "/artigos", permanent: true },
   { source: "/author/:slug", destination: "/dr-tercio-rocha", permanent: true },
+  /* O Dr. Tércio tem página própria; /autores/ é dos colunistas. */
+  { source: "/autores/dr-tercio-rocha", destination: "/dr-tercio-rocha", permanent: true },
   { source: "/permita-se-longevitar-se", destination: "/artigos", permanent: true },
   { source: "/links", destination: "/", permanent: true },
   { source: "/linknabio", destination: "/", permanent: true },

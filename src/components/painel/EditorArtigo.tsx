@@ -471,6 +471,49 @@ export function EditorArtigo({ inicial, categorias }: { inicial: ArtigoNoEditor 
 
         {/* Coluna de ajustes */}
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          {artigo && (artigo.notasRevisao.length > 0 || artigo.pendencias.length > 0) && (
+            <section className="painel-cartao border-gold-500/30 bg-gold-200/25 p-4 sm:p-5">
+              <h2 className="mb-3 text-[0.78rem] font-semibold tracking-[0.08em] text-gold-700 uppercase">Revisão deste texto</h2>
+              {artigo.pendencias.length > 0 && (
+                <>
+                  <p className="text-[0.82rem] font-medium text-text-strong">Confirmar antes de publicar</p>
+                  <ul className="mt-2 mb-4 space-y-1.5 text-[0.82rem] leading-snug text-text-strong">
+                    {artigo.pendencias.map((t) => (
+                      <li key={t} className="flex gap-2">
+                        <Icone nome="alerta" className="mt-0.5 h-3.5 w-3.5 text-[#a3321f]" />
+                        <span>{t}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+              {artigo.notasRevisao.length > 0 && (
+                <details className="group">
+                  <summary className="cursor-pointer list-none text-[0.82rem] font-medium text-text-strong">
+                    <span className="inline-flex items-center gap-1.5">
+                      O que mudou em relação ao original ({artigo.notasRevisao.length})
+                      <Icone nome="seta" className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
+                    </span>
+                  </summary>
+                  <ul className="mt-2 space-y-1.5 text-[0.8rem] leading-snug text-text-body">
+                    {artigo.notasRevisao.map((t) => (
+                      <li key={t} className="flex gap-2">
+                        <span className="mt-[0.45rem] h-1 w-1 shrink-0 rounded-full bg-gold-600" />
+                        <span>{t}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              )}
+              {artigo.urlAntiga && (
+                <a href={artigo.urlAntiga} target="_blank" rel="noopener" className="mt-3 inline-flex items-center gap-1.5 text-[0.8rem] font-medium text-azul-600 hover:underline">
+                  Ver o texto original
+                  <Icone nome="site" className="h-3.5 w-3.5" />
+                </a>
+              )}
+            </section>
+          )}
+
           <Cartao titulo="Publicação">
             <div className="flex items-center justify-between gap-3">
               {situacao ? <Selo situacao={situacao} /> : <span className="text-[0.85rem] text-text-muted">Ainda não salvo</span>}

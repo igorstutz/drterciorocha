@@ -34,6 +34,10 @@ export type ArtigoGuardado = {
   status: Status;
   /** Slug em src/content/autores.ts. Sem ele, o autor é o Dr. Tércio. */
   autor?: string;
+  /** O que mudou numa revisão feita fora do painel (ex.: a migração do stemcells), mostrado no editor. */
+  notasRevisao?: string[];
+  /** O que ainda depende de confirmação antes de publicar. */
+  pendencias?: string[];
   criadoPor?: string;
   atualizadoPor?: string;
 };

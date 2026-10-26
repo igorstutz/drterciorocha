@@ -18,5 +18,8 @@ export function paraEditor(a: ArtigoGuardado): ArtigoNoEditor {
     atualizadoPor: a.atualizadoPor ?? "",
     situacao: situacao(a),
     slugTravado: estaNoAr(a),
+    notasRevisao: a.notasRevisao ?? [],
+    pendencias: a.pendencias ?? [],
+    urlAntiga: a.urlAntiga ?? "",
   };
 }

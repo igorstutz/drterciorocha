@@ -41,6 +41,10 @@ export type ArtigoNoEditor = {
   situacao: Situacao;
   /** Depois de ir ao ar, o endereço não muda mais: o Google e quem compartilhou já o conhecem. */
   slugTravado: boolean;
+  notasRevisao: string[];
+  pendencias: string[];
+  /** De onde o artigo veio, quando foi migrado (ex.: o endereço no stemcells.com.br). */
+  urlAntiga: string;
 };
 
 export type Resultado =

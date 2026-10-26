@@ -136,7 +136,13 @@ export function breadcrumbSchema(trail: { name: string; url: string }[]) {
 export function autorSchema(slug?: string) {
   const a = getAutor(slug);
   if (a.slug === AUTOR_PADRAO) return { "@id": `${site.url}/#pessoa` };
-  return { "@type": "Person", name: a.nome, jobTitle: a.titulo || undefined, url: `${site.url}${a.pagina}` };
+  return {
+    "@type": "Person",
+    "@id": `${site.url}${a.pagina}#pessoa`,
+    name: a.nome,
+    jobTitle: a.titulo || undefined,
+    url: `${site.url}${a.pagina}`,
+  };
 }
 
 export function articleSchema(a: {
