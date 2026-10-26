@@ -20,7 +20,7 @@ echo "== Enviando o site para $VPS:$DESTINO =="
 # Na chegada, os .sh perdem o CRLF que o Windows pode ter posto.
 tar --exclude=node_modules --exclude=.next --exclude=out --exclude=.git --exclude=.env \
     --exclude='.env*.local' --exclude=assets-originais --exclude=conteudo-original --exclude=.firecrawl \
-    --exclude=tsconfig.tsbuildinfo --exclude='*.log' \
+    --exclude=tsconfig.tsbuildinfo --exclude='*.log' --exclude=./dados \
     -czf - . | ssh "$VPS" "mkdir -p '$DESTINO' && cd '$DESTINO' && tar xzf - && sed -i 's/\r\$//' deploy/*.sh"
 
 if [ "${SO_ENVIAR:-}" = "1" ]; then
@@ -34,6 +34,8 @@ set -euo pipefail
 cd "$DESTINO"
 [ -f .env ] || { echo "Falta o .env em $DESTINO (veja deploy/env.vps.exemplo)"; exit 1; }
 SITE="docker compose -f deploy/docker-compose.vps.yml --env-file .env"
+# Artigos e imagens do painel: a pasta é do usuário do container (uid 1001), que grava nela.
+mkdir -p dados && chown -R 1001:1001 dados
 $SITE up -d --build
 mkdir -p /opt/caddy-sites
 cp deploy/site.caddy /opt/caddy-sites/drterciorocha.caddy

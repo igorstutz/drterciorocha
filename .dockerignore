@@ -12,3 +12,8 @@ conteudo-original
 deploy
 README.md
 ENTREGA.md
+# O build lê dados/artigos.json (os artigos do painel) para já sair com a lista atual; imagens e
+# histórico ficam fora da imagem, servidos do volume.
+dados/midia
+dados/historico
+scripts

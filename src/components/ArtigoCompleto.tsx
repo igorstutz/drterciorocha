@@ -1,15 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import {
-  getArtigo,
-  getArtigos,
-  getRelacionados,
-  formatarData,
-} from "@/lib/artigos";
-import { renderArtigo, resumo } from "@/lib/markdown";
-import { doctor, site } from "@/content/site";
+import { type Artigo, formatarData } from "@/lib/artigos";
+import { renderArtigo } from "@/lib/markdown";
+import { site } from "@/content/site";
+import { AUTOR_PADRAO, getAutor, escritoPor } from "@/content/autores";
 import { ROTA_FORM_WHATSAPP, atributosGate } from "@/lib/whatsapp-gate";
 
 import { Button, Eyebrow, Breadcrumbs, Badge, ArrowLink } from "@/components/ui";
@@ -17,46 +11,6 @@ import { LeadForm } from "@/components/LeadForm";
 import { ProgressoLeitura } from "@/components/ProgressoLeitura";
 import { CompartilharArtigo } from "@/components/CompartilharArtigo";
 import { JsonLd, graph, breadcrumbSchema, articleSchema } from "@/lib/jsonld";
-
-export function generateStaticParams() {
-  return getArtigos().map((a) => ({ slug: a.slug }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const a = getArtigo(slug);
-  if (!a) return {};
-
-  /* Nove páginas do site antigo não tinham meta description; aqui o primeiro
-     parágrafo entra no lugar em vez de deixar o campo vazio. */
-  const descricao = a.descricao || resumo(a.corpo);
-
-  return {
-    title: a.titulo,
-    description: descricao,
-    alternates: { canonical: `/artigos/${a.slug}` },
-    openGraph: {
-      type: "article",
-      title: a.titulo,
-      description: descricao,
-      url: `/artigos/${a.slug}`,
-      publishedTime: a.publicado || undefined,
-      modifiedTime: a.atualizado || undefined,
-      authors: [doctor.name],
-      images: a.capaLocal ? [{ url: a.capaLocal, alt: a.titulo }] : undefined,
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: a.titulo,
-      description: descricao,
-      images: a.capaLocal ? [a.capaLocal] : undefined,
-    },
-  };
-}
 
 /** "CÉLULAS-TRONCO" → "Células-tronco": a categoria vem em caixa alta do WordPress. */
 function nomeCategoria(c: string) {
@@ -75,17 +29,13 @@ function Icone({ d, className = "h-4 w-4" }: { d: string; className?: string }) 
 const ICONE_RELOGIO = "M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z";
 const ICONE_CALENDARIO = "M7 3v3m10-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z";
 
-export default async function Artigo({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const artigo = getArtigo(slug);
-  if (!artigo) notFound();
-
+/**
+ * O artigo inteiro: hero, corpo com a pausa no meio, autor, relacionados e formulário. A página
+ * pública e a pré-visualização do painel desenham o mesmo componente.
+ */
+export function ArtigoCompleto({ artigo, relacionados }: { artigo: Artigo; relacionados: Artigo[] }) {
   const { antes, depois, titulos } = renderArtigo(artigo.corpo);
-  const relacionados = getRelacionados(slug);
+  const autor = getAutor(artigo.autor);
   const url = `${site.url}/artigos/${artigo.slug}`;
   const categoria = nomeCategoria(artigo.categoria);
   const descricaoCitacao = /^[“"]/.test(artigo.descricao.trim());
@@ -141,9 +91,9 @@ export default async function Artigo({
                   ))}
 
                 <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
-                  <Link href="/dr-tercio-rocha" className="group flex items-center gap-3.5">
+                  <Link href={autor.pagina} className="group flex items-center gap-3.5">
                     <Image
-                      src="/img/tercio-retrato.webp"
+                      src={autor.retrato}
                       alt=""
                       width={52}
                       height={52}
@@ -151,10 +101,10 @@ export default async function Artigo({
                     />
                     <span>
                       <span className="block text-[0.95rem] font-medium text-bone-50 transition-colors group-hover:text-gold-300">
-                        {doctor.name}
+                        {autor.nome}
                       </span>
                       <span className="block text-[0.78rem] text-bone-100/50">
-                        {doctor.jobTitle} · {doctor.crm[0]}
+                        {[autor.titulo, autor.registros[0]].filter(Boolean).join(" · ")}
                       </span>
                     </span>
                   </Link>
@@ -193,8 +143,8 @@ export default async function Artigo({
                     <Icone d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" className="h-[1.1rem] w-[1.1rem]" />
                   </span>
                   <span className="text-[0.8rem] leading-snug text-bone-100/70">
-                    Escrito pelo <span className="font-medium text-bone-50">{doctor.name}</span>, {doctor.yearsOfPractice} anos de
-                    prática clínica
+                    {escritoPor(autor)} <span className="font-medium text-bone-50">{autor.nome}</span>
+                    {autor.selo ? `, ${autor.selo}` : autor.titulo ? `, ${autor.titulo.charAt(0).toLowerCase()}${autor.titulo.slice(1)}` : ""}
                   </span>
                 </div>
               </div>
@@ -262,21 +212,21 @@ export default async function Artigo({
                 <div className="u-ring u-halo relative mt-10 overflow-hidden rounded-card border border-ink-900/10 bg-bone-50 p-7 md:p-9">
                   <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start">
                     <Image
-                      src="/img/tercio-foto2.jpg"
-                      alt={doctor.name}
+                      src={autor.foto}
+                      alt={autor.nome}
                       width={112}
                       height={112}
                       className="h-24 w-24 shrink-0 rounded-card object-cover md:h-28 md:w-28"
                     />
                     <div>
                       <Eyebrow>Sobre o autor</Eyebrow>
-                      <p className="mt-2 text-[1.25rem] font-medium tracking-tight text-text-strong">{doctor.name}</p>
+                      <p className="mt-2 text-[1.25rem] font-medium tracking-tight text-text-strong">{autor.nome}</p>
                       <p className="text-[0.82rem] text-text-muted">
-                        {doctor.jobTitle} · {doctor.crm.join(" · ")}
+                        {[autor.titulo, ...autor.registros].filter(Boolean).join(" · ")}
                       </p>
-                      <p className="mt-4 text-[0.95rem] leading-relaxed text-text-body">{doctor.summary}</p>
-                      <Link href="/dr-tercio-rocha" className="group mt-5 inline-block">
-                        <ArrowLink>Conhecer a trajetória</ArrowLink>
+                      <p className="mt-4 text-[0.95rem] leading-relaxed text-text-body">{autor.resumo}</p>
+                      <Link href={autor.pagina} className="group mt-5 inline-block">
+                        <ArrowLink>{autor.slug === AUTOR_PADRAO ? "Conhecer a trajetória" : `Mais sobre ${autor.nome}`}</ArrowLink>
                       </Link>
                     </div>
                   </div>

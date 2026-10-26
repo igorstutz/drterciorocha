@@ -28,6 +28,9 @@ import { RegeneraBrasil } from "@/components/RegeneraBrasil";
 import { IconeWhatsApp } from "@/components/IconeWhatsApp";
 import { JsonLd, graph, faqSchema } from "@/lib/jsonld";
 
+/* Regenera a cada minuto: é assim que um artigo agendado no painel entra no ar na hora marcada. */
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Dr. Tércio Rocha | Medicina Regenerativa e Células-tronco",
   description:

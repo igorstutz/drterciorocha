@@ -3,8 +3,11 @@ import { getArtigos, getCategorias, formatarData } from "@/lib/artigos";
 import { palavrasDistintas } from "@/lib/busca";
 import { Badge, Breadcrumbs, Button } from "@/components/ui";
 import { BuscaArtigos } from "@/components/BuscaArtigos";
-import { JsonLd, graph, breadcrumbSchema } from "@/lib/jsonld";
+import { JsonLd, graph, breadcrumbSchema, autorSchema } from "@/lib/jsonld";
 import { site } from "@/content/site";
+
+/* Regenera a cada minuto: é assim que um artigo agendado no painel entra no ar na hora marcada. */
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Artigos e casos sobre células-tronco",
@@ -49,7 +52,7 @@ export default function Artigos() {
       headline: a.titulo,
       url: `${site.url}/artigos/${a.slug}`,
       datePublished: a.publicado || undefined,
-      author: { "@id": `${site.url}/#pessoa` },
+      author: autorSchema(a.autor),
     })),
   };
 

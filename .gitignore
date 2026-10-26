@@ -11,5 +11,8 @@ npm-debug.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# artigos e imagens publicados pelo painel (/admin) quando o site roda nesta máquina
+dados/
+
 # artefatos da varredura do site antigo
 .firecrawl/

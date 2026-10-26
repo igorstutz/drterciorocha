@@ -827,3 +827,80 @@
   color: var(--color-gold-500);
 }
 
+
+/* ======================================================================
+   Painel do site (/admin)
+   ====================================================================== */
+@layer components {
+  .painel-campo {
+    display: block;
+    width: 100%;
+    height: 2.875rem;
+    border-radius: 0.625rem;
+    border: 1px solid rgb(10 23 51 / 0.14);
+    background: #fff;
+    padding: 0 0.95rem;
+    font-size: 0.95rem;
+    color: var(--color-text-strong);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  textarea.painel-campo { height: auto; padding-block: 0.7rem; line-height: 1.55; resize: vertical; }
+  select.painel-campo { appearance: none; padding-right: 2.4rem; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2359657c' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 0.85rem center; background-size: 1rem; }
+  .painel-campo::placeholder { color: rgb(89 101 124 / 0.6); }
+  .painel-campo:hover { border-color: rgb(10 23 51 / 0.26); }
+  .painel-campo:focus { outline: none; border-color: var(--color-azul-500); box-shadow: 0 0 0 3px rgb(53 103 196 / 0.16); }
+  .painel-campo[aria-invalid="true"] { border-color: #c2412d; box-shadow: 0 0 0 3px rgb(194 65 45 / 0.12); }
+  .painel-campo:disabled { background: #f6f5f1; color: var(--color-text-muted); cursor: not-allowed; }
+
+  .painel-botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.5rem;
+    padding: 0 1rem;
+    border-radius: 0.625rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s, transform 0.15s;
+    user-select: none;
+  }
+  .painel-botao:focus-visible { outline: none; box-shadow: 0 0 0 3px rgb(53 103 196 / 0.3); }
+  .painel-botao:disabled { opacity: 0.55; cursor: not-allowed; }
+  .painel-botao:active:not(:disabled) { transform: translateY(1px); }
+  .painel-botao-primario { background: var(--color-ink-900); color: var(--color-bone-50); box-shadow: 0 1px 2px rgb(10 23 51 / 0.2), inset 0 1px 0 rgb(255 255 255 / 0.08); }
+  .painel-botao-primario:hover:not(:disabled) { background: var(--color-ink-700); }
+  .painel-botao-ouro { background: var(--color-gold-500); color: var(--color-ink-900); box-shadow: 0 1px 2px rgb(10 23 51 / 0.15), inset 0 1px 0 rgb(255 255 255 / 0.25); }
+  .painel-botao-ouro:hover:not(:disabled) { background: var(--color-gold-400); }
+  .painel-botao-secundario { background: #fff; color: var(--color-text-strong); border: 1px solid rgb(10 23 51 / 0.14); box-shadow: 0 1px 2px rgb(10 23 51 / 0.05); }
+  .painel-botao-secundario:hover:not(:disabled) { border-color: rgb(10 23 51 / 0.3); background: #fbfaf7; }
+  .painel-botao-fantasma { color: var(--color-text-body); }
+  .painel-botao-fantasma:hover:not(:disabled) { background: rgb(10 23 51 / 0.06); color: var(--color-text-strong); }
+  .painel-botao-perigo { color: #a3321f; }
+  .painel-botao-perigo:hover:not(:disabled) { background: #fbeae6; }
+
+  .painel-cartao { background: #fff; border: 1px solid rgb(10 23 51 / 0.08); border-radius: 0.875rem; box-shadow: 0 1px 2px rgb(10 23 51 / 0.04), 0 6px 24px -16px rgb(10 23 51 / 0.12); }
+
+  /* <dialog> do painel: centralizado, com fundo esfumado. */
+  .painel-dialogo { margin: auto; width: min(32rem, calc(100vw - 2rem)); border-radius: 1rem; padding: 0; background: #fff; color: var(--color-text-body); box-shadow: 0 30px 80px -20px rgb(10 23 51 / 0.45); }
+  .painel-dialogo::backdrop { background: rgb(10 23 51 / 0.45); backdrop-filter: blur(3px); }
+  .painel-dialogo[open] { animation: painel-surgir 0.18s var(--ease-out-soft); }
+  @keyframes painel-surgir { from { opacity: 0; transform: translateY(8px) scale(0.98); } }
+}
+
+/* Editor de texto (Tiptap): o corpo usa o .prose-artigo do site, então o texto já aparece como fica publicado.
+   Leva também .prose-artigo-cont, que tira a capitular do primeiro parágrafo: no editor ela atrapalha a escrita. */
+.painel .tiptap { outline: none; min-height: 22rem; padding-bottom: 6rem; }
+.painel .tiptap > * + * { margin-top: 1.5em; }
+.painel .tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: rgb(89 101 124 / 0.55);
+}
+.painel .tiptap img { cursor: default; transition: box-shadow 0.15s; }
+.painel .tiptap img.ProseMirror-selectednode { box-shadow: 0 0 0 3px var(--color-azul-400); }
+.painel .tiptap a { cursor: text; }
+.painel .tiptap ::selection { background: rgb(93 143 224 / 0.25); }

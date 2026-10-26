@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/"],
+        disallow: ["/api/", "/admin"],
       },
       /* Rastreadores de IA liberados de propósito: a estratégia aqui é ser
          citado nas respostas generativas, não bloqueá-las. */

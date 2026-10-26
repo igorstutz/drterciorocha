@@ -2,6 +2,8 @@ import { site, doctor, indications, faqs, contact, books } from "@/content/site"
 import { getArtigos } from "@/lib/artigos";
 
 export const dynamic = "force-static";
+/* Os artigos agora mudam pelo painel, sem build: a lista se refaz a cada 10 minutos. */
+export const revalidate = 600;
 
 /**
  * llms.txt — resumo da entidade em markdown para modelos de linguagem.

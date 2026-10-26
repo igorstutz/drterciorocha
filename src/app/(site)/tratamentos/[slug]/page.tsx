@@ -18,6 +18,9 @@ import {
   faqSchema,
 } from "@/lib/jsonld";
 
+/* Regenera a cada minuto: é assim que um artigo agendado no painel entra no ar na hora marcada. */
+export const revalidate = 60;
+
 export function generateStaticParams() {
   return indications.map((i) => ({ slug: i.slug }));
 }

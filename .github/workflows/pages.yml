@@ -24,9 +24,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # Export estático não suporta route handler com POST: a rota de lead
-      # fica só na produção. Os formulários da prévia não enviam.
-      - run: rm -rf src/app/api
+      # Export estático não suporta route handler com POST nem login: a rota de lead
+      # e o painel (/admin, /midia) ficam só na produção. Os formulários da prévia não enviam.
+      - run: rm -rf src/app/api src/app/admin src/app/midia
       - run: npm run build
         env:
           GITHUB_PAGES: "true"

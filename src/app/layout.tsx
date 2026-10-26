@@ -2,21 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { site, doctor } from "@/content/site";
-import {
-  graph,
-  physicianSchema,
-  personSchema,
-  organizationSchema,
-  websiteSchema,
-  JsonLd,
-} from "@/lib/jsonld";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { WhatsAppFab } from "@/components/WhatsAppFab";
-import { WhatsAppGate } from "@/components/WhatsAppGate";
-import { AnimacaoEmVista } from "@/components/AnimacaoEmVista";
-import { MetaPixel } from "@/components/MetaPixel";
-import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 
 /* next/font faz self-host das fontes: zero requisição a fonts.googleapis.com,
    zero FOUT e nenhum layout shift. O site antigo puxava Montserrat e Roboto
@@ -115,30 +100,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pt-BR" className={`${geist.variable} ${instrument.variable}`}>
-      <body className="min-h-dvh antialiased">
-        <a
-          href="#conteudo"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-btn focus:bg-ink-900 focus:px-5 focus:py-3 focus:text-sm focus:font-medium focus:text-bone-50"
-        >
-          Pular para o conteúdo
-        </a>
-        <Header />
-        <main id="conteudo">{children}</main>
-        <Footer />
-        <WhatsAppFab />
-        <WhatsAppGate />
-        <AnimacaoEmVista />
-        <MetaPixel />
-        <GoogleAnalytics />
-        <JsonLd
-          data={graph(
-            physicianSchema,
-            personSchema,
-            organizationSchema,
-            websiteSchema,
-          )}
-        />
-      </body>
+      {/* O cabeçalho, o rodapé e os pixels ficam em (site)/layout.tsx: o painel (/admin) não os carrega. */}
+      <body className="min-h-dvh antialiased">{children}</body>
     </html>
   );
 }

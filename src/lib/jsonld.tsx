@@ -1,4 +1,5 @@
 import { site, doctor, contact, social, indications, type Faq } from "@/content/site";
+import { AUTOR_PADRAO, getAutor } from "@/content/autores";
 
 /**
  * Camada GEO/AEO. O site antigo só declarava Article/WebPage/Person — os tipos
@@ -131,6 +132,13 @@ export function breadcrumbSchema(trail: { name: string; url: string }[]) {
   };
 }
 
+/** O Dr. Tércio é a entidade `#pessoa` do grafo; um colunista entra como Person com a página dele. */
+export function autorSchema(slug?: string) {
+  const a = getAutor(slug);
+  if (a.slug === AUTOR_PADRAO) return { "@id": `${site.url}/#pessoa` };
+  return { "@type": "Person", name: a.nome, jobTitle: a.titulo || undefined, url: `${site.url}${a.pagina}` };
+}
+
 export function articleSchema(a: {
   titulo: string;
   descricao: string;
@@ -138,7 +146,9 @@ export function articleSchema(a: {
   publicado: string;
   atualizado: string;
   capaLocal: string;
+  autor?: string;
 }) {
+  const doDrTercio = getAutor(a.autor).slug === AUTOR_PADRAO;
   return {
     "@type": "MedicalWebPage",
     "@id": `${site.url}/artigos/${a.slug}#page`,
@@ -149,9 +159,10 @@ export function articleSchema(a: {
     datePublished: a.publicado || undefined,
     dateModified: a.atualizado || a.publicado || undefined,
     image: a.capaLocal ? `${site.url}${a.capaLocal}` : undefined,
-    author: { "@id": `${site.url}/#pessoa` },
+    author: autorSchema(a.autor),
     publisher: { "@id": ORG_ID },
-    reviewedBy: { "@id": `${site.url}/#pessoa` },
+    /* Revisão médica só é declarada no que é dele: não afirmar que revisou o texto de um colunista. */
+    reviewedBy: doDrTercio ? { "@id": `${site.url}/#pessoa` } : undefined,
     about: { "@type": "MedicalEntity", name: "Medicina regenerativa com células-tronco" },
     audience: { "@type": "Patient" },
     isPartOf: { "@id": WEBSITE_ID },

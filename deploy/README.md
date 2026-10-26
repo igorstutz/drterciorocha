@@ -30,6 +30,11 @@ cd /opt/drterciorocha && cp deploy/env.vps.exemplo .env && chmod 600 .env
 grep SITE_WEBHOOK_TOKEN /opt/atendimento-tercio/.env    # copie o valor para CRM_WEBHOOK_TOKEN no .env
 nano .env
 
+# painel de artigos (/admin): uma entrada por pessoa, gerada NA SUA MÁQUINA (pede a senha sem mostrar):
+#   node scripts/senha-painel.mjs marketing@exemplo.com
+# cole em ADMIN_USUARIOS (várias pessoas: separe por vírgula) e gere o ADMIN_SEGREDO:
+openssl rand -hex 32
+
 # daqui de novo: constrói a imagem, sobe o container e recarrega o Caddy
 VPS=root@187.77.253.83 ./deploy/publicar.sh
 ```
@@ -91,8 +96,12 @@ depois. (Os canonicals continuam apontando para `drterciorocha.com` — é só p
 VPS=root@187.77.253.83 ./deploy/publicar.sh
 ```
 
-Envia o código (sem `node_modules`, builds, `.env`, git e os originais do site antigo), reconstrói a imagem,
-troca o container e recarrega o Caddy. Nada a mais: o conteúdo todo está em `src/content/`.
+Envia o código (sem `node_modules`, builds, `.env`, git, `dados/` e os originais do site antigo), reconstrói a
+imagem, troca o container e recarrega o Caddy. Os artigos **não** vêm daqui: ficam em `/opt/drterciorocha/dados/`
+(volume do container), publicados pelo painel, e nenhuma publicação do código mexe neles. O build lê
+`dados/artigos.json` para já sair com a lista atual.
+
+Backup do que o painel publicou: `tar czf artigos-$(date +%F).tgz -C /opt/drterciorocha dados`.
 
 ## Dia a dia (na VPS, em `/opt/drterciorocha`)
 

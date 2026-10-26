@@ -16,14 +16,17 @@ npm run build && npm start
 ```
 src/
   app/
-    page.tsx                    home
-    consulta/                   formulário de captação
-    tratamentos/                hub + 12 áreas de indicação (SSG) — toda opção do formulário tem a sua (areaDoInteresse)
-    dr-tercio-rocha/            biografia e credenciais
-    artigos/                    listagem + 31 artigos (SSG)
-    livros/                     3 livros
-    ebook-longevidade/          isca de e-mail
-    perguntas-frequentes/       FAQ
+    (site)/                     as páginas públicas (o grupo não muda endereço; o layout traz cabeçalho, rodapé e pixels)
+      page.tsx                  home
+      consulta/                 formulário de captação
+      tratamentos/              hub + 12 áreas de indicação (SSG) — toda opção do formulário tem a sua (areaDoInteresse)
+      dr-tercio-rocha/          biografia e credenciais
+      artigos/                  listagem + artigos (ISR: regeneram a cada minuto)
+      livros/                   3 livros
+      ebook-longevidade/        isca de e-mail
+      perguntas-frequentes/     FAQ
+    admin/                      painel de artigos (login, lista, editor, pré-visualização, envio de imagem)
+    midia/[arquivo]/            imagens enviadas pelo painel, servidas do volume de dados
     api/lead/route.ts           recebe o formulário e entrega ao CRM
     sitemap.ts robots.ts        gerados no build
     llms.txt/route.ts           resumo da entidade para motores generativos
@@ -31,10 +34,12 @@ src/
   components/                   Header, Footer, LeadForm, EbookForm, Faq, Carrossel, ui
   content/
     site.ts                     fonte única de dados (contatos, indicações, livros, FAQ)
-    artigos/artigos.json        31 artigos migrados do WordPress
+    artigos/artigos.json        31 artigos migrados do WordPress (semente do acervo)
   lib/
     jsonld.tsx                  schemas Physician, MedicalClinic, FAQPage…
-    artigos.ts                  acesso e ordenação dos artigos
+    acervo.ts                   leitura e gravação dos artigos em dados/ (o que o painel publica)
+    artigos.ts                  os artigos no ar, para as páginas públicas
+    painel/                     login, ações e tipos do painel
     markdown.ts                 renderização do corpo dos artigos (no build)
 conteudo-original/              varredura do site antigo + AUDITORIA.md
 assets-originais/               imagens baixadas do WordPress
@@ -78,8 +83,31 @@ Quase tudo vive em `src/content/site.ts`: telefone de WhatsApp, redes sociais,
 áreas de indicação, opções do formulário, livros, FAQ, aviso legal. Editar ali e
 refazer o build atualiza o site inteiro, o `sitemap.xml`, o JSON-LD e o `llms.txt`.
 
-Artigos ficam em `src/content/artigos/artigos.json` (campos: `slug`, `titulo`,
-`descricao`, `categoria`, `publicado`, `capaLocal`, `corpo` em markdown).
+## Painel de artigos (`/admin`)
+
+O marketing escreve, agenda e publica os artigos em `drterciorocha.com/admin`, sem build. O editor mostra o texto
+com a cara do site e guarda o corpo em markdown. Ele tem capa com arrastar e soltar, imagens no corpo (toda imagem é
+convertida em WebP de até 2000 px), pré-visualização do que está na tela (salvo ou não) e salvamento automático dos
+rascunhos. Antes de publicar, uma conferência mostra o que falta: título, capa, categoria e texto. O "publicar" tem
+duas opções, agora ou agendado.
+
+- **Onde ficam os artigos:** `dados/artigos.json` (`DADOS_DIR`; na VPS é um volume). Enquanto o arquivo não existe,
+  o acervo é `src/content/artigos/artigos.json`; a primeira gravação do painel copia tudo para `dados/`, e dali em
+  diante **editar o JSON do repositório não muda mais o site**: artigo se mexe pelo painel. Cada gravação guarda a
+  versão anterior em `dados/historico/` (as 60 últimas), o caminho para recuperar um artigo excluído por engano.
+- **Agendamento:** o artigo fica no acervo com `status: "publicado"` e data no futuro. As páginas que listam artigos
+  regeneram a cada minuto (`revalidate = 60`), então ele aparece sozinho em até ~1 minuto depois da hora marcada,
+  sem nenhum processo agendado no servidor. Publicar, editar ou excluir regenera tudo na hora.
+- **Endereço:** sai do título e pode ser editado enquanto o artigo não foi ao ar. Depois disso fica travado.
+- **Login:** `ADMIN_USUARIOS` no `.env`, uma entrada por pessoa (`email:sal:hash`) gerada com
+  `node scripts/senha-painel.mjs email@dominio.com`. A senha não fica escrita em lugar nenhum. Para tirar o acesso de
+  alguém, basta apagar a entrada dessa pessoa e reiniciar o container. `ADMIN_SEGREDO` assina a sessão (14 dias); sem ele,
+  cada publicação do site desconecta todo mundo. Oito senhas erradas em 15 minutos bloqueiam o IP.
+- **Local:** `ADMIN_USUARIOS=… npm run dev` e abrir `localhost:3000/admin`. Sem `DADOS_DIR`, os artigos vão para
+  `dados/` na raiz (fora do git).
+
+Campos de cada artigo: `id`, `slug`, `titulo`, `descricao`, `categoria`, `publicado`, `status`, `capaLocal`,
+`corpo` (markdown), `palavras`, `atualizado`, `criadoPor`, `atualizadoPor`.
 
 A política de privacidade (`/privacidade`, LGPD) vive em `src/content/privacidade.ts`: seções com
 título, parágrafos e lista, e a data de atualização. Escrita a partir do que o site e o painel de

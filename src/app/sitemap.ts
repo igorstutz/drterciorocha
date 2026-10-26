@@ -3,6 +3,8 @@ import { site, indications } from "@/content/site";
 import { getArtigos } from "@/lib/artigos";
 
 export const dynamic = "force-static";
+/* Os artigos agora mudam pelo painel, sem build: a lista se refaz a cada 10 minutos. */
+export const revalidate = 600;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const agora = new Date();

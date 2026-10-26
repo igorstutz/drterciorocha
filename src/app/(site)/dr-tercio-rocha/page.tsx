@@ -7,6 +7,9 @@ import { Button, Badge, Breadcrumbs, Eyebrow } from "@/components/ui";
 import { Faq } from "@/components/Faq";
 import { JsonLd, graph, breadcrumbSchema, personSchema, faqSchema } from "@/lib/jsonld";
 
+/* Regenera a cada minuto: é assim que um artigo agendado no painel entra no ar na hora marcada. */
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   /* absolute: com o template o nome do médico sairia duas vezes. */
   title: { absolute: "Dr. Tércio Rocha, endocrinologista | Medicina Regenerativa" },

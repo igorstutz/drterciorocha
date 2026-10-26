@@ -23,6 +23,14 @@ services:
       CRM_WEBHOOK_TOKEN: ${CRM_WEBHOOK_TOKEN:?Falta CRM_WEBHOOK_TOKEN no .env (é o SITE_WEBHOOK_TOKEN do painel)}
       # Token da API de Conversões da Meta (Gerenciador de Eventos → pixel → Configurações). Vazio = só o pixel.
       META_CAPI_TOKEN: ${META_CAPI_TOKEN:-}
+      # Painel /admin: quem entra (gerado por scripts/senha-painel.mjs) e o segredo que assina a sessão.
+      ADMIN_USUARIOS: ${ADMIN_USUARIOS:-}
+      ADMIN_SEGREDO: ${ADMIN_SEGREDO:-}
+      # Artigos e imagens publicados pelo painel. Fica no volume abaixo: sobrevive a cada nova publicação.
+      DADOS_DIR: /app/dados
+    volumes:
+      # /opt/drterciorocha/dados na VPS. O publicar.sh cria a pasta e a entrega ao usuário do container (1001).
+      - ../dados:/app/dados
 
 # Rede criada pelo compose do painel (name: clinica). O painel precisa estar de pé antes do site.
 networks:
