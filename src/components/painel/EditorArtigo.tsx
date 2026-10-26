@@ -186,7 +186,7 @@ export function EditorArtigo({ inicial, categorias }: { inicial: ArtigoNoEditor 
       if (!silencioso) {
         const noSite = { href: `/artigos/${novo.slug}`, rotulo: "Ver no site" };
         if (acao === "publicar") setAviso({ tipo: "ok", texto: "Publicado! O artigo já está no site.", link: noSite });
-        else if (acao === "agendar") setAviso({ tipo: "ok", texto: `Agendado: entra no ar ${dataPorExtenso(novo.publicado)}.` });
+        else if (acao === "agendar") setAviso({ tipo: "ok", texto: `Agendado: entra no ar ${dataPorExtenso(novo.entraNoAr)}.` });
         else if (acao === "rascunho")
           setAviso({ tipo: "ok", texto: estavaNoAr ? "O artigo saiu do site e voltou a ser rascunho." : "Rascunho salvo." });
         else
@@ -523,7 +523,10 @@ export function EditorArtigo({ inicial, categorias }: { inicial: ArtigoNoEditor 
             </div>
             <p className="mt-3 text-[0.85rem] leading-relaxed text-text-body">
               {situacao === "publicado" && <>No ar desde {dataCurta(artigo!.publicado)}.</>}
-              {situacao === "agendado" && <>Entra no ar sozinho {dataPorExtenso(artigo!.publicado)}.</>}
+              {situacao === "agendado" && <>Entra no ar sozinho {dataPorExtenso(artigo!.entraNoAr)}.</>}
+              {situacao === "agendado" && artigo!.entraNoAr !== artigo!.publicado && (
+                <> No site, mostra a data original: {dataCurta(artigo!.publicado)}.</>
+              )}
               {situacao === "rascunho" && "Só aparece aqui no painel. Os rascunhos se salvam sozinhos."}
               {!situacao && "Escreva à vontade: ao dar um título, o rascunho passa a se salvar sozinho."}
             </p>
@@ -729,7 +732,7 @@ export function EditorArtigo({ inicial, categorias }: { inicial: ArtigoNoEditor 
         aberto={publicarAberto}
         onFechar={() => setPublicarAberto(false)}
         situacao={situacao}
-        agendadoPara={artigo?.publicado ?? ""}
+        agendadoPara={artigo?.entraNoAr ?? ""}
         conferencia={conferencia}
         ocupado={!!ocupado}
         onPublicar={async () => {

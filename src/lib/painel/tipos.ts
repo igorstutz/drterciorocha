@@ -35,7 +35,10 @@ export type ArtigoNoEditor = {
   capaLocal: string;
   corpo: string;
   autor: string;
+  /** A data que o artigo mostra no site. */
   publicado: string;
+  /** Quando entra (ou entrou) no ar: igual a `publicado`, salvo no agendamento de artigo com data própria. */
+  entraNoAr: string;
   atualizado: string;
   atualizadoPor: string;
   situacao: Situacao;

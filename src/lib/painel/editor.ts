@@ -1,5 +1,5 @@
 import "server-only";
-import { estaNoAr, situacao, type ArtigoGuardado } from "@/lib/acervo";
+import { estaNoAr, momentoNoAr, situacao, type ArtigoGuardado } from "@/lib/acervo";
 import type { ArtigoNoEditor } from "@/lib/painel/tipos";
 import { getAutor } from "@/content/autores";
 
@@ -14,6 +14,7 @@ export function paraEditor(a: ArtigoGuardado): ArtigoNoEditor {
     corpo: a.corpo,
     autor: getAutor(a.autor).slug,
     publicado: a.publicado,
+    entraNoAr: momentoNoAr(a),
     atualizado: a.atualizado,
     atualizadoPor: a.atualizadoPor ?? "",
     situacao: situacao(a),

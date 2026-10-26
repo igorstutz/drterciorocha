@@ -92,6 +92,9 @@ export async function salvarArtigo(entrada: EntradaArtigo, acao: Acao): Promise<
 
   let status: ArtigoGuardado["status"];
   let publicado: string;
+  /* Só agendamento de artigo que já tem data própria usa noArEm; as outras ações o limpam. */
+  let noArEm: string | undefined;
+  const temDataPropria = !!atual?.publicado && Date.parse(atual.publicado) <= agora;
   switch (acao) {
     case "rascunho":
       status = "rascunho";
@@ -107,13 +110,20 @@ export async function salvarArtigo(entrada: EntradaArtigo, acao: Acao): Promise<
       if (!Number.isFinite(quando)) return falha("Escolha a data e a hora da publicação.", "publicarEm");
       if (quando < agora + 60_000) return falha("A data do agendamento precisa estar no futuro.", "publicarEm");
       status = "publicado";
-      publicado = new Date(quando).toISOString();
+      /* Artigo com data própria (ex.: migrado do stemcells) mantém a data e só agenda a entrada no ar. */
+      if (temDataPropria) {
+        publicado = atual!.publicado;
+        noArEm = new Date(quando).toISOString();
+      } else {
+        publicado = new Date(quando).toISOString();
+      }
       break;
     }
     case "salvar":
       if (!atual || atual.status !== "publicado") return falha("Este artigo ainda não foi publicado.");
       status = "publicado";
       publicado = atual.publicado;
+      noArEm = atual.noArEm;
       break;
   }
 
@@ -126,6 +136,7 @@ export async function salvarArtigo(entrada: EntradaArtigo, acao: Acao): Promise<
     id: atual?.id ?? randomUUID(),
     status,
     publicado,
+    noArEm,
     palavras: contarPalavras(c.corpo),
     atualizado: new Date(agora).toISOString(),
     criadoPor: atual?.criadoPor ?? usuario.nome,

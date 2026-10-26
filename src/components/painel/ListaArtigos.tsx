@@ -18,6 +18,8 @@ export type ItemDaLista = {
   capaLocal: string;
   situacao: Situacao;
   publicado: string;
+  /** Quando entra no ar (diferente de `publicado` no agendamento de artigo com data própria). */
+  entraNoAr: string;
   atualizado: string;
   atualizadoPor: string;
   autor: string;
@@ -47,7 +49,7 @@ const normalizar = (t: string) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toL
 const PESO: Record<Situacao, number> = { agendado: 0, rascunho: 1, publicado: 2 };
 function ordenar(a: ItemDaLista, b: ItemDaLista) {
   if (a.situacao !== b.situacao) return PESO[a.situacao] - PESO[b.situacao];
-  if (a.situacao === "agendado") return Date.parse(a.publicado) - Date.parse(b.publicado);
+  if (a.situacao === "agendado") return Date.parse(a.entraNoAr) - Date.parse(b.entraNoAr);
   if (a.situacao === "rascunho") return Date.parse(b.atualizado || "0") - Date.parse(a.atualizado || "0");
   return Date.parse(b.publicado) - Date.parse(a.publicado);
 }
@@ -98,7 +100,7 @@ export function ListaArtigos({ itens, saudacao }: { itens: ItemDaLista[]; saudac
         <Numero
           rotulo="Agendados"
           valor={total.agendado}
-          detalhe={proximo ? `Próximo: ${dataHora(proximo.publicado)}` : "Nenhum na fila"}
+          detalhe={proximo ? `Próximo: ${dataHora(proximo.entraNoAr)}` : "Nenhum na fila"}
           tom="azul"
         />
         <Numero
@@ -133,7 +135,7 @@ export function ListaArtigos({ itens, saudacao }: { itens: ItemDaLista[]; saudac
           <Icone nome="calendario" className="h-[1.1rem] w-[1.1rem]" />
           <span className="min-w-0 flex-1">
             <span className="font-medium">“{proximo.titulo}”</span> entra no ar sozinho em{" "}
-            {dataPorExtenso(proximo.publicado)}.
+            {dataPorExtenso(proximo.entraNoAr)}.
           </span>
         </Link>
       )}
@@ -239,7 +241,7 @@ export function ListaArtigos({ itens, saudacao }: { itens: ItemDaLista[]; saudac
 }
 
 function legenda(i: ItemDaLista) {
-  if (i.situacao === "agendado") return `Para ${dataHora(i.publicado)}`;
+  if (i.situacao === "agendado") return `Para ${dataHora(i.entraNoAr)}`;
   if (i.situacao === "rascunho") return `Editado ${haQuanto(i.atualizado)}${i.atualizadoPor ? ` por ${i.atualizadoPor}` : ""}`;
   return `Publicado em ${dataCurta(i.publicado)}`;
 }

@@ -1,4 +1,4 @@
-import { lerAcervo, situacao } from "@/lib/acervo";
+import { lerAcervo, momentoNoAr, situacao } from "@/lib/acervo";
 import { exigirUsuario } from "@/lib/painel/sessao";
 import { minutosDeLeitura } from "@/lib/slug";
 import { getAutor } from "@/content/autores";
@@ -18,6 +18,7 @@ export default async function Painel() {
     capaLocal: a.capaLocal,
     situacao: situacao(a, agora),
     publicado: a.publicado,
+    entraNoAr: momentoNoAr(a),
     atualizado: a.atualizado,
     atualizadoPor: a.atualizadoPor ?? "",
     autor: getAutor(a.autor).slug,

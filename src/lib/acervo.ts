@@ -22,8 +22,13 @@ export type ArtigoGuardado = {
   titulo: string;
   descricao: string;
   categoria: string;
-  /** ISO. Com `status: "publicado"`, uma data no futuro é um agendamento. */
+  /** ISO. A data que o artigo mostra. Com `status: "publicado"` e sem `noArEm`, uma data no futuro é um agendamento. */
   publicado: string;
+  /**
+   * Quando o artigo entra no ar, se for diferente da data que ele mostra. É o agendamento de um
+   * artigo que já tem data própria (os migrados do stemcells mantêm a de lá mesmo indo ao ar depois).
+   */
+  noArEm?: string;
   atualizado: string;
   /** URL original da capa no WordPress (só os migrados). */
   capa: string;
@@ -93,9 +98,15 @@ export function gravarAcervo(lista: ArtigoGuardado[]) {
   cache = { mtime: fs.statSync(ARQUIVO).mtimeMs, lista };
 }
 
-/** No ar: publicado e com a data já alcançada. */
+/** O momento em que o artigo entra (ou entrou) no ar. */
+export function momentoNoAr(a: ArtigoGuardado) {
+  return a.noArEm || a.publicado;
+}
+
+/** No ar: publicado e com o momento de entrar no ar já alcançado. */
 export function estaNoAr(a: ArtigoGuardado, agora = Date.now()) {
-  return a.status === "publicado" && !!a.publicado && Date.parse(a.publicado) <= agora;
+  const quando = momentoNoAr(a);
+  return a.status === "publicado" && !!quando && Date.parse(quando) <= agora;
 }
 
 export function situacao(a: ArtigoGuardado, agora = Date.now()): "publicado" | "agendado" | "rascunho" {
